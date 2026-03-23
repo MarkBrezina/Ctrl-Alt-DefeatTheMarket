@@ -175,36 +175,82 @@ Because of that, you cannot simply deploy a static market-making strategy and ca
 At the time of writing, Round 1 has not started yet, so we do not know what new products or mechanics it will introduce.
 
 ## Lay it down thick brother!
-resources pretty please.
 
-https://github.com/Tim-Wolstenholme/IMC-Prosperity3/tree/main \
-https://github.com/JamesCole809/IMC-Prosperity-3 \
-https://github.com/itsam/imc \
-https://github.com/milesmitchell/imc_prosperity_3 \
-https://github.com/CarterT27/imc-prosperity-3 \
-https://github.com/chrispyroberts/imc-prosperity-3 \
-https://github.com/YBansal95/imc-prosperity-3 \
-https://github.com/awatatani/imc-prosperity3-trading \
-https://github.com/ShubhamAnandJain/IMC-Prosperity-2023-Stanford-Cardinal \
-https://github.com/ericcccsliu/imc-prosperity-2 \
-https://github.com/TimoDiehm/imc-prosperity-3 \
-https://github.com/pe049395/IMC-Prosperity-2024 \
-https://github.com/jmerle/imc-prosperity-3 \
-https://github.com/kzqiu/imc-2023 \ 
-https://github.com/BakerStreetPhantom/IMC-Prosperity-Trading-Challenge-2023 \ 
-https://github.com/monoclonalAb/tax-haven \ 
-https://github.com/andrewliu08/prosperity-goats \ 
-https://github.com/IMC-Prosperity-Granite-Flow/IMC_Prosperity3_GraniteFlow \ 
-https://github.com/VincentTLe/imc-prosperity-4-prep
+Now I started out by making a little dump of all the previous repos and a few other useful resources.
+But I have removed them! 😈
 
-https://github.com/Robin-Guilliou/Option-Pricing \
-https://www.kaggle.com/competitions/optiver-realized-volatility-prediction/writeups/pksha-life-is-volatile-tentative-3rd-place-solutio
-https://www.kaggle.com/competitions/optiver-realized-volatility-prediction/writeups/nyanp-1st-place-solution-nearest-neighbors
-https://github.com/taher-software/Optiver-Realized-Volatility-Prediction/tree/master
+I will however divide it up like this.
+
+What we need to know is this.
+IMC is a challenge in HFT, algorithmic trading, market making.
+To some it may therefore be obvious that we must consider all parts of that.
+Here is a few general ideas that are used
+1. Alpha engine(doooh)
+2. Risk engine(not so obvious)
+3. Inventory engine(also not so obvious)
+4. Execution engine(wtf is that even?)
+5. Portfolio management(are we doing long term investing now?)
+
+So here is some more in depth work.
+
+### Alpha
+As an easy way to think of things, here is a reflection of each round as problems relating to differentials.
+
+For each of the assets presented, IMC is essentially showcasing scenarios, where different alphas are applied.
+
+On the stationary asset this is "buy low sell high", which is the core idea we all play with. But that is probably the simplest version you can find. The data represented is a curve with gradient 0
+
+For drift, you would want to do the same, but "hit the local minimum", "hit the local maximum", it turns into a curve gradient/linear slope problem. Because the gradient a function unlike, 0 for the stationary asset.
+This is trend following.
+
+For the rounds afterwards it essentially escalates along the same line.
+As a hypothetical for round 2, IMC introduces an asset which is correlated to the asset with drift, in this way you instead have a problem of multiple gradients to solve. Can you hit that magic moment where the partial derivative is 0 betwen the two correlated assets?
+This is pairs trading.
+
+For the rounds afterwards you will have ETF/basket arbitrage, derivatives trading and more. Which is further developments of the same "what does the escalating derivatives do?" problem.
+With them come more complex mechanisms to find solutions to the differentials.
+
+### Risk
+If by chance you are one of the morons who believe they know everything, skip to the next part.
+If you're like me, risk and risk mitigation are essentially the biggest problem in everything.
+
+We want to minimise the chance of losing value, either by mitigation or by allowing some risk, then dumping either parts of our position or by dumping the entire thing.
+We therefore want to measure both exposure, current lose and deviations for the assets. This becomes a key component in the next part.
+
+### Inventory
+Like anyone with a brain, we want to actually know what we've got, that's where the inventory part comes in.
+Your max inventory for Emeralds and tomatoes is 80 for the tutorial round. It is also a GREAT idea to set up soft-limits or multi-layered limits for your inventory.
+Remember that your order posting also isn't divided. Sending orders "buy: 10 EMERALDS @ 100$" "buy: 15 EMERALDS @ 100$" is essentially just "buy: 25 EMERALDS @ 100$" It doesn't matter which alpha is sending which order.
+If you've implemented inventory adjustments, those two orders may even negate each other if say your adjustments go negative beyond soft-limits with high volatility.
+The proper combination of alpha, risk and inventory is therefore extremely important.
+
+### Execution.
+Oh! Right, wasn't that what we were just talking about?
+The execution of orders as a result of the combination of your inventory, risk and alpha engines is no easy feat.
+To add to that you may also want to implement layers that modify, distribute and cancel orders.
+Here are two nice hypotheticals.
+Imagine for a moment you wouldn't be playing against a simulation. 
+By chance, you would be playing against some super smart quant, he always knows the future.
+But you are always faster than him. You get to cancel your orders at any time.
+You put out an order for "buy: 10 EMERALDS @ 100$" and you see that he is about to match you.
+You can now get to cancel your order or let him sell you 10 emeralds. What do you do?
+You don't have to cancel, but it might be a good idea to at least have that ready, because you are ALWAYS faster than him.
 
 
-https://www.kaggle.com/competitions/optiver-trading-at-the-close/writeups/adam-9th-place-solution
-https://www.kaggle.com/competitions/optiver-trading-at-the-close/writeups/hyd-1st-place-solution
-https://github.com/liyiyan128/optiver-trading-at-the-close
-https://fan2goa1.github.io/mkdocs-material/blog/2023/12/24/kaggle-optiver---trading-at-the-close/
-https://github.com/xhshenxin/Micro_Price
+Hypothetical 2.
+Another scenario is this. Your best alpha signal is firing. But you know it is only right 80% of the time.
+Sometimes it kinda gets excited and fires a little too early or too late.
+A nice execution model to have to correct a bit of the early misfires is a distribution.
+VWAP or whatever you like to call it, is a nice little thing.
+Take your big order, say instead of your usual 10 pieces of emerald, you instead want 100 pieces.
+You just divide it into smaller orders, 10 at a time and fire it over the next 10 time steps.
+
+### Portfolio management.
+Dude blew a fuse in his mind box? eh?
+
+Nope. This one is of course less important. But imagine you have 2 alphas to implement on one asset or maybe across some assets.
+You need to be able to figure out how much inventory/weight to put into those two alphas, this is where portfolio management comes in.
+you could of course simply implement "hey dude I like this strategy best", but that would leave us brainiacs higher on the scoreboard. Try Markowitz(mean-variance) first.
+
+
+
