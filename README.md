@@ -43,22 +43,34 @@ The timer is just counting down, but pressing "start mission", should lead you h
 
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104609.png)
 
+<p align="center">
 On this interface you can upload your algorithmic trading strategy by hitting "open challenge", otherwise you can scroll down and download the data capsule for the Emeralds and Tomatoes.
 The data capsule will help you find alpha, research and develop initial ideas for your algorithmic trading upload.
+</p>
 
-
+<p align="center">
 As mentioned hitting "open challenge" leads to here, where you can upload your trading file. It is important that it is a .py file.
+</p>
+
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104622.png)
 
-
-which leads to
+<p align="center">
+After uploading a trader you will get a graph like below, you can also select between your different uploads to see which one performed best.
+</p>
+  
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104649.png)
 
 
 
-
-which leads to
+<p align="center">
+Pressing the side menu opens up the following. Where I would recommend everyone to read the "wiki"
+</p>
+  
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104713.png)
 
-which leads to
+
+<p align="center">
+Pressing "wiki" leads here. Much of the information about each round and the overall behaviour is provided here. DO READ IT THOROUGHLY.
+</p>
+  
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104724.png)
