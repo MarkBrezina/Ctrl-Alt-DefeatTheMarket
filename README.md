@@ -245,7 +245,7 @@ Sometimes it means closing the trade entirely.
 
 A strategy without risk controls is not really a strategy. It is just an opinion with leverage.
 
-[Linky Linky Boom Boom]()
+[Linky Linky Boom Boom](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/risk)
 
 ### Inventory
 
