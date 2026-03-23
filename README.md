@@ -138,34 +138,41 @@ class Trader:
 
 ## What the fuck is alpha?
 
-What is actually going on?
+What is actually going on here?
 
-Starting out in the tutorial round we are given two assets.
-Tomatoes and Emeralds. Which behave in two distinct ways. To the untrained eye, that is "edible" and "unedible".
-But if you open the data capsules, you can build research and figure out the generalistic mechanics that IMC has put out for those.
+In the tutorial round, we are given two assets: **Tomatoes** and **Emeralds**. At first glance, the distinction may seem to be simply “edible” versus “inedible”. In practice, though, they behave very differently in market terms.
+
+If you open the data capsules and start exploring the files, you can begin to reverse-engineer the basic mechanics IMC has built into these products.
 
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20110755.png)
-If you ain't got no idea of where to get the data. It is right here -> [Tutorial folder](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Tutorial)
 
-Before we go over each of the assets and their properties/behaviours, it is worth noting for everyone that there are 5 rounds and that each round adds a new mechanism usually either a new asset or bunch of assets to be considered.
-For each asset, it is worth considering the behaviours of the assets by taking the data capsule out, extracting the .csv files and loading them into a notebook of some sort. I won't judge if you use R, Python notebooks, excel or god forbid, power BI.
+If you are not sure where to find the data, it is available here: [Tutorial folder](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Tutorial)
 
-### Tutorial Round assets
+Before going through each asset in detail, it is worth keeping one thing in mind: the challenge consists of **5 rounds**, and each round usually introduces a new mechanism, often through one or more additional assets.
 
-Emeralds, like rainforest Resin in IMC 3, are a straight textbook stationary asset. If you plot the past days of data for Emeralds, you will find that it stays around the same mid price
-10,000$ and swings up-down with about a 16$ spread. this means we can implement a neat market-making algorithm and that is about it.
+For each product, the first step is usually the same:
+download the data capsule, extract the `.csv` files, and load them into a notebook or analysis environment of your choice. Use Python, R, Excel, or even Power BI if you must.
+
+It is also worth mentioning that **Jasper Merle’s backtester** was a major help during IMC Prosperity 3. You should not expect the results to match the live challenge one-to-one, but strong backtester performance is generally still a good sign. For example, a backtest result around **35K** roughly translated to about **9K** in Round 1 of IMC 3, which was approximately **top 10%**.
+
+- [jmerle's backtester](https://github.com/jmerle/imc-prosperity-3-backtester)
+- [jmerle's optimizer](https://github.com/jmerle/imc-prosperity-3-optimizer)
+
+### Tutorial round assets
+
+**Emeralds**, much like **Rainforest Resin** in IMC 3, behave like a classic stationary asset.  
+If you plot the historical data for Emeralds, you will see that the mid-price stays centered around **10,000** and oscillates around that level with a spread of roughly **16**. That makes it a strong candidate for a straightforward market-making strategy.
 
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20111444.png)
 
-Tomatoes, like Kelp in IMC 3, has a drift, we can therefore not simply implement market making and go home for the day, we need to implement something that either adjust to the drift or benefits from it.
-I've heard many good ideas, trend-following HFT, market-making with drift, short-selling(assuming the behaviour follows the data capsule) and many more.
+**Tomatoes**, much like **Kelp** in IMC 3, show drift.  
+Because of that, you cannot simply deploy a static market-making strategy and call it a day. You need an approach that either adapts to the drift or actively benefits from it. That could include ideas such as drift-aware market making, short-horizon trend following, short-selling where appropriate, or other models that react to directional behaviour in the data.
 
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20111450.png)
 
+### Round 1
 
-
-https://github.com/jmerle/imc-prosperity-3-backtester \
-https://github.com/jmerle/imc-prosperity-3-optimizer
+At the time of writing, Round 1 has not started yet, so we do not know what new products or mechanics it will introduce.
 
 ## Lay it down thick brother!
 resources pretty please.
