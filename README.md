@@ -16,6 +16,15 @@ So the manual trading questions aren't of interest to me.
 
 I do however respect that others will seek to find solutions to the manual trading parts.
 
+Steps:
+1. How do I get set up?
+2. What is actually going on?
+3. Where do I find resources?
+4. What is the system like?
+5. Just fucking spoon feed me bro!
+
+
+
 
 ## How do I set up my first trader?
 
