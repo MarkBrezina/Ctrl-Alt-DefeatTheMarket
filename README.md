@@ -392,3 +392,50 @@ Do not write:
 “at time t = 101, mid-price = 103.5”
 
 That is not modelling. That is just hard-coded fantasy.
+
+
+## Just fucking spoon feed me bro!
+
+So you've come to the end of your rope and need to know what to write in your trader without actually doing it.
+Well I won't until the round is over. 
+
+I will however repeatedly give you the same model, so you can feel fucking confused.
+
+### Markets
+Let A be a market with assets A_1, A_2, A_3, ... , A_n.
+Each asset may be of varying types, their internal properties may vary.
+Accept A_1^* as a derivative of A_1, such that A_1 is the underlying. This may be repetitive and not strict to A_1.
+Accept similarly that A_2^* is a basket of A_2 and some other asset A_i. This may also be reptitive and not strict to A_2.
+
+### Traders
+Let B be a group of traders, trading on an exchange Alpha associated with the entire market A. The exchange simply functions as a matching engine for the traders in B.
+
+It is then the goal of all traders in B, to optimise the following dynamic.
+Let Profit/Reward be a metric of trader b in B. The goal for all traders is for the metric to reach as high a positive integer as possible.
+You will similarly be able to represent another metric. Loss, which all traders b in B will attempt to minimise, by making it as close to 0 as possible.
+
+You get the idea, that this is essentiall PnL. But what you must also account for is this.
+Your loss function and profit functions must not be strictly best, we are looking for expected values. Because we are not one-trick ponies.
+One or a few good trades can make a pony into a unicorn, but getting all of the good trades makes the pony into the legendary quantitative unicorn.
+
+### Dynamics.
+We now understand the entire universe in a fairly superficial way.
+Our goal will now be to figure out what rules apply between the markets, assets and our competition. Because we don't only want to profit, we want to profit the most.
+It therefore becomes a game of understanding how each asset behaves and to grab the most safe profits possible, such that we can uncover ALL the good trades.
+Reducing our losses or our potential for losing is even better. That is why we want the method that yields the highest expected reward and the lowest expected loss.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
