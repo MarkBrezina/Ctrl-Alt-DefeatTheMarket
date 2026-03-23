@@ -130,7 +130,7 @@ class Trader:
         conversions = 1
         return result, conversions, traderData
 
-
+```
 
 
 
