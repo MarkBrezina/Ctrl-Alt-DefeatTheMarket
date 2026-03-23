@@ -42,6 +42,7 @@ The timer is just counting down, but pressing "start mission", should lead you h
 </p>
 
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104609.png)
+
 On this interface you can upload your algorithmic trading strategy by hitting "open challenge", otherwise you can scroll down and download the data capsule for the Emeralds and Tomatoes.
 The data capsule will help you find alpha, research and develop initial ideas for your algorithmic trading upload.
 
