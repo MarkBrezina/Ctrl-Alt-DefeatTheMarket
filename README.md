@@ -93,6 +93,9 @@ Tomatoes and Emeralds. Which behave in two distinct ways. Two the untrained eye,
 But if you open the data capsules, you can build research and figure out the generalistic mechanics that IMC has put out for those.
 
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20110755.png)
+If you ain't got no idea of where to get the data. It is right here -> [link]
+
+
 
 Emeralds, like rainforest Resin in IMC 3, are a straight textbook stationary asset. If you plot the past days of data for Emeralds, you will find that it stays around the same mid price
 10,000$ and swings up-down with about a 16$ spread. this means we can implement a neat market-making algorithm and that is about it.
@@ -103,3 +106,11 @@ Tomatoes, like Kelp in IMC 3, has a drift, we can therefore not simply implement
 I've heard many good ideas, trend-following HFT, market-making with drift, short-selling(assuming the behaviour follows the data capsule) and many more.
 
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20111450.png)
+
+
+
+
+## Lay it down thick brother!
+
+
+
