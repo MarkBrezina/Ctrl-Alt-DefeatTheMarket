@@ -550,7 +550,20 @@ Jasper(all honors to him for the list) decided to share his list. So I guess we 
 168th place: https://github.com/aahiill/IMC-Prosperity-3 \
 172nd place: https://github.com/KengLL/Prosperity-3-Neko (2nd in manual) \
 238th place: https://github.com/milesmitchell/imc_prosperity_3 \
-287th place: https://github.com/JohnnyTung123/imc-prosperity-3 \
+287th place: https://github.com/JohnnyTung123/imc-prosperity-3 
+
+**Optiver Realized volatility prediction** \ 
+1st place: https://www.kaggle.com/competitions/optiver-realized-volatility-prediction/writeups/nyanp-1st-place-solution-nearest-neighbors \
+3rd place: https://www.kaggle.com/competitions/optiver-realized-volatility-prediction/writeups/pksha-life-is-volatile-tentative-3rd-place-solution \
+xth place: https://github.com/taher-software/Optiver-Realized-Volatility-Prediction/tree/master
+
+**Optiver Trading at the close** \
+1st place: https://www.kaggle.com/competitions/optiver-trading-at-the-close/writeups/hyd-1st-place-solution \
+9th place: https://www.kaggle.com/competitions/optiver-trading-at-the-close/writeups/adam-9th-place-solution \
+xth place: https://github.com/liyiyan128/optiver-trading-at-the-close \
+yth place: https://fan2goa1.github.io/mkdocs-material/blog/2023/12/24/kaggle-optiver---trading-at-the-close/
 
 
 
+General option pricing: https://github.com/Robin-Guilliou/Option-Pricing \
+general microstructure pricing: https://github.com/xhshenxin/Micro_Price
