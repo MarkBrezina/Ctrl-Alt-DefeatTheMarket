@@ -116,26 +116,28 @@ I've heard many good ideas, trend-following HFT, market-making with drift, short
 
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20111450.png)
 
-https://github.com/jmerle/imc-prosperity-3-backtester
+
+
+https://github.com/jmerle/imc-prosperity-3-backtester \
 https://github.com/jmerle/imc-prosperity-3-optimizer
 
 ## Lay it down thick brother!
 resources pretty please.
 
-https://github.com/Tim-Wolstenholme/IMC-Prosperity3/tree/main
-https://github.com/JamesCole809/IMC-Prosperity-3
-https://github.com/itsam/imc
-https://github.com/milesmitchell/imc_prosperity_3
-https://github.com/CarterT27/imc-prosperity-3
-https://github.com/chrispyroberts/imc-prosperity-3
-https://github.com/YBansal95/imc-prosperity-3
-https://github.com/awatatani/imc-prosperity3-trading
-https://github.com/ShubhamAnandJain/IMC-Prosperity-2023-Stanford-Cardinal
-https://github.com/ericcccsliu/imc-prosperity-2
-https://github.com/TimoDiehm/imc-prosperity-3
-https://github.com/pe049395/IMC-Prosperity-2024
-https://github.com/jmerle/imc-prosperity-3
-https://github.com/kzqiu/imc-2023
+https://github.com/Tim-Wolstenholme/IMC-Prosperity3/tree/main \
+https://github.com/JamesCole809/IMC-Prosperity-3 \
+https://github.com/itsam/imc \
+https://github.com/milesmitchell/imc_prosperity_3 \
+https://github.com/CarterT27/imc-prosperity-3 \
+https://github.com/chrispyroberts/imc-prosperity-3 \
+https://github.com/YBansal95/imc-prosperity-3 \
+https://github.com/awatatani/imc-prosperity3-trading \
+https://github.com/ShubhamAnandJain/IMC-Prosperity-2023-Stanford-Cardinal \
+https://github.com/ericcccsliu/imc-prosperity-2 \
+https://github.com/TimoDiehm/imc-prosperity-3 \
+https://github.com/pe049395/IMC-Prosperity-2024 \
+https://github.com/jmerle/imc-prosperity-3 \
+https://github.com/kzqiu/imc-2023 \ 
 https://github.com/BakerStreetPhantom/IMC-Prosperity-Trading-Challenge-2023
 https://github.com/monoclonalAb/tax-haven
 https://github.com/andrewliu08/prosperity-goats
