@@ -329,7 +329,7 @@ Call it **distribution**, **slicing**, or **VWAP-style execution**. The exact me
 
 good execution helps imperfect signals survive reality.
 
-[Definitely Not Insider Info]()
+[Definitely Not Insider Info](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Execution)
 
 ### Portfolio management
 
@@ -354,4 +354,4 @@ It is also a good way to let more systematic people outrank you.
 
 A better starting point is to think in terms of expected return, variance, correlation, and capital allocation.
 
-[Weapons of Mass Instruction]()
+[Weapons of Mass Instruction](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/PortMNG)
