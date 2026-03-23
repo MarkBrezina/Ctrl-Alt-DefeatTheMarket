@@ -482,7 +482,7 @@ These dynamics may be aggregate in nature, or they may appear as components with
 
 For example:
 
-mid_price[t+1]
+$$mid_price[t+1]
 = immediate order-book matching at t
 + order-flow imbalance at t
 + drift / trend at t
@@ -492,11 +492,11 @@ mid_price[t+1]
 + liquidity / market-impact effects at t
 + jump or shock components at t
 + regime behaviour at t
-+ cross-asset or exogenous drivers at t
++ cross-asset or exogenous drivers at t$$
 
 One could also map it like this
 
-mid_price[t+1]
+$$mid_price[t+1]
 = microstructure effect
 + directional component
 + corrective component
@@ -505,7 +505,7 @@ mid_price[t+1]
 + liquidity / impact component
 + jump component
 + regime component
-+ exogenous component
++ exogenous component$$
 
 But here you are on a really generalistic model for market prices. \
 We then have to figure out how to earn from this model. Oh! But wouldn't you notice, could we just adjust our inventory from this? \
