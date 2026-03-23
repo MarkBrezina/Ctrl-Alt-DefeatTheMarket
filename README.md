@@ -140,15 +140,17 @@ class Trader:
 
 What is actually going on?
 
-
-For this tutorial round, we are given two assets.
-Tomatoes and Emeralds. Which behave in two distinct ways. Two the untrained eye, that is "edible" and "unedible".
+Starting out in the tutorial round we are given two assets.
+Tomatoes and Emeralds. Which behave in two distinct ways. To the untrained eye, that is "edible" and "unedible".
 But if you open the data capsules, you can build research and figure out the generalistic mechanics that IMC has put out for those.
 
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20110755.png)
-If you ain't got no idea of where to get the data. It is right here -> [link]
+If you ain't got no idea of where to get the data. It is right here -> [Tutorial folder](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Tutorial)
 
+Before we go over each of the assets and their properties/behaviours, it is worth noting for everyone that there are 5 rounds and that each round adds a new mechanism usually either a new asset or bunch of assets to be considered.
+For each asset, it is worth considering the behaviours of the assets by taking the data capsule out, extracting the .csv files and loading them into a notebook of some sort. I won't judge if you use R, Python notebooks, excel or god forbid, power BI.
 
+### Tutorial Round assets
 
 Emeralds, like rainforest Resin in IMC 3, are a straight textbook stationary asset. If you plot the past days of data for Emeralds, you will find that it stays around the same mid price
 10,000$ and swings up-down with about a 16$ spread. this means we can implement a neat market-making algorithm and that is about it.
