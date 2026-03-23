@@ -507,6 +507,10 @@ $$mid_price[t+1]
 + regime component
 + exogenous component$$
 
+$$
+p_{t+1} = p_t + \alpha \cdot \text{drift}_t + \beta \cdot \epsilon_t
+$$
+
 But here you are on a really generalistic model for market prices. \
 We then have to figure out how to earn from this model. Oh! But wouldn't you notice, could we just adjust our inventory from this? \
 Could we map out which asset would probably have the highest probability of a positive return? \
