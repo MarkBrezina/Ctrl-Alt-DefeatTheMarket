@@ -92,6 +92,17 @@ Pressing "wiki" leads here. Much of the information about each round and the ove
 
 
 
+### How do you start coding your python code to run algorithmic trading for prosperity 4?
+I would recommend Visual Studio Code. I am however using Spyder through Anaconda. That is also a choice.
+[Visual Studio](https://code.visualstudio.com/) \
+[Anaconda Navigator](https://www.anaconda.com/products/navigator)
+
+
+
+
+
+
+
 ## What the fuck is alpha?
 
 What is actually going on?
