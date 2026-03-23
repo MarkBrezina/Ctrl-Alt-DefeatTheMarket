@@ -19,12 +19,16 @@ I do however respect that others will seek to find solutions to the manual tradi
 
 ## How do I set up my first trader?
 
-You will initially land on this page.
+If you are new to the entire IMC prosperity challenge, you will initially land on this page. 
 ![Screenshot](utils/Skærmbillede%202026-03-23%20104551.png)
-Which will lead you here.
+
+Pressing the button(continue) will lead you to the initial setup, I mean if you've signed up and all.
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104600.png)
-Which should lead you here.
+
+The timer is just counting down, but pressing "start mission", should lead you here.
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104609.png)
+
+
 which leads to
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104622.png)
 which leads to
