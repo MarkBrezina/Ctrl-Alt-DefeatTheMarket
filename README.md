@@ -174,7 +174,7 @@ Because of that, you cannot simply deploy a static market-making strategy and ca
 
 At the time of writing, Round 1 has not started yet, so we do not know what new products or mechanics it will introduce.
 
-## Lay it down thick brother!
+## Homework I Did So You Don’t Have To
 
 I originally started by dumping in a pile of old repos and useful resources.
 
@@ -221,6 +221,8 @@ Later rounds may introduce **basket/ETF arbitrage**, **derivatives**, or more co
 
 As the products become more complex, the methods used to extract alpha become more complex too.
 
+[Sauce?]()
+
 ### Risk
 
 If you think you can ignore risk, skip this section and enjoy the leaderboard consequences.
@@ -242,6 +244,8 @@ Sometimes it means exiting part of a position.
 Sometimes it means closing the trade entirely.
 
 A strategy without risk controls is not really a strategy. It is just an opinion with leverage.
+
+[Linky Linky Boom Boom]()
 
 ### Inventory
 
@@ -268,6 +272,8 @@ The market does not care whether one order came from your alpha model and the ot
 
 This is why alpha, risk, and inventory cannot be designed in isolation.
 They must work together, otherwise one component may accidentally amplify or cancel another.
+
+[Useful Nonsense]()
 
 ### Execution
 
@@ -323,6 +329,8 @@ Call it **distribution**, **slicing**, or **VWAP-style execution**. The exact me
 
 good execution helps imperfect signals survive reality.
 
+[Definitely Not Insider Info]()
+
 ### Portfolio management
 
 This one sounds fancier than it needs to.
@@ -345,3 +353,5 @@ That is a valid human strategy.
 It is also a good way to let more systematic people outrank you.
 
 A better starting point is to think in terms of expected return, variance, correlation, and capital allocation.
+
+[Weapons of Mass Instruction]()
