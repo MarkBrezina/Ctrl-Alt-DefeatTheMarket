@@ -355,3 +355,40 @@ It is also a good way to let more systematic people outrank you.
 A better starting point is to think in terms of expected return, variance, correlation, and capital allocation.
 
 [Weapons of Mass Instruction](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/PortMNG)
+
+## Techbros, unite!
+
+On a more serious note:
+
+For those who want to go deeper into the challenge, it helps to understand what the system actually looks like so we can approach it as if it were a simplified version of a real market.
+
+As with any trading simulation, a few things are worth keeping in mind:
+
+1. We are the trader, and we are competing against other traders — in this case, bots.
+2. There is a matching engine, much like on a real exchange.
+3. From the exchange data and messages, you can reconstruct the order book. At the moment, it is only 3 levels deep.
+4. This is also where it stops being fully realistic: your orders do not appear to affect the bots beyond the decisions they are already making. There is no psychological component or adaptive market behaviour on the other side.
+
+The dataset provided by the exchange contains only price and volume. That means you cannot identify who is placing which orders or build strategies around specific counterparties.
+
+Everything beyond that is essentially your own trading shop setup.
+
+We have effectively unlimited capital, but performance is measured by PnL, which is at least familiar territory. Given that, it makes sense to approach the challenge as scientifically and systematically as possible.
+
+A few technical principles are worth considering:
+
+1. Keep memory usage and computation time as efficient as possible.
+2. Maintain strong internal control over inventory, risk, current PnL, exposures, executions, forecasting, signal quality, and anything else that matters to your process.
+3. Build something generalisable. Yes, you *can* hand-tailor strategies for every tiny scenario and hard-code edge cases all over the place, and some teams did exactly that last year. But for most people, that is not the best lesson to take away from this.
+
+Try not to build nonsense.
+
+You are not coding tomorrow’s market prices in advance. A better approach is to build a general framework that actually makes sense and could still be useful outside the competition. Use sensible tools: estimate mid-prices, fit simple models, test ideas properly.
+
+Use something like a linear regression for mid-price prediction.
+
+Do not write:
+“at time t = 10, mid-price = 100”
+“at time t = 101, mid-price = 103.5”
+
+That is not modelling. That is just hard-coded fantasy.
