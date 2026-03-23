@@ -19,7 +19,7 @@ Steps:
 2. [What is actually going on?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/README.md#what-the-fuck-is-alpha)
 3. [Where do I find resources?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/README.md#homework-i-did-so-you-dont-have-to)
 4. [What is the system like?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/README.md#techbros-unite)
-5. Just fucking spoon feed me bro!
+5. [Just fucking spoon feed me bro!](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/README.md#just-fucking-spoon-feed-me-bro)
 
 
 Now remember that we are all assuming there will be 5 rounds, not including the tutorial round, just like any other year.
