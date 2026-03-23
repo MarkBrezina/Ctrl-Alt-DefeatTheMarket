@@ -22,5 +22,10 @@ I do however respect that others will seek to find solutions to the manual tradi
 You will initially land on this page.
 ![Screenshot](utils/Skærmbillede%202026-03-23%20104551.png)
 Which will lead you here.
-
+![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104600.png)
 Which should lead you here.
+![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104609.png)
+which leads to
+![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104622.png)
+which leads to
+![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104649.png)
