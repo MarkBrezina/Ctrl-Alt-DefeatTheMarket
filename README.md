@@ -1,34 +1,37 @@
 # Ctrl-Alt-DefeatTheMarket
-An idiot's guide to IMC Prosperity algorithmic trading
+# An Idiot’s Guide to IMC Prosperity Algorithmic Trading
 
-IMC Prosperity is about algorithmic trading.
+IMC Prosperity is about trading, and in practice it is split into two parts:
 
-It is divided into two parts.
-Manual trading and algorithmic trading. The two are usually linkedin, solutions in manual trading are useful for algorithmic trading.
-Manual trading are reflections, questions and topics generally relevant.
+1. **Manual trading**
+2. **Algorithmic trading**
 
-Algorithmic trading is implementing on actual market simulations.
+The two are usually linked. Ideas from the manual trading side can often help with the algorithmic side, because the manual questions tend to highlight useful reflections, patterns, and themes.
 
-Now because I am who i am, I will only be interested in Algorithmic trading, the practical side. I have already made up my mind on what I have reflected on.
-So the manual trading questions aren't of interest to me.
+That said, this guide is mainly about **algorithmic trading** — the practical side.  
+That is the part I care most about, and the part I want to focus on here.
 
-I do however respect that others will seek to find solutions to the manual trading parts.
+I do respect that many people will want to work through the manual trading section as well, and there is definitely value in doing so. This just is not what this guide is centred around.
 
-Steps:
-1. [How do I get set up?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/README.md#how-do-i-set-up-my-first-trader)
-2. [What is actually going on?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/README.md#what-the-fuck-is-alpha)
-3. [Where do I find resources?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/README.md#homework-i-did-so-you-dont-have-to)
-4. [What is the system like?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/README.md#techbros-unite)
-5. [Just fucking spoon feed me bro!](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/README.md#just-fucking-spoon-feed-me-bro)
+## What this guide covers
 
+- [How do I get set up?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket?tab=readme-ov-file#how-do-i-set-up-my-first-trader)
+- [What is actually going on?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket?tab=readme-ov-file#what-the-fuck-is-alpha)
+- [Where do I find resources?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket?tab=readme-ov-file#homework-i-did-so-you-dont-have-to)
+- [What is the system like?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket?tab=readme-ov-file#techbros-unite)
+- [My own secret stash](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket?tab=readme-ov-file#just-fucking-spoon-feed-me-bro)
 
-Now remember that we are all assuming there will be 5 rounds, not including the tutorial round, just like any other year.
-We all expect that there will be something like the previous years.
-1. stationary asset
-2. drifting asset
-3. baskets
-4. derivatives
-5. macroeconomic impacts.
+## A note on expectations
+
+For now, most of us are assuming there will be **five rounds**, not including the tutorial round, just like in previous years.
+
+We also expect the challenge to contain themes similar to earlier editions, such as:
+
+- stationary assets
+- drifting assets
+- baskets
+- derivatives
+- macroeconomic impacts
 
 ## How do I set up my first trader?
 
