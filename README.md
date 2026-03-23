@@ -514,7 +514,7 @@ Could this model be used on any asset?
 
 Do you want to figure it out? 😈
 
-Btw here is a simple 1K profit .py file for your trader, but only on EMERALDS. Try experimenting 😉
- 
+Btw here is a simple 1K profit .py file for your trader, but only on EMERALDS. [Try experimenting](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/EMERALDS.py) 😉
+
 
 
