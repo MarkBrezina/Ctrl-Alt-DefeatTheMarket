@@ -510,7 +510,7 @@ mid_price[t+1]
 But here you are on a really generalistic model for market prices. \
 We then have to figure out how to earn from this model. Oh! But wouldn't you notice, could we just adjust our inventory from this? \
 Could we map out which asset would probably have the highest probability of a positive return? \
-Could this model be used on any asset? \
+Could this model be used on any asset? 
 
 Do you want to figure it out? 😈
 
