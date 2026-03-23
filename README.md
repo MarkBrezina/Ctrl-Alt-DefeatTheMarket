@@ -1,8 +1,6 @@
 # Ctrl-Alt-DefeatTheMarket
 An idiot's guide to IMC Prosperity algorithmic trading
 
-
-
 IMC Prosperity is about algorithmic trading.
 
 It is divided into two parts.
@@ -34,68 +32,103 @@ We all expect that there will be something like the previous years.
 
 ## How do I set up my first trader?
 
-<br>
-<br>
-<p align="center">
-If you are new to the entire IMC prosperity challenge, you will initially land on this page. 
-</p>
+If you are new to the IMC Prosperity Challenge, this is the page you will usually land on first.
 
-![Screenshot](utils/Skærmbillede%202026-03-23%20104551.png)
+![Landing page](utils/Sk%C3%A6rmbillede%202026-03-23%20104551.png)
 
-<br>
-<br>
-<p align="center">
-Pressing the button(continue) will lead you to the initial setup, I mean if you've signed up and all.
-</p>
+After signing up and logging in, click **Continue** to move to the initial setup.
 
-![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104600.png)
+![Continue screen](utils/Sk%C3%A6rmbillede%202026-03-23%20104600.png)
 
-<br>
-<br>
-<p align="center">
-The timer is just counting down, but pressing "start mission", should lead you here.
-</p>
+You will then see a countdown timer. When available, click **Start Mission** to enter the challenge interface.
 
-![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104609.png)
+![Start mission](utils/Sk%C3%A6rmbillede%202026-03-23%20104609.png)
 
-<p align="center">
-On this interface you can upload your algorithmic trading strategy by hitting "open challenge", otherwise you can scroll down and download the data capsule for the Emeralds and Tomatoes.
-The data capsule will help you find alpha, research and develop initial ideas for your algorithmic trading upload.
-</p>
+From here, you have two main options:
 
-<p align="center">
-As mentioned hitting "open challenge" leads to here, where you can upload your trading file. It is important that it is a .py file.
-</p>
+- click **Open Challenge** to upload your trading strategy
+- scroll down to download the data capsule for products such as **Emeralds** and **Tomatoes**
 
-![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104622.png)
+The data capsule is useful for research, idea generation, and building your first trading strategy.
 
-<p align="center">
-After uploading a trader you will get a graph like below, you can also select between your different uploads to see which one performed best.
-</p>
-  
-![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104649.png)
+Clicking **Open Challenge** takes you to the upload page, where you can submit your trading file. Your submission must be a Python file ending in `.py`.
 
+![Upload trader](utils/Sk%C3%A6rmbillede%202026-03-23%20104622.png)
 
+After uploading a trader, you will see performance output such as graphs and results. You can also compare multiple uploads to see which strategy performed best.
 
-<p align="center">
-Pressing the side menu opens up the following. Where I would recommend everyone to read the "wiki"
-</p>
-  
-![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104713.png)
+![Results graph](utils/Sk%C3%A6rmbillede%202026-03-23%20104649.png)
 
+You can also open the side menu for more resources. I strongly recommend reading the **Wiki** before writing your first strategy.
 
-<p align="center">
-Pressing "wiki" leads here. Much of the information about each round and the overall behaviour is provided here. DO READ IT THOROUGHLY.
-</p>
-  
-![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104724.png)
+![Side menu](utils/Sk%C3%A6rmbillede%202026-03-23%20104713.png)
 
+The **Wiki** contains important information about each round, the products, and the overall challenge structure. Read it carefully before you start coding.
 
+![Wiki page](utils/Sk%C3%A6rmbillede%202026-03-23%20104724.png)
 
-### How do you start coding your python code to run algorithmic trading for prosperity 4?
-I would recommend Visual Studio Code. I am however using Spyder through Anaconda. That is also a choice.
-[Visual Studio](https://code.visualstudio.com/) \
-[Anaconda Navigator](https://www.anaconda.com/products/navigator)
+### What should I use to code my trader?
+
+A good place to start is **Visual Studio Code**.  
+I personally use **Spyder** through **Anaconda**, which also works well.
+
+- [Visual Studio Code](https://code.visualstudio.com/)
+- [Anaconda Navigator](https://www.anaconda.com/products/navigator)
+
+### What code do we get from IMC to start with?
+
+Below is the basic starter template provided by IMC:
+
+```python
+from datamodel import OrderDepth, UserId, TradingState, Order
+from typing import List
+import string
+
+class Trader:
+
+    def bid(self):
+        return 15
+    
+    def run(self, state: TradingState):
+        """Only method required. It takes all buy and sell orders for all
+        symbols as an input, and outputs a list of orders to be sent."""
+
+        print("traderData: " + state.traderData)
+        print("Observations: " + str(state.observations))
+
+        # Orders to be placed on exchange matching engine
+        result = {}
+        for product in state.order_depths:
+            order_depth: OrderDepth = state.order_depths[product]
+            orders: List[Order] = []
+            acceptable_price = 10  # Participant should calculate this value
+            print("Acceptable price : " + str(acceptable_price))
+            print(
+                "Buy Order depth : " + str(len(order_depth.buy_orders)) +
+                ", Sell order depth : " + str(len(order_depth.sell_orders))
+            )
+    
+            if len(order_depth.sell_orders) != 0:
+                best_ask, best_ask_amount = list(order_depth.sell_orders.items())[0]
+                if int(best_ask) < acceptable_price:
+                    print("BUY", str(-best_ask_amount) + "x", best_ask)
+                    orders.append(Order(product, best_ask, -best_ask_amount))
+    
+            if len(order_depth.buy_orders) != 0:
+                best_bid, best_bid_amount = list(order_depth.buy_orders.items())[0]
+                if int(best_bid) > acceptable_price:
+                    print("SELL", str(best_bid_amount) + "x", best_bid)
+                    orders.append(Order(product, best_bid, -best_bid_amount))
+            
+            result[product] = orders
+    
+        # String value holding Trader state data required. 
+        # It will be delivered as TradingState.traderData on next execution.
+        traderData = "SAMPLE"
+        
+        # Sample conversion request. Check more details below.
+        conversions = 1
+        return result, conversions, traderData
 
 
 
