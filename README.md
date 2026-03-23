@@ -93,4 +93,4 @@ Emeralds, like rainforest Resin in IMC 3, are a straight textbook stationary ass
 Tomatoes, like Kelp in IMC 3, has a drift, we can therefore not simply implement market making and go home for the day, we need to implement something that either adjust to the drift or benefits from it.
 I've heard many good ideas, trend-following HFT, market-making with drift, short-selling(assuming the behaviour follows the data capsule) and many more.
 
-![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20111450..png)
+![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20111450.png)
