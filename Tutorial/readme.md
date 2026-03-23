@@ -1,1 +1,3 @@
 The data files for the tutorial round are attached as ...
+prices_round_0_day_-1.csv and prices_round_0_day_-2.csv \
+trades_round_0_day_-1.csv and trades_round_0_day_-2.csv \
