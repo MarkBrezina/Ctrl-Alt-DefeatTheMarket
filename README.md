@@ -24,6 +24,7 @@ I do however respect that others will seek to find solutions to the manual tradi
 <p align="center">
 If you are new to the entire IMC prosperity challenge, you will initially land on this page. 
 </p>
+
 ![Screenshot](utils/Skærmbillede%202026-03-23%20104551.png)
 
 <br>
@@ -31,6 +32,7 @@ If you are new to the entire IMC prosperity challenge, you will initially land o
 <p align="center">
 Pressing the button(continue) will lead you to the initial setup, I mean if you've signed up and all.
 </p>
+
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104600.png)
 
 <br>
@@ -38,6 +40,7 @@ Pressing the button(continue) will lead you to the initial setup, I mean if you'
 <p align="center">
 The timer is just counting down, but pressing "start mission", should lead you here.
 </p>
+
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104609.png)
 
 
