@@ -176,81 +176,172 @@ At the time of writing, Round 1 has not started yet, so we do not know what new 
 
 ## Lay it down thick brother!
 
-Now I started out by making a little dump of all the previous repos and a few other useful resources.
-But I have removed them! 😈
+I originally started by dumping in a pile of old repos and useful resources.
 
-I will however divide it up like this.
+Then I removed them. 😈
 
-What we need to know is this.
-IMC is a challenge in HFT, algorithmic trading, market making.
-To some it may therefore be obvious that we must consider all parts of that.
-Here is a few general ideas that are used
-1. Alpha engine(doooh)
-2. Risk engine(not so obvious)
-3. Inventory engine(also not so obvious)
-4. Execution engine(wtf is that even?)
-5. Portfolio management(are we doing long term investing now?)
+Instead, I want to structure this repo around the core components that actually matter.
 
-So here is some more in depth work.
+At its heart, IMC Prosperity is a challenge in **high-frequency trading**, **algorithmic trading**, and **market making**.  
+That means we should think beyond just “finding alpha” and consider the full system behind a trading strategy.
+
+A useful way to break that system down is into five parts:
+
+1. **Alpha engine**
+2. **Risk engine**
+3. **Inventory engine**
+4. **Execution engine**
+5. **Portfolio management**
+
+Below is a more detailed view of each.
 
 ### Alpha
-As an easy way to think of things, here is a reflection of each round as problems relating to differentials.
 
-For each of the assets presented, IMC is essentially showcasing scenarios, where different alphas are applied.
+A simple way to think about many IMC rounds is as a sequence of increasingly difficult pricing and prediction problems.
 
-On the stationary asset this is "buy low sell high", which is the core idea we all play with. But that is probably the simplest version you can find. The data represented is a curve with gradient 0
+For each asset, IMC is effectively presenting a different type of alpha opportunity.
 
-For drift, you would want to do the same, but "hit the local minimum", "hit the local maximum", it turns into a curve gradient/linear slope problem. Because the gradient a function unlike, 0 for the stationary asset.
-This is trend following.
+For a **stationary asset**, the core idea is simple: **buy low, sell high**.  
+This is the most basic form of trading logic. The price moves around a stable level, so the job is to identify when it is temporarily cheap or expensive relative to that anchor.
 
-For the rounds afterwards it essentially escalates along the same line.
-As a hypothetical for round 2, IMC introduces an asset which is correlated to the asset with drift, in this way you instead have a problem of multiple gradients to solve. Can you hit that magic moment where the partial derivative is 0 betwen the two correlated assets?
-This is pairs trading.
+For an asset with **drift**, things get more interesting.  
+Now the goal is no longer just “buy low, sell high” around a fixed centre. Instead, you want to identify **local minima**, **local maxima**, and the direction of movement. In other words, the problem becomes one of slope, trend, and timing.
 
-For the rounds afterwards you will have ETF/basket arbitrage, derivatives trading and more. Which is further developments of the same "what does the escalating derivatives do?" problem.
-With them come more complex mechanisms to find solutions to the differentials.
+That is the beginning of **trend-following**.
+
+As the rounds progress, IMC usually increases the complexity in the same general direction.
+
+Imagine, for example, that Round 2 introduces an asset correlated with the drifting one. Now you are not just dealing with one moving curve, but with a relationship between multiple assets. That turns the problem into one of relative value and joint movement.
+
+That is the beginning of **pairs trading**.
+
+Later rounds may introduce **basket/ETF arbitrage**, **derivatives**, or more complex combinations of assets. These are really just further extensions of the same question:
+
+**What is mispriced, relative to what, and why?**
+
+As the products become more complex, the methods used to extract alpha become more complex too.
 
 ### Risk
-If by chance you are one of the morons who believe they know everything, skip to the next part.
-If you're like me, risk and risk mitigation are essentially the biggest problem in everything.
 
-We want to minimise the chance of losing value, either by mitigation or by allowing some risk, then dumping either parts of our position or by dumping the entire thing.
-We therefore want to measure both exposure, current lose and deviations for the assets. This becomes a key component in the next part.
+If you think you can ignore risk, skip this section and enjoy the leaderboard consequences.
+
+For the rest of us, risk is one of the central problems in trading.
+
+It is not enough to have a profitable signal. You also need to control how much you can lose when the signal is wrong, late, noisy, or overwhelmed by changing market conditions.
+
+That means thinking about:
+
+- current exposure
+- unrealised loss
+- adverse price movement
+- volatility
+- concentration of positions
+
+Sometimes risk mitigation means reducing size.  
+Sometimes it means exiting part of a position.  
+Sometimes it means closing the trade entirely.
+
+A strategy without risk controls is not really a strategy. It is just an opinion with leverage.
 
 ### Inventory
-Like anyone with a brain, we want to actually know what we've got, that's where the inventory part comes in.
-Your max inventory for Emeralds and tomatoes is 80 for the tutorial round. It is also a GREAT idea to set up soft-limits or multi-layered limits for your inventory.
-Remember that your order posting also isn't divided. Sending orders "buy: 10 EMERALDS @ 100$" "buy: 15 EMERALDS @ 100$" is essentially just "buy: 25 EMERALDS @ 100$" It doesn't matter which alpha is sending which order.
-If you've implemented inventory adjustments, those two orders may even negate each other if say your adjustments go negative beyond soft-limits with high volatility.
-The proper combination of alpha, risk and inventory is therefore extremely important.
 
-### Execution.
-Oh! Right, wasn't that what we were just talking about?
-The execution of orders as a result of the combination of your inventory, risk and alpha engines is no easy feat.
-To add to that you may also want to implement layers that modify, distribute and cancel orders.
-Here are two nice hypotheticals.
-Imagine for a moment you wouldn't be playing against a simulation. 
-By chance, you would be playing against some super smart quant, he always knows the future.
-But you are always faster than him. You get to cancel your orders at any time.
-You put out an order for "buy: 10 EMERALDS @ 100$" and you see that he is about to match you.
-You can now get to cancel your order or let him sell you 10 emeralds. What do you do?
-You don't have to cancel, but it might be a good idea to at least have that ready, because you are ALWAYS faster than him.
+You also need to know what you actually hold.
 
+That is where inventory management comes in.
 
-Hypothetical 2.
-Another scenario is this. Your best alpha signal is firing. But you know it is only right 80% of the time.
-Sometimes it kinda gets excited and fires a little too early or too late.
-A nice execution model to have to correct a bit of the early misfires is a distribution.
-VWAP or whatever you like to call it, is a nice little thing.
-Take your big order, say instead of your usual 10 pieces of emerald, you instead want 100 pieces.
-You just divide it into smaller orders, 10 at a time and fire it over the next 10 time steps.
+In the tutorial round, the maximum inventory for **Emeralds** and **Tomatoes** is **80**.  
+That does **not** mean you should trade right up to the edge all the time. It is usually a much better idea to introduce **soft limits** or even multiple layers of limits before you ever hit the hard cap.
 
-### Portfolio management.
-Dude blew a fuse in his mind box? eh?
+One important thing to remember is that your orders are not magically separated by “idea” once they hit the market.
 
-Nope. This one is of course less important. But imagine you have 2 alphas to implement on one asset or maybe across some assets.
-You need to be able to figure out how much inventory/weight to put into those two alphas, this is where portfolio management comes in.
-you could of course simply implement "hey dude I like this strategy best", but that would leave us brainiacs higher on the scoreboard. Try Markowitz(mean-variance) first.
+For example:
 
+```text
+buy 10 EMERALDS @ 100
+buy 15 EMERALDS @ 100
+```
+is effectively just:
+```
+buy 25 EMERALDS @ 100
+```
+The market does not care whether one order came from your alpha model and the other came from your inventory logic. They combine into the same net exposure.
 
+This is why alpha, risk, and inventory cannot be designed in isolation.
+They must work together, otherwise one component may accidentally amplify or cancel another.
 
+### Execution
+
+Execution is where everything comes together.
+
+Your alpha may be good.
+Your risk logic may be sensible.
+Your inventory controls may be clean.
+
+But if your execution is poor, the whole system still underperforms.
+
+Execution is the process of deciding how orders should actually be placed, sized, split, updated, cancelled, or held back.
+
+That includes questions like:
+
+Should you cross the spread or quote passively?
+Should you place one large order or several smaller ones?
+Should you cancel an order when conditions change?
+Should you stagger execution across time?
+
+Here are two useful ways to think about it.
+
+#### Hypothetical 1: cancelling bad fills
+
+Imagine you are not trading against a simulation, but against a brilliant opponent who always knows the future.
+
+The only advantage you have is speed: you can cancel your orders before they are hit.
+
+You post:
+```
+buy 10 EMERALDS @ 100
+```
+Then you notice that your opponent is about to sell into it.
+
+Do you keep the order live, or cancel it?
+
+Sometimes the answer is to keep it.
+But often, having a cancellation rule ready is the difference between being a liquidity provider and being someone else’s exit liquidity.
+
+#### Hypothetical 2: distributing a large order
+
+Now imagine your best alpha signal fires.
+
+It is strong, but not perfect. Maybe it is right **80%** of the time, and sometimes it fires slightly too early or slightly too late.
+
+Rather than sending one large order immediately, you might distribute the trade over time.
+
+For example, instead of buying **100 EMERALDS** all at once, you could split that into **10 smaller orders** over the next **10 time steps**.
+
+That kind of execution logic can reduce the damage from early entries, poor timing, or short-term noise.
+
+Call it **distribution**, **slicing**, or **VWAP-style execution**. The exact method matters less than the principle:
+
+good execution helps imperfect signals survive reality.
+
+### Portfolio management
+
+This one sounds fancier than it needs to.
+
+Portfolio management here does **not** mean long-term investing.
+It simply means deciding how to allocate capital, risk, and inventory across multiple strategies or assets.
+
+For example:
+
+- you may have two alpha signals on the same asset
+- you may have one market-making signal and one trend signal
+- you may have multiple related assets competing for limited inventory
+
+At that point, you need some way to decide how much weight each idea should receive.
+
+You could just go with:
+“I like this one more.”
+
+That is a valid human strategy.
+It is also a good way to let more systematic people outrank you.
+
+A better starting point is to think in terms of expected return, variance, correlation, and capital allocation.
