@@ -5,14 +5,14 @@ Risk can be measured in a simple way, such as **how far price has moved against 
 This naturally ties into **inventory management**. Once a position or loss threshold is reached, the strategy may begin reducing exposure in order to limit further losses over time.
 
 When you start combining alpha generation with risk controls, inventory rules, and execution logic, the implementation quickly becomes much more complex. That is why many strong solutions to the IMC Prosperity Challenge contain **far more than just**:
-´´´
+```
 alpha -> order
-´´´
+```
 
 They also include dedicated logic for position clearing, inventory adjustment, and execution control.
 
 Here is a piece of code I use for that purpose:
-´´´
+```
 def clear_position_order(
         self,
         product: str,
@@ -56,7 +56,7 @@ def clear_position_order(
                 buy_order_volume += abs(sent_quantity)
 
         return buy_order_volume, sell_order_volume
-´´´
+```
 
 The idea here is to adjust the orders I am about to send and, when needed, actively reduce an existing position.
 
