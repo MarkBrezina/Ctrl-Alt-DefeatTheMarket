@@ -394,39 +394,88 @@ Do not write:
 That is not modelling. That is just hard-coded fantasy.
 
 
-## Just fucking spoon feed me bro!
+## Just fucking spoon-feed me, bro!
 
-So you've come to the end of your rope and need to know what to write in your trader without actually doing it.
-Well I won't until the round is over. 
+So, you’ve reached the end of your rope and want to know what to write in your trader without actually doing the work.
 
-I will however repeatedly give you the same model, so you can feel fucking confused.
+Well, I’m not going to do that until the round is over.
+
+What I *will* do is keep giving you the same model until you’re properly confused.
+
+---
 
 ### Markets
-Let A be a market with assets A_1, A_2, A_3, ... , A_n.
-Each asset may be of varying types, their internal properties may vary.
-Accept A_1^* as a derivative of A_1, such that A_1 is the underlying. This may be repetitive and not strict to A_1.
-Accept similarly that A_2^* is a basket of A_2 and some other asset A_i. This may also be reptitive and not strict to A_2.
+
+Let **A** be a market with assets:
+
+- A₁
+- A₂
+- A₃
+- ...
+- Aₙ
+
+Each asset may have different properties and behave differently.
+
+We also allow derivatives and related structures:
+
+- Let **A₁\*** be a derivative of **A₁**, where **A₁** is the underlying asset.
+- This relationship may be repeated and does not need to be unique to **A₁**.
+- Similarly, let **A₂\*** be a basket containing **A₂** and some other asset **Aᵢ**.
+- This construction may also be repeated and does not need to be strict to **A₂**.
+
+---
 
 ### Traders
-Let B be a group of traders, trading on an exchange Alpha associated with the entire market A. The exchange simply functions as a matching engine for the traders in B.
 
-It is then the goal of all traders in B, to optimise the following dynamic.
-Let Profit/Reward be a metric of trader b in B. The goal for all traders is for the metric to reach as high a positive integer as possible.
-You will similarly be able to represent another metric. Loss, which all traders b in B will attempt to minimise, by making it as close to 0 as possible.
+Let **B** be a group of traders operating on an exchange **Alpha**, associated with the market **A**.
 
-You get the idea, that this is essentiall PnL. But what you must also account for is this.
-Your loss function and profit functions must not be strictly best, we are looking for expected values. Because we are not one-trick ponies.
-One or a few good trades can make a pony into a unicorn, but getting all of the good trades makes the pony into the legendary quantitative unicorn.
+The exchange functions as a matching engine for the traders in **B**.
 
-### Dynamics.
-We now understand the entire universe in a fairly superficial way.
-Our goal will now be to figure out what rules apply between the markets, assets and our competition. Because we don't only want to profit, we want to profit the most.
-It therefore becomes a game of understanding how each asset behaves and to grab the most safe profits possible, such that we can uncover ALL the good trades.
-Reducing our losses or our potential for losing is even better. That is why we want the method that yields the highest expected reward and the lowest expected loss.
+The objective of each trader **b ∈ B** is to optimize the following dynamic:
 
+- Let **Profit** or **Reward** be a metric assigned to trader **b**.
+- Each trader seeks to maximize this value as much as possible.
+- Likewise, let **Loss** be another metric assigned to trader **b**.
+- Each trader seeks to minimize this value, pushing it as close to **0** as possible.
 
+You already understand that this is essentially **PnL**.
 
+But you also need to account for something more important:
 
+Your profit and loss functions should not be optimized for a single best outcome. They should be optimized for **expected value**.
+
+Because we are not one-trick ponies.
+
+One or two good trades can turn a pony into a unicorn.
+
+But capturing *all* the good trades turns the pony into a **legendary quantitative unicorn**.
+
+---
+
+### Dynamics
+
+We now understand the universe in a broad and admittedly superficial way.
+
+The next goal is to understand the rules governing:
+
+- the market,
+- the assets,
+- and the competition.
+
+Because we do not only want to profit.
+
+We want to profit **the most**.
+
+This becomes a game of understanding how each asset behaves, and then capturing the safest and most repeatable profits possible.
+
+That is how we uncover **all** the good trades.
+
+Reducing losses — or even reducing the *possibility* of losses — is even better.
+
+So what we really want is the method that yields:
+
+- the **highest expected reward**, and
+- the **lowest expected loss**.
 
 
 
