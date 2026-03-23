@@ -516,15 +516,16 @@ Do you want to figure it out? 😈
 
 Btw here is a simple 1K profit .py file for your trader, but only on EMERALDS. [Try experimenting](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/EMERALDS.py) 😉
 
+## Inspirational links.
 Jasper(all honors to him for the list) decided to share his list. So I guess we are simply bundling it up and sharing for everyone
 
-Prosperity 1: \
+**Prosperity 1:** \
 2nd place: https://github.com/ShubhamAnandJain/IMC-Prosperity-2023-Stanford-Cardinal \
 57th place: https://github.com/MichalOkon/imc_prosperity \
 91st place: https://github.com/nicolassinott/IMC_Prosperity \
 322nd place: https://github.com/jmerle/imc-prosperity 
 
-Prosperity 2: \
+**Prosperity 2:** \
 2nd place: https://github.com/ericcccsliu/imc-prosperity-2 \
 9th place: https://github.com/jmerle/imc-prosperity-2 \
 13th place: https://github.com/pe049395/IMC-Prosperity-2024 \
@@ -532,7 +533,7 @@ Prosperity 2: \
 368th place: https://github.com/AcreixYuan/IMC-Prosperity-2 \
 381st place: https://github.com/davidteather/imc-prosperity-2024
 
-Prosperity 3: \
+**Prosperity 3:** \
 2nd place: https://github.com/TimoDiehm/imc-prosperity-3 \
 7th place: https://github.com/chrispyroberts/imc-prosperity-3 \
 9th place: https://github.com/CarterT27/imc-prosperity-3 \
@@ -549,6 +550,7 @@ Prosperity 3: \
 168th place: https://github.com/aahiill/IMC-Prosperity-3 \
 172nd place: https://github.com/KengLL/Prosperity-3-Neko (2nd in manual) \
 238th place: https://github.com/milesmitchell/imc_prosperity_3 \
-287th place: https://github.com/JohnnyTung123/imc-prosperity-3
+287th place: https://github.com/JohnnyTung123/imc-prosperity-3 \
+
 
 
