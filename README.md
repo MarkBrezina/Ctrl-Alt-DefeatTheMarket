@@ -29,3 +29,12 @@ which leads to
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104622.png)
 which leads to
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104649.png)
+
+
+
+
+which leads to
+![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104713.png)
+
+which leads to
+![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20104724.png)
