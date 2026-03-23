@@ -143,3 +143,15 @@ https://github.com/monoclonalAb/tax-haven \
 https://github.com/andrewliu08/prosperity-goats \ 
 https://github.com/IMC-Prosperity-Granite-Flow/IMC_Prosperity3_GraniteFlow \ 
 https://github.com/VincentTLe/imc-prosperity-4-prep
+
+https://github.com/Robin-Guilliou/Option-Pricing \
+https://www.kaggle.com/competitions/optiver-realized-volatility-prediction/writeups/pksha-life-is-volatile-tentative-3rd-place-solutio
+https://www.kaggle.com/competitions/optiver-realized-volatility-prediction/writeups/nyanp-1st-place-solution-nearest-neighbors
+https://github.com/taher-software/Optiver-Realized-Volatility-Prediction/tree/master
+
+
+https://www.kaggle.com/competitions/optiver-trading-at-the-close/writeups/adam-9th-place-solution
+https://www.kaggle.com/competitions/optiver-trading-at-the-close/writeups/hyd-1st-place-solution
+https://github.com/liyiyan128/optiver-trading-at-the-close
+https://fan2goa1.github.io/mkdocs-material/blog/2023/12/24/kaggle-optiver---trading-at-the-close/
+https://github.com/xhshenxin/Micro_Price
