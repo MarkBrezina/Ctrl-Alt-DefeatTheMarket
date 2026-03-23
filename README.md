@@ -138,8 +138,8 @@ https://github.com/TimoDiehm/imc-prosperity-3 \
 https://github.com/pe049395/IMC-Prosperity-2024 \
 https://github.com/jmerle/imc-prosperity-3 \
 https://github.com/kzqiu/imc-2023 \ 
-https://github.com/BakerStreetPhantom/IMC-Prosperity-Trading-Challenge-2023
-https://github.com/monoclonalAb/tax-haven
-https://github.com/andrewliu08/prosperity-goats
-https://github.com/IMC-Prosperity-Granite-Flow/IMC_Prosperity3_GraniteFlow
+https://github.com/BakerStreetPhantom/IMC-Prosperity-Trading-Challenge-2023 \ 
+https://github.com/monoclonalAb/tax-haven \ 
+https://github.com/andrewliu08/prosperity-goats \ 
+https://github.com/IMC-Prosperity-Granite-Flow/IMC_Prosperity3_GraniteFlow \ 
 https://github.com/VincentTLe/imc-prosperity-4-prep
