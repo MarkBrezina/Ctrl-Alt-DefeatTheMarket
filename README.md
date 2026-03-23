@@ -20,7 +20,7 @@ I do however respect that others will seek to find solutions to the manual tradi
 ## How do I set up my first trader?
 
 You will initially land on this page.
-![Description of image](../utils/Skærmbillede%202026-03-23%20104551.png)
+![Screenshot](utils/Skærmbillede%202026-03-23%20104551.png)
 Which will lead you here.
 
 Which should lead you here.
