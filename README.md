@@ -221,7 +221,7 @@ Later rounds may introduce **basket/ETF arbitrage**, **derivatives**, or more co
 
 As the products become more complex, the methods used to extract alpha become more complex too.
 
-[Sauce?]()
+[Please sir, can I have the Sauce?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/alpha)
 
 ### Risk
 
