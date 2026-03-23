@@ -17,7 +17,7 @@ So the manual trading questions aren't of interest to me.
 I do however respect that others will seek to find solutions to the manual trading parts.
 
 Steps:
-1. How do I get set up?
+1. [How do I get set up?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/README.md#how-do-i-set-up-my-first-trader)
 2. What is actually going on?
 3. Where do I find resources?
 4. What is the system like?
