@@ -477,14 +477,44 @@ So what we really want is the method that yields:
 - the **highest expected reward**, and
 - the **lowest expected loss**.
 
+So to represent a generalistic model of where prices are moving could be useful.
+These dynamics may be aggregate in nature, or they may appear as components within a broader model.
 
+For example:
 
+mid_price[t+1]
+= immediate order-book matching at t
++ order-flow imbalance at t
++ drift / trend at t
++ mean reversion at t
++ diffusion / noise at t
++ volatility dynamics at t
++ liquidity / market-impact effects at t
++ jump or shock components at t
++ regime behaviour at t
++ cross-asset or exogenous drivers at t
 
+One could also map it like this
 
+mid_price[t+1]
+= microstructure effect
++ directional component
++ corrective component
++ stochastic component
++ volatility component
++ liquidity / impact component
++ jump component
++ regime component
++ exogenous component
 
+But here you are on a really generalistic model for market prices. \
+We then have to figure out how to earn from this model. Oh! But wouldn't you notice, could we just adjust our inventory from this? \
+Could we map out which asset would probably have the highest probability of a positive return? \
+Could this model be used on any asset? \
 
+Do you want to figure it out? 😈
 
-
-
+Btw here is a simple 1K profit .py file for your trader, but only on EMERALDS. Try experimenting 😉
+ 
 
 
