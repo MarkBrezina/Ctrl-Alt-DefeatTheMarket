@@ -482,17 +482,17 @@ These dynamics may be aggregate in nature, or they may appear as components with
 
 For example:
 
-$$mid_price[t+1]
-= immediate order-book matching at t
-+ order-flow imbalance at t
-+ drift / trend at t
-+ mean reversion at t
-+ diffusion / noise at t
-+ volatility dynamics at t
-+ liquidity / market-impact effects at t
-+ jump or shock components at t
-+ regime behaviour at t
-+ cross-asset or exogenous drivers at t$$
+$$ mid_{price} (t+1)
+= \text{immediate order-book matching at t}
++ \text{order-flow imbalance at t}
++ \text{drift / trend at t}
++ \text{mean reversion at t}
++ \text{diffusion / noise at t}
++ \text{volatility dynamics at t}
++ \text{liquidity / market-impact effects at t}
++ \text{jump or shock components at t}
++ \text{regime behaviour at t}
++ \text{cross-asset or exogenous drivers at t} $$
 
 One could also map it like this
 
