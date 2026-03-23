@@ -1,14 +1,4 @@
-# -*- coding: utf-8 -*-
 """
-Created on Fri Mar 20 14:40:39 2026
-
-@author: Mark Brezina
-"""
-
-# -*- coding: utf-8 -*-
-"""
-Created on Fri Mar 20 12:53:05 2026
-
 @author: Mark Brezina
 """
 
