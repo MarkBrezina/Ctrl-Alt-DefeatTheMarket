@@ -32,3 +32,6 @@ A neat grouping would be:
 **Volatility:** Volatility trading \
 **Microstructure / HFT:** Market making, latency arbitrage, order flow trading \
 **Model-based mispricing:** Price discrepancy / statistical arbitrage
+
+
+Watching previous guys work [The road to winning prosperity IMC Prosperity 3 winners](https://www.youtube.com/watch?v=aH1aaS4mtj4)
