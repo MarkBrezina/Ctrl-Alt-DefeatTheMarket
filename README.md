@@ -88,6 +88,9 @@ Pressing "wiki" leads here. Much of the information about each round and the ove
 
 ## What the fuck is alpha?
 
+What is actually going on?
+
+
 For this tutorial round, we are given two assets.
 Tomatoes and Emeralds. Which behave in two distinct ways. Two the untrained eye, that is "edible" and "unedible".
 But if you open the data capsules, you can build research and figure out the generalistic mechanics that IMC has put out for those.
@@ -111,6 +114,7 @@ I've heard many good ideas, trend-following HFT, market-making with drift, short
 
 
 ## Lay it down thick brother!
+resources pretty please.
 
 
 
