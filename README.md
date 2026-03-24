@@ -1,5 +1,5 @@
 # Ctrl-Alt-DefeatTheMarket
-# An Idiot’s Guide to IMC Prosperity Algorithmic Trading
+An Idiot’s Guide to IMC Prosperity Algorithmic Trading
 
 IMC Prosperity is about trading, and in practice it is split into two parts:
 
