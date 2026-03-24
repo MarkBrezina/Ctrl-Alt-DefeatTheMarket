@@ -35,3 +35,33 @@ A neat grouping would be:
 
 
 Watching previous guys work [The road to winning prosperity IMC Prosperity 3 winners](https://www.youtube.com/watch?v=aH1aaS4mtj4)
+
+
+
+
+
+
+## Pairs Trading
+Pairs trading: https://hudsonthames.org/definitive-guide-to-pairs-trading/
+Pairs trading: https://palomar.home.ece.ust.hk/MAFS5310_lectures/slides_pairs_trading.pdf
+Portfolio optimization with Pairs Trading https://portfoliooptimizationbook.com/slides/slides-pairs-trading.pdf
+QuantConnect on Pairs Trading: https://github.com/QuantConnect/Research/blob/master/Analysis/02%20Kalman%20Filter%20Based%20Pairs%20Trading.ipynb
+AJeanis on Pairs Trading: https://github.com/AJeanis/Pairs-Trading
+Ozenc Gungor's repo on Pairs trading: https://github.com/ozencgungor/Pairs_Trading_Kalman
+KidQuant on Pairs trading: https://github.com/KidQuant/Pairs-Trading-With-Python/blob/master/PairsTrading.ipynb
+Awdneyk: https://github.com/Awdneyk/stat-arb-pair-selection
+
+## Market Making.
+Original Avellaneda Stoikov paper: https://people.orie.cornell.edu/sfs33/LimitOrderBook.pdf
+HFT with inventoru constraints and directional bets: https://arxiv.org/abs/1206.4810
+Avellaneda Stoikov in Python: https://github.com/fedecaccia/avellaneda-stoikov
+Alvaro Cartea and Yixuan Wang: https://ora.ox.ac.uk/objects/uuid%3Ac2ba6656-8eab-4b2e-a24a-e9e842d1378f/files/s41687h481
+Optimal Market making: https://arxiv.org/abs/1605.01862
+Optimal High frequency market making: https://stanford.edu/class/msande448/2018/Final/Reports/gr5.pdf
+Ready trader go Keanekwa: https://github.com/keanekwa/Optiver-Ready-Trader-Go
+ESkripichnikov: https://github.com/ESkripichnikov/market-making
+QuantBeckman: https://www.quantbeckman.com/p/can-you-manage-inventoryor-is-it
+
+## Trend
+Dual moving average crossover: https://github.com/rbhatia46/Dual-Moving-Average-Crossover-Python
+
