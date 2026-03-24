@@ -45,9 +45,11 @@ Per product we will have.
 - strategy activation or weighting
 
 Where we will take
+
 $$
 u(t) = \pi(x(t))
 $$
+
 With u(t) being the quoting/taking/cancelling/skewing logic.
 In practice, different products often share the same skeleton:
 
