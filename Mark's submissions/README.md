@@ -1,6 +1,6 @@
 
 ## Concept
-The overarching idea, which should make sense, as being completely paired with the proposed market model. \
+The overarching idea, which should make sense, as being completely paired with the proposed market model. 
 
 ```text
 shared framework + per-product state + strategy-specific modules
