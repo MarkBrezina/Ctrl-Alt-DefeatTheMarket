@@ -2,7 +2,10 @@
 ## Concept
 The overarching idea, which should make sense, as being completely paired with the proposed market model. \
 
+```text
 shared framework + per-product state + strategy-specific modules
+```
+
 ![Landing page](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/utils/Sk%C3%A6rmbillede%202026-03-24%20113913.png)
 
 So for each product we will have
