@@ -533,6 +533,7 @@ Jasper(all honors to him for the list) decided to share his list. So I guess we 
 9th place: https://github.com/jmerle/imc-prosperity-2 \
 13th place: https://github.com/pe049395/IMC-Prosperity-2024 \
 124th place: https://github.com/cpartridge18/prosperity-24 \
+332nd place: https://github.com/edmund870/2024-IMC-Global-Trading-Challenge \
 368th place: https://github.com/AcreixYuan/IMC-Prosperity-2 \
 381st place: https://github.com/davidteather/imc-prosperity-2024
 489th place: https://github.com/stephen-w-choo/imc-prosperity-2024
@@ -551,6 +552,7 @@ Jasper(all honors to him for the list) decided to share his list. So I guess we 
 89th place: https://github.com/ZainAlSaffi-Dev/imc-prosperity3 \
 109th place: https://github.com/Sylvain-Topeza/imc-prosperity-3 \
 131st place: https://github.com/JamesCole809/IMC-Prosperity-3 \
+141st place: https://github.com/Akezh/imc_trading_2025 \
 168th place: https://github.com/aahiill/IMC-Prosperity-3 \
 172nd place: https://github.com/KengLL/Prosperity-3-Neko (2nd in manual) \
 238th place: https://github.com/milesmitchell/imc_prosperity_3 \
