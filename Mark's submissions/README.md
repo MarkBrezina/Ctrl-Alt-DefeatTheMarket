@@ -46,41 +46,34 @@ Per product we will have.
 
 Where we will take $u(t) = \pi(x(t))$
 
-With u(t) being the quoting/taking/cancelling/skewing logic.
-In practice, different products often share the same skeleton:
+With $u(t)$ being the quoting/taking/cancelling/skewing logic.
 
-compute fair value
-compute edge
-skew by inventory
-widen/narrow by volatility
-adjust by fill probabilities
-cap by risk
+In practice, different products often share the same skeleton:
+- compute fair value
+- compute edge
+- skew by inventory
+- widen/narrow by volatility
+- adjust by fill probabilities
+- cap by risk
 
 But the parameters, and sometimes a few feature definitions, differ by product.
 
 So for one product you may have:
-
-stronger mean reversion
-tighter quote widths
-higher inventory tolerance
+- stronger mean reversion
+- tighter quote widths
+- higher inventory tolerance
 
 and for another:
+- drift-sensitive fair value
+- more directional skew
+- lower hold time
+- more aggressive risk reduction
 
-drift-sensitive fair value
-more directional skew
-lower hold time
-more aggressive risk reduction
-4. Asset templates are common
-
-A lot of firms effectively work with templates:
-
-stable market-making template
-trending / directional template
-options template
-ETF / basket template
-futures template
-very illiquid template
-
-
-## Inventory
+We will therefore want to setup templaces.
+- stable market-making template
+- trending / directional template
+- options template
+- ETF / basket template
+- futures template
+- very illiquid template
 
