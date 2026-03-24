@@ -535,6 +535,7 @@ Jasper(all honors to him for the list) decided to share his list. So I guess we 
 124th place: https://github.com/cpartridge18/prosperity-24 \
 368th place: https://github.com/AcreixYuan/IMC-Prosperity-2 \
 381st place: https://github.com/davidteather/imc-prosperity-2024
+489th place: https://github.com/stephen-w-choo/imc-prosperity-2024
 
 **Prosperity 3:** \
 2nd place: https://github.com/TimoDiehm/imc-prosperity-3 \
