@@ -558,16 +558,16 @@ Jasper(all honors to him for the list) decided to share his list. So I guess we 
 238th place: https://github.com/milesmitchell/imc_prosperity_3 \
 287th place: https://github.com/JohnnyTung123/imc-prosperity-3 
 
-**Optiver Realized volatility prediction** \ 
+**Optiver Realized volatility prediction:** \ 
 1st place: https://www.kaggle.com/competitions/optiver-realized-volatility-prediction/writeups/nyanp-1st-place-solution-nearest-neighbors \
 3rd place: https://www.kaggle.com/competitions/optiver-realized-volatility-prediction/writeups/pksha-life-is-volatile-tentative-3rd-place-solution \
 xth place: https://github.com/taher-software/Optiver-Realized-Volatility-Prediction/tree/master
 
-**Optiver Trading at the close** \
+**Optiver Trading at the close:** \
 1st place: https://www.kaggle.com/competitions/optiver-trading-at-the-close/writeups/hyd-1st-place-solution \
 9th place: https://www.kaggle.com/competitions/optiver-trading-at-the-close/writeups/adam-9th-place-solution \
 xth place: https://github.com/liyiyan128/optiver-trading-at-the-close \
-yth place: https://fan2goa1.github.io/mkdocs-material/blog/2023/12/24/kaggle-optiver---trading-at-the-close/
+yth place: https://fan2goa1.github.io/mkdocs-material/blog/2023/12/24/kaggle-optiver---trading-at-the-close
 
 
 
