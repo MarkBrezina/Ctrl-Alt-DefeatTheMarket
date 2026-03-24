@@ -558,7 +558,9 @@ Jasper(all honors to him for the list) decided to share his list. So I guess we 
 238th place: https://github.com/milesmitchell/imc_prosperity_3 \
 287th place: https://github.com/JohnnyTung123/imc-prosperity-3 
 
+
 **Optiver Realized volatility prediction:** \ 
+
 1st place: https://www.kaggle.com/competitions/optiver-realized-volatility-prediction/writeups/nyanp-1st-place-solution-nearest-neighbors \
 3rd place: https://www.kaggle.com/competitions/optiver-realized-volatility-prediction/writeups/pksha-life-is-volatile-tentative-3rd-place-solution \
 xth place: https://github.com/taher-software/Optiver-Realized-Volatility-Prediction/tree/master
