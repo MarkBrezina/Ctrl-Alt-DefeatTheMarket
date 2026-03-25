@@ -166,7 +166,7 @@ It is also worth mentioning that **Jasper Merle’s backtester** was a major hel
 ### Tutorial round assets
 
 **Emeralds**, much like **Rainforest Resin** in IMC 3, behave like a classic stationary asset.  
-If you plot the historical data for Emeralds, you will see that the mid-price stays centered around **10,000** and oscillates around that level with a spread of roughly **16**. That makes it a strong candidate for a straightforward market-making strategy.
+If you plot the historical data for Emeralds, you will see that the mid-price stays centered around **10,000** and oscillates around that level with a spread of roughly **16**. That makes it is a strong candidate for a straightforward market-making strategy.
 
 ![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20111444.png)
 
@@ -179,9 +179,11 @@ Because of that, you cannot simply deploy a static market-making strategy and ca
 
 At the time of writing, Round 1 has not started yet, so we do not know what new products or mechanics it will introduce.
 
+<br>
+
 ## Homework I Did So You Don’t Have To
 
-For a dump of resources, [scrollfurther down](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket?tab=readme-ov-file#just-fucking-spoon-feed-me-bro)
+For a dump of resources, [scroll further down](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket?tab=readme-ov-file#just-fucking-spoon-feed-me-bro)
 
 At its heart, IMC Prosperity is a challenge in **high-frequency trading**, **algorithmic trading**, and **market making**.  
 That means we should think beyond just “finding alpha” and consider the full system behind a trading strategy.
