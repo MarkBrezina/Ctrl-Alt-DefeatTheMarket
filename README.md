@@ -1,3 +1,9 @@
+**Note:** \
+I will slowly be updating my own code, along with the **risk, execution and portfolio management areas** after my interview tomorrow 26/03/2026
+
+
+
+
 # Ctrl-Alt-DefeatTheMarket
 An Idiot’s Guide to IMC Prosperity Algorithmic Trading
 
