@@ -46,7 +46,7 @@ A very common schema we use is:
 2. **Clear orders**
 3. **Make orders**
 
-This is also the structure used in the EMERALDS execution logic. :contentReference[oaicite:1]{index=1}
+This is also the structure used in the EMERALDS execution logic. 
 
 This can be understood as:
 
