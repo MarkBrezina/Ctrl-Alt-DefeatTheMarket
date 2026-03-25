@@ -77,3 +77,115 @@ We will therefore want to setup templaces.
 - futures template
 - very illiquid template
 
+
+We're therefore doing a setup somewhat like *(Pseudo-code, don't try this at home)*
+```python
+
+class Logger:
+    def __init__(self):
+        # Stores logs, state history, fills, and memory for replay/backtesting
+        pass
+
+
+class Status:
+    def __init__(self):
+        self.external_state = {
+            # Market-facing state per product
+            Product.A: {
+                "orderbook": [],
+                "rolling_slope": 0.0,
+                "asset_correlations": [],
+                "volatility": [],
+            },
+            Product.B: {},
+            Product.N: {},
+        }
+
+        self.internal_state = {
+            # Trader-facing state per product
+            Product.A: {
+                "pnl": 0.0,
+                "inventory": 0,
+                "max_inventory": 80,
+            },
+            Product.B: {},
+            Product.N: {},
+        }
+
+        self.dynamics_state = {
+            # Model decomposition per product
+            Product.A: {
+                "drift_component": 0.0,
+                "mean_reversion_component": 1.0,
+                "volatility_component": 0.21,
+            },
+            Product.B: {},
+            Product.N: {},
+        }
+
+
+class ExecutionSchemas:
+    def __init__(self):
+        self.speed = 0.1
+
+    def close_schema(self):
+        # Reduce or flatten inventory
+        pass
+
+    def taker_schema(self):
+        # Aggressively cross the spread when edge is large enough
+        pass
+
+    def maker_schema(self):
+        # Post passive liquidity around fair value
+        pass
+
+    def vwap_schema(self):
+        # Slice execution over time around volume-weighted pricing
+        pass
+
+
+class Strategies:
+    def pairs_arbitrage(self):
+        return decision
+
+    def exchange_arbitrage(self):
+        return decision
+
+    def basket_arbitrage(self):
+        return decision
+
+    def market_making(self):
+        return decision
+
+    def trend_following(self):
+        return decision
+
+
+class Trader:
+    def __init__(self):
+        self.portfolio_weights = {}
+
+        self.logger = Logger()
+        self.status = Status()
+        self.execution = ExecutionSchemas()
+        self.strategies = Strategies()
+
+    def run(self):
+        for product in products:
+            # Load new market data into state
+            # Update external state
+            # Update internal state
+            # Update dynamics state
+
+            # Run strategy layer
+            # Weight decisions by portfolio allocation
+
+            # Translate strategy output into execution instructions
+            # Run execution schemas
+            # Send final orders
+
+            # Update memory and logs
+            pass
+
+```
