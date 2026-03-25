@@ -179,11 +179,7 @@ At the time of writing, Round 1 has not started yet, so we do not know what new 
 
 ## Homework I Did So You Don’t Have To
 
-I originally started by dumping in a pile of old repos and useful resources.
-
-Then I removed them. 😈
-
-Instead, I want to structure this repo around the core components that actually matter.
+For a dump of resources, [scrollfurther down](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket?tab=readme-ov-file#just-fucking-spoon-feed-me-bro)
 
 At its heart, IMC Prosperity is a challenge in **high-frequency trading**, **algorithmic trading**, and **market making**.  
 That means we should think beyond just “finding alpha” and consider the full system behind a trading strategy.
