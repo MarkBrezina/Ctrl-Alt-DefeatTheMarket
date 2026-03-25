@@ -274,7 +274,7 @@ The market does not care whether one order came from your alpha model and the ot
 This is why alpha, risk, and inventory cannot be designed in isolation.
 They must work together, otherwise one component may accidentally amplify or cancel another.
 
-[Useful Nonsense]()
+[Useful Nonsense](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Inventory)
 
 ### Execution
 
