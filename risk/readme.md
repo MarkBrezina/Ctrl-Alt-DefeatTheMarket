@@ -63,3 +63,46 @@ The idea here is to adjust the orders I am about to send and, when needed, activ
 Alongside this, I also adjust my quoting behaviour once inventory starts moving too close to my limits. For example, I do not want to find myself holding **60 lots of Emeralds** if a sudden price drop occurs. Because of that, I start becoming more defensive once my inventory reaches **20 lots**, gradually encouraging the strategy to reduce exposure before risk becomes too large.
 
 Emeralds is the stable asset in this case, but hopefully the general idea still comes across clearly.
+
+
+# Drawdown?
+
+You will hear a lot of chatter in the Discord server about **drawdown**, **maximum drawdown**, and the trade-off between **drawdown** and **PnL**.
+
+It is worth remembering that, for the competition, you are mostly judged on your **final PnL**. That means a one-hit-wonder trade can still be a viable strategy.
+
+In the real world, though, algorithmic trading strategies are usually judged on a combination of factors, not just final profit.
+
+## Two simple ideas
+
+### 1. Profitability is not the whole story
+
+If your strategy is generally profitable and does not lose much along the way, it will tend to have a higher **Sharpe ratio**.
+
+$$
+\text{Sharpe} = \frac{\text{excess returns}}{\text{standard deviation of returns over the time horizon}}
+$$
+
+The rough intuition is:
+
+- higher returns are good,
+- lower volatility in those returns is also good.
+
+So if two strategies generate the same excess return, but one gets there with lower volatility and smaller drawdowns, that strategy will usually have the better Sharpe ratio.
+
+That is why many people in the Discord server do not only compare returns — they also compare drawdowns and consistency.
+
+### 2. IMC is still mostly about final PnL
+
+Even though drawdown and consistency are useful ways to think about strategy quality, the competition score is still mainly driven by **final PnL**.
+
+So yes, from a competition perspective, a strategy that looks ugly along the way can still win if it ends with the highest profit.
+
+That is the tension people are usually talking about:
+
+- **competition mindset** -> maximise final PnL
+- **real-world mindset** -> care about PnL, drawdown, and consistency together
+
+So while the Discord may spend a lot of time discussing drawdown, it is important to remember that the final scoreboard still cares most about one thing:
+
+**PnL.**
