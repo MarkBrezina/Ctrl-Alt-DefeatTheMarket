@@ -19,7 +19,8 @@ That is the part I care most about, and the part I want to focus on here.
 
 I do respect that many people will want to work through the manual trading section as well, and there is definitely value in doing so. This just is not what this guide is centred around.
 
-If you want an early "leaderboard" use this one [link](https://prosperity.equirag.com/)
+If you want an early "leaderboard" use this [one](https://prosperity.equirag.com/) or this [one](https://imc-prosperity4-backtest.streamlit.app/). \
+They are not "stealing your strategy", just upload the log from your run on IMC's website.
 
 ## What this guide covers
 
