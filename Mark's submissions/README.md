@@ -196,5 +196,6 @@ class Trader:
 **Emeralds**: 1050
 **Tomatoes**: max=1800 \
 current = 1360, but less DD - difference is inventory-skewed reservation prices on make and take orders\
-current = x - difference is linear regression predicted fair value, rather than mid_price from orderbook with sorting.
+current = 1612, more DD - difference is linear regression predicted fair value, rather than mid_price from orderbook with sorting.\
+current = x, ? DD - difference is position skew with linear regression slope on all execution schemas
 
