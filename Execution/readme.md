@@ -157,7 +157,7 @@ Used when the market is obviously mispriced relative to our fair value.
 - adverse volume filters,
 - inventory-aware reductions in aggressiveness.
 
-In your EMERALDS example, this appears as best-price taking and also as a stronger tiered version where larger mispricings allow larger take size. :contentReference[oaicite:2]{index=2}
+In your EMERALDS example, this appears as best-price taking and also as a stronger tiered version where larger mispricings allow larger take size.
 
 ---
 
@@ -214,7 +214,7 @@ Used when passive quoting is still desired, but inventory must influence behavio
 - asymmetric order sizing,
 - hard inventory protection.
 
-Your EMERALDS market-making logic does exactly this by shifting both quotes with inventory and adjusting buy/sell size asymmetrically. :contentReference[oaicite:3]{index=3}
+Your EMERALDS market-making logic does exactly this by shifting both quotes with inventory and adjusting buy/sell size asymmetrically.
 
 ---
 
@@ -294,7 +294,7 @@ Used when visible liquidity may be dangerous.
 - recent flow imbalance filters,
 - quote lifetime checks.
 
-Your execution framework already leaves room for this through `prevent_adverse` and `adverse_volume` logic on taking orders. :contentReference[oaicite:4]{index=4}
+Your execution framework already leaves room for this through `prevent_adverse` and `adverse_volume` logic on taking orders.
 
 ---
 
