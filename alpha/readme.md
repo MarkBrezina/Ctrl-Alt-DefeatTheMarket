@@ -36,11 +36,6 @@ A neat grouping would be:
 
 Watching previous guys work [The road to winning prosperity IMC Prosperity 3 winners](https://www.youtube.com/watch?v=aH1aaS4mtj4)
 
-
-
-
-
-
 ## Pairs Trading
 Pairs trading: https://hudsonthames.org/definitive-guide-to-pairs-trading/ \
 Pairs trading: https://palomar.home.ece.ust.hk/MAFS5310_lectures/slides_pairs_trading.pdf \
@@ -65,3 +60,14 @@ QuantBeckman: https://www.quantbeckman.com/p/can-you-manage-inventoryor-is-it
 ## Trend
 Dual moving average crossover: https://github.com/rbhatia46/Dual-Moving-Average-Crossover-Python
 
+
+
+
+Because you're all apparently completely insane and think that ALPHA IS THE KEY TO GODHOOD, not inventory management... I have decided to put together a youtube playlist.
+Along with an expansion to this page.
+
+[IMC Inspirational videos on YouTube](https://www.youtube.com/playlist?list=PLjBE3SzJV9A3ahXCKrEXwG8uKa5fQkDMC)
+
+# Other useful youtube playlists
+[Algorithmic game theory](https://www.youtube.com/playlist?list=PLEGCF-WLh2RJBqmxvZ0_ie-mleCFhi2N4)
+[EC 2022 talks](https://www.youtube.com/watch?v=OXj5X7kRFwQ&list=PLI0o-KVQWwQ_NOW1JQNU88BzGbxR4yksM)
