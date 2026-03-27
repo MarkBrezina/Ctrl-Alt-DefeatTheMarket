@@ -53,7 +53,7 @@ Awdneyk: https://github.com/Awdneyk/stat-arb-pair-selection
 
 ## Market Making.
 Original Avellaneda Stoikov paper: https://people.orie.cornell.edu/sfs33/LimitOrderBook.pdf \
-HFT with inventoru constraints and directional bets: https://arxiv.org/abs/1206.4810 \
+HFT with inventory constraints and directional bets: https://arxiv.org/abs/1206.4810 \
 Avellaneda Stoikov in Python: https://github.com/fedecaccia/avellaneda-stoikov \
 Alvaro Cartea and Yixuan Wang: https://ora.ox.ac.uk/objects/uuid%3Ac2ba6656-8eab-4b2e-a24a-e9e842d1378f/files/s41687h481 \
 Optimal Market making: https://arxiv.org/abs/1605.01862 \
