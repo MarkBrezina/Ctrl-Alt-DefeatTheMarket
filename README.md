@@ -16,6 +16,9 @@ I do respect that many people will want to work through the manual trading secti
 If you want an early **leaderboard** use this [one](https://prosperity.equirag.com/) or this [one](https://imc-prosperity4-backtest.streamlit.app/). \
 They are not "stealing your strategy", just upload the log from your run on IMC's website.
 
+Take the chance to sign up to the IMC webinar [Discover Prosperity 4](https://job-boards.eu.greenhouse.io/imc/jobs/4790350101?gh_src=tt0n71b2teu)
+
+
 ## What this guide covers
 
 - [How do I get set up?](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket?tab=readme-ov-file#how-do-i-set-up-my-first-trader)
