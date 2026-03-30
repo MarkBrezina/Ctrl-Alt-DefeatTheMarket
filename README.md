@@ -1,3 +1,12 @@
+
+## I will be updating the Repo over the next week 30/03 till 03/04
+
+<br>
+<br>
+<br>
+<br>
+<br>
+
 # Ctrl-Alt-DefeatTheMarket
 An Idiot’s Guide to IMC Prosperity Algorithmic Trading
 
