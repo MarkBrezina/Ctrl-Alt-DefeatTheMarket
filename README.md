@@ -1,10 +1,3 @@
-**Note:** \
-I was not given the chance to join the energy trading firm. So I will be throwing everything into nuking the Algorithmic trading AND the manual trading. \
-I will have to spend the next many days applying for bartender, waiter or delivery driver jobs, but I will otherwise continue with updates here and on my own submissions.
-<br>
-<br>
-<br>
-
 ## I will be updating the Repo over the next week 30/03 till 03/04
 requests
 - How to deal with Prosperity mentally.
