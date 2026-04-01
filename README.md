@@ -10,6 +10,7 @@ requests
 - How to deal with Prosperity mentally.
 - Where/how to practice algorithmic trading before, during and after prosperity.
 - Walk-through of expected traders and market experience.
+- Trading glossary with diagrams
 
 <br>
 <br>
