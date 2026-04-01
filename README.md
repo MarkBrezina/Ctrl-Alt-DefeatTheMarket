@@ -590,4 +590,4 @@ yth place: https://fan2goa1.github.io/mkdocs-material/blog/2023/12/24/kaggle-opt
 
 
 General option pricing: https://github.com/Robin-Guilliou/Option-Pricing \
-general microstructure pricing: https://github.com/xhshenxin/Micro_Price
+General microstructure pricing: https://github.com/xhshenxin/Micro_Price
