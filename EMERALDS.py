@@ -1,5 +1,7 @@
 """
-@author: Mark Brezina
+This code is mostly copied from the original authors @Stanford Cardinal, winners in 2023.
+With slight improvements by @MarkBrezina 2026
+
 """
 
 from datamodel import OrderDepth, TradingState, Order
