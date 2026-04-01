@@ -4,6 +4,7 @@ requests
 - Where/how to practice algorithmic trading before, during and after prosperity.
 - Walk-through of expected traders and market experience.
 - Trading glossary with diagrams
+- Proper walk-throughs with sharpe, rather than PnL focus.
 
 <br>
 <br>
