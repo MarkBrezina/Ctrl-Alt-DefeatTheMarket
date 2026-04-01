@@ -36,6 +36,30 @@ A neat grouping would be:
 
 Watching previous guys work [The road to winning prosperity IMC Prosperity 3 winners](https://www.youtube.com/watch?v=aH1aaS4mtj4)
 
+
+## Market making.
+What is it, how do we benefit from it?
+
+
+## Directional
+What is it, how do we benefit from it?
+
+
+## Mean reversion
+What is it, how do we benefit from it?
+
+
+## Pairs Trading
+What is it, how do we benefit from it?
+
+
+## Volatility
+What is it, how do we benefit from it?
+
+## General statistical patterns
+What is it, how do we benefit from it?
+
+
 ## Pairs Trading
 Pairs trading: https://hudsonthames.org/definitive-guide-to-pairs-trading/ \
 Pairs trading: https://palomar.home.ece.ust.hk/MAFS5310_lectures/slides_pairs_trading.pdf \
