@@ -5,6 +5,7 @@ requests
 - Walk-through of expected traders and market experience.
 - Trading glossary with diagrams
 - Proper walk-throughs with sharpe, rather than PnL focus.
+- basic indicators
 
 <br>
 <br>
