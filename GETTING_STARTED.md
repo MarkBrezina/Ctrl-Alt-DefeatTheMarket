@@ -228,6 +228,7 @@ There are several useful public backtesters and tools:
 - [Geyzson's Rust backtester](https://github.com/GeyzsoN/prosperity_rust_backtester)
 - [IMC Prosperity 4 Visualizer](https://kevin-fu1.github.io/imc-prosperity-4-visualizer/?/visualizer)
 - [Jasper's backtester from IMC 3](https://github.com/jmerle/imc-prosperity-3-backtester)
+- [jmerle's optimizer](https://github.com/jmerle/imc-prosperity-3-optimizer)
 - [Chris Roberts' IMC 4 Monte Carlo backtester](https://github.com/chrispyroberts/imc-prosperity-4)
 
 If you want to go further beyond Prosperity, you can also explore broader backtesting libraries such as [VectorBT](https://vectorbt.dev/), [backtesting.py](https://kernc.github.io/backtesting.py/), and [Backtrader](https://www.backtrader.com/).
