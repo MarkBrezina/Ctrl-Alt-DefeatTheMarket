@@ -27,8 +27,8 @@ What is mispriced, relative to what, and why?
 As the products become more complex, the methods used to extract alpha become more complex too.
 
 ## Diagram
-A simple visual goal is to illustrate **when to buy and when to sell**.
-![diagram](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/utils/alpha.png)
+A simple visual goal is to illustrate **when to buy and when to sell**. \
+![diagram](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/utils/alpha.png)
 
 ## Formula or concept
 A very simple strategy to present is the notorious mean reversion cross.
