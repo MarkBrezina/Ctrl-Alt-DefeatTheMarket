@@ -10,7 +10,7 @@ The SMA is the average price over a fixed window. It smooths price data and help
 - Price below SMA can suggest downward trend
 - Crossovers of short and long SMAs are often used as signals
 
-```
+```python
 import pandas as pd
 import numpy as np
 
@@ -27,8 +27,10 @@ The EMA is similar to the SMA, but gives more weight to recent prices, so it rea
 - Faster trend tracking than SMA
 - Often used in MACD and crossover systems
 
+```python
 def ema(series: pd.Series, span: int) -> pd.Series:
     return series.ewm(span=span, adjust=False).mean()
+```
 
 ## 3. Relative Strength Index (RSI)
 **Description:** \
@@ -38,7 +40,7 @@ RSI is a momentum oscillator that measures the speed and magnitude of recent pri
 - RSI above 70: often called overbought
 - RSI below 30: often called oversold
 
-```
+```python
 def rsi(series: pd.Series, window: int = 14) -> pd.Series:
     delta = series.diff()
 
@@ -63,7 +65,7 @@ MACD measures the difference between two EMAs, usually a fast EMA and a slow EMA
 - Signal line = EMA of MACD line, usually 9
 - Histogram = MACD - Signal
 
-```
+```python
 def macd(series: pd.Series,
          fast: int = 12,
          slow: int = 26,
@@ -92,7 +94,7 @@ Bollinger Bands place upper and lower bands around a moving average using standa
 - Wide bands: higher volatility
 - Price touching upper/lower band can indicate stretched conditions
 
-```
+```python
 def bollinger_bands(series: pd.Series,
                     window: int = 20,
                     num_std: float = 2.0) -> pd.DataFrame:
@@ -120,7 +122,7 @@ ATR measures volatility by looking at the true trading range, including gaps bet
 - Stop-loss sizing
 - Position sizing
 
-```
+```python
 def atr(high: pd.Series,
         low: pd.Series,
         close: pd.Series,
@@ -146,7 +148,7 @@ This compares the current close to the recent high-low range. It is a momentum i
 - High values: close is near recent highs
 - Low values: close is near recent lows
 
-```
+```python
 def stochastic_oscillator(high: pd.Series,
                           low: pd.Series,
                           close: pd.Series,
@@ -169,7 +171,7 @@ def stochastic_oscillator(high: pd.Series,
 **Description:**\
 OBV is a volume-based indicator that adds volume on up days and subtracts volume on down days. It tries to detect whether volume confirms price movement.
 
-```
+```python
 def obv(close: pd.Series, volume: pd.Series) -> pd.Series:
     direction = np.sign(close.diff()).fillna(0)
     return (direction * volume).cumsum()
@@ -179,7 +181,7 @@ def obv(close: pd.Series, volume: pd.Series) -> pd.Series:
 **Description:**\
 VWAP is the volume-weighted average price. It is often used intraday as a benchmark for execution quality and price positioning.
 
-```
+```python
 def vwap(high: pd.Series,
          low: pd.Series,
          close: pd.Series,
@@ -201,7 +203,7 @@ Momentum is simply the change in price over a chosen window.
 - Positive momentum means price is above its earlier value
 - Negative momentum means price is below its earlier value
 
-```
+```python
 def momentum(series: pd.Series, window: int = 10) -> pd.Series:
     return series - series.shift(window)
 ```
