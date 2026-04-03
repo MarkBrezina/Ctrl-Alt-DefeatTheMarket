@@ -9,6 +9,19 @@ I would also like to thank @Tomas, @Jack, and the forum admins, who have all bee
 
 Special thanks also go to @Jasper. Full credit to him for the list, the backtester, and the work he has done around IMC Prosperity. He chose to share his work openly, and this guide builds on that same spirit by gathering useful resources and making them easier to access.
 
+
+## Updates
+A note should be made, that there has been significant updates to the **alpha** section, since I took note that this section got the most traffic from newcomers after reading the main page.
+- Getting started page has been added specifically for new comers.
+- Glossary page has been added, to assist in explaining key terminology
+- Mindset page has been added, with respect to questions on the psychological strains
+- resources page has been added, to be specifically accessible for resources and reading. More will be added here in the coming days. But it will be sporadic and divided into sections on **books**, **playlists**, **online seminars**, **forums** and so on.
+- 
+
+More updates will come out on each section separately, because there was a desire to have the repo back up quickly.
+Next will be updates on **market basics**, **Trader architecture**, in order to assist in simply addressing the coding system, in ways IMC hasn't done specifically. In this way I will attempt to give a simple idea of memory, calculation and setting up your own architecture/infrastructure.
+
+
 ## What this guide is
 
 This guide is a genuine attempt to share everything I can offer to both new and experienced IMC Prosperity participants, both for the challenge itself and for the broader ideas behind it.
