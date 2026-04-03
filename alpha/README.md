@@ -48,9 +48,13 @@ MA20 <= MA40
 
 
 ## Common mistakes
+Many players assume that finding a good alpha, must necessarily mean that they've hit a one-hit goldmine, where nothing other than buy 1 at buy signal, sell 1 at sell signal is necessary.
+But in reality there will always be false positives and false negatives. Along with that, there is noise, random events and more.
+Most of the time alpha is good, but you will need inventory adjustments, signal strength, risk adjustments, signal combinations. Because multiple alphas may signal simultaenously. 
+
 
 ## Where to go next
-In more advanced terms than "buy low, sell high", we should like to express what @maxazs presented on the discord.
+In more advanced terms than "buy low, sell high", we should like to express what @maxazv presented on the discord.
 IN order to always be on the right side of the above statement, you actually want the following mathematical idea.
 
 $$
