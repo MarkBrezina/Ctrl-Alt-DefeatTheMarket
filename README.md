@@ -9,8 +9,6 @@ I would also like to thank @Tomas, @Jack, and the forum admins, who have all bee
 
 Special thanks also go to @Jasper. Full credit to him for the list, the backtester, and the work he has done around IMC Prosperity. He chose to share his work openly, and this guide builds on that same spirit by gathering useful resources and making them easier to access.
 
----
-
 ## What this guide is
 
 This guide is a genuine attempt to share everything I can offer to both new and experienced IMC Prosperity participants, both for the challenge itself and for the broader ideas behind it.
@@ -23,7 +21,6 @@ I am not going to hand you a finished solution and ask you to beat me by tuning 
 
 To make this easier to navigate, I have divided the guide into different tiers based on starting skill level, so you can jump directly to the parts that are most useful to you.
 
----
 
 ## Who this guide is for
 
@@ -31,7 +28,6 @@ This guide is mainly for IMC Prosperity participants, but it may also be useful 
 
 I have been experimenting with this style of teaching for a long time, originally through maths, and this guide is an extension of that same approach.
 
----
 
 ## What IMC Prosperity is, in plain English
 
@@ -40,8 +36,6 @@ IMC Prosperity is an international algorithmic trading challenge.
 There are many other competitions and opportunities that might claim to be the best, but honestly, I believe IMC Prosperity stands above the rest.
 
 In this challenge, you get the opportunity to work on problems that are close to real-world algorithmic trading. In the end, you are judged by how much profit your strategies generate.
-
----
 
 ## A note on expectations
 
@@ -67,7 +61,6 @@ We also expect the challenge to include themes similar to earlier editions, such
 - informed traders
 - conversions
 
----
 
 ## Recommended reading paths
 
@@ -77,7 +70,6 @@ I recommend three different paths through this repository:
 2. **If you already have a basic understanding**, jump directly to the sections most relevant to the help you need.
 3. **If you are more advanced**, head to the research-oriented sections, where I share my own frameworks, interpretations, and conceptual ideas.
 
----
 
 ## Quickstart: get your first trader running
 
@@ -124,8 +116,6 @@ Ultimately, we are judged by the final PnL.
 
 To go through this in more detail, see the [Getting Started](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/GETTING_STARTED.md) file.
 
----
-
 ## Strategy building and developing serious submissions
 
 If you have already read the *Getting Started* section — or simply want to jump straight into strategy development — this is where the real work begins.
@@ -169,7 +159,6 @@ If you have both of those down, the next step is the **Trader Architecture** sec
 
 After that, the five pillars below provide a useful way to structure how algorithmic trading systems are built.
 
----
 
 ## Round ideas
 
@@ -197,7 +186,6 @@ It is also worth mentioning that **Jasper Merle’s backtester** was a major hel
 
 For example, a backtest result around **35K** roughly translated to about **9K** in Round 1 of IMC 3, which was approximately **top 10%**.
 
----
 
 ## Tutorial round assets
 
@@ -224,7 +212,6 @@ At the time of writing, Round 1 has not started yet, so we do not know what new 
 
 In the meantime, here is a simple **1K profit** `.py` file for **EMERALDS** only: [Try experimenting](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/EMERALDS.py)
 
----
 
 ## The five pillars: Alpha, Risk, Inventory, Execution, Portfolio Management
 
@@ -241,8 +228,6 @@ A useful way to break that system down is into five parts:
 5. **Portfolio management**
 
 Below is a more detailed view of each.
-
----
 
 ### Alpha
 
@@ -272,7 +257,6 @@ As the products become more complex, the methods used to extract alpha become mo
 
 [Alpha resources](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/alpha)
 
----
 
 ### Risk
 
@@ -298,7 +282,6 @@ A strategy without risk controls is not really a strategy. It is just an opinion
 
 [Risk resources](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/risk)
 
----
 
 ### Inventory
 
@@ -329,7 +312,6 @@ This is why alpha, risk, and inventory cannot be designed in isolation. They mus
 
 [Inventory resources]()
 
----
 
 ### Execution
 
@@ -476,8 +458,6 @@ Let **A₁*** be a derivative of **A₁**, where **A₁** is the underlying asse
 Let **A₂*** be a basket containing **A₂** and some other asset **Aᵢ**.
 These constructions can be repeated and do not need to be unique.
 
----
-
 ### Traders
 
 Let B be a group of traders operating on an exchange **$\alpha$**, associated with market **A**.
@@ -539,7 +519,6 @@ Market state[t+1] \
 \+ regime behaviour at t \
 \+ cross-asset or exogenous drivers at t
 ```
-
 One could also map it like this
 
 ```
@@ -564,8 +543,6 @@ Could we estimate which asset has the highest probability of a positive return?
 Could this framework be applied across many different assets?
 
 Those are the kinds of questions worth exploring.
-
----
 
 ## Previous winning repos and references
 Jasper(all honors to him for the list) decided to share his list. So I guess we are simply bundling it up and sharing for everyone
