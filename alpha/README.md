@@ -28,7 +28,7 @@ As the products become more complex, the methods used to extract alpha become mo
 
 ## Diagram
 A simple visual goal is to illustrate **when to buy and when to sell**.
-![diagram](utils/alpha.png)
+![diagram](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/utils/alpha.png)
 
 ## Formula or concept
 A very simple strategy to present is the notorious mean reversion cross.
