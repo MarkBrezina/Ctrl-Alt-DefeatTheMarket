@@ -27,7 +27,7 @@ What is mispriced, relative to what, and why?
 As the products become more complex, the methods used to extract alpha become more complex too.
 
 ## Diagram
-A simple idea is this, we want to be able to illustrate when to buy and when to sell.
+A simple visual goal is to illustrate **when to buy and when to sell**.
 ![diagram](utils/alpha.png)
 
 ## Formula or concept
