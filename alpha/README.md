@@ -26,6 +26,8 @@ What is mispriced, relative to what, and why?
 
 As the products become more complex, the methods used to extract alpha become more complex too.
 
+Watching previous guys work [The road to winning prosperity IMC Prosperity 3 winners](https://www.youtube.com/watch?v=aH1aaS4mtj4)
+
 ## Diagram
 A simple visual goal is to illustrate **when to buy and when to sell**. \
 ![diagram](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/utils/alpha.png)
@@ -43,8 +45,9 @@ Sell when the 20-tick Moving average crosses below the 40-tick Moving average.
 MA20 <= MA40
 ```
 
-
 ## Code snippet
+I'll write down a simple code that has the above mean reversion strategy.
+
 
 
 ## Common mistakes
@@ -86,7 +89,6 @@ market data
 -> risk adjustment
 -> PnL / Sharpe
 ```
-
 To find alpha, we need to move away from the idea that alpha is some magical recipe from a cookbook, where adding two tablespoons of salt and 300 grams of flour somehow turns into profit.
 
 If it were that easy, everyone would be rich already.
@@ -114,7 +116,7 @@ In other words, we are not really looking at prices in isolation.
 We are looking at **expected returns conditional on structure, state, and behaviour.**
 
 
-## Specific Alphas
+## General summary of Alphas
 
 Here are some generic key words to post into chatgpt to get it to tell you everything about the topics.
 Relevant trading types to go over
@@ -138,44 +140,40 @@ A neat grouping would be:
 **Microstructure / HFT:** Market making, latency arbitrage, order flow trading \
 **Model-based mispricing:** Price discrepancy / statistical arbitrage
 
+## Specific alpha walk-throughs.
 
-Watching previous guys work [The road to winning prosperity IMC Prosperity 3 winners](https://www.youtube.com/watch?v=aH1aaS4mtj4)
+### Market making.
+Market making is different from the strategies above because it is less about taking a strong view on direction and more about **providing liquidity.**
 
+A market maker posts both:
 
-## Market making.
-What is it, how do we benefit from it?
+- a bid to buy
+- an ask to sell
 
+and tries to earn the spread between them.
 
-## Directional
-What is it, how do we benefit from it?
+The ideal cycle is:
 
+- buy slightly below fair value
+- sell slightly above fair value
+- repeat many times
 
-## Mean reversion
-What is it, how do we benefit from it?
+But market making is not free money. The main risks are:
 
+- adverse selection, where informed traders trade against your stale quotes
+- inventory risk, where you accumulate too much long or short position
+- sudden volatility, which can move price before you rebalance
 
-## Pairs Trading
-What is it, how do we benefit from it?
+So real market making is:
 
+**earn spread while managing inventory and avoiding being run over**
 
-## Volatility
-What is it, how do we benefit from it?
+In plain English:
 
-## General statistical patterns
-What is it, how do we benefit from it?
+A market maker is like a shopkeeper.
+You continuously offer to buy and sell, trying to make a small margin on lots of trades while controlling risk.
 
-
-## Pairs Trading
-Pairs trading: https://hudsonthames.org/definitive-guide-to-pairs-trading/ \
-Pairs trading: https://palomar.home.ece.ust.hk/MAFS5310_lectures/slides_pairs_trading.pdf \
-Portfolio optimization with Pairs Trading https://portfoliooptimizationbook.com/slides/slides-pairs-trading.pdf \
-QuantConnect on Pairs Trading: https://github.com/QuantConnect/Research/blob/master/Analysis/02%20Kalman%20Filter%20Based%20Pairs%20Trading.ipynb \
-AJeanis on Pairs Trading: https://github.com/AJeanis/Pairs-Trading \
-Ozenc Gungor's repo on Pairs trading: https://github.com/ozencgungor/Pairs_Trading_Kalman \
-KidQuant on Pairs trading: https://github.com/KidQuant/Pairs-Trading-With-Python/blob/master/PairsTrading.ipynb \
-Awdneyk: https://github.com/Awdneyk/stat-arb-pair-selection
-
-## Market Making.
+**Here are some additional resources for Market-making**
 Original Avellaneda Stoikov paper: https://people.orie.cornell.edu/sfs33/LimitOrderBook.pdf \
 HFT with inventory constraints and directional bets: https://arxiv.org/abs/1206.4810 \
 Avellaneda Stoikov in Python: https://github.com/fedecaccia/avellaneda-stoikov \
@@ -186,12 +184,183 @@ Ready trader go Keanekwa: https://github.com/keanekwa/Optiver-Ready-Trader-Go \
 ESkripichnikov: https://github.com/ESkripichnikov/market-making \
 QuantBeckman: https://www.quantbeckman.com/p/can-you-manage-inventoryor-is-it 
 
-## Trend
-Dual moving average crossover: https://github.com/rbhatia46/Dual-Moving-Average-Crossover-Python
+### Arbitrage
+
+Arbitrage is the cleanest concept in theory.
+
+It means exploiting a pricing inconsistency between two equivalent or closely related things.
+
+The basic idea is:
+
+- buy where something is cheap
+- sell where the same thing, or nearly the same thing, is expensive
+- lock in the difference
+
+Classic forms include:
+
+- the same asset priced differently on two exchanges
+- an ETF mispriced relative to its components
+- an option mispriced relative to the underlying and other options
+- a futures contract inconsistent with spot and carry costs
+
+True arbitrage in the pure sense is rare and usually disappears quickly.
+
+In practice, many “arbitrage” strategies are really **near-arbitrage** or **statistical arbitrage,** where the relationship is not perfectly guaranteed but is strong enough to trade.
+
+In plain English:
+
+Arbitrage is about **pricing inconsistencies.**
+You are not mainly forecasting the future. You are exploiting something that does not add up properly right now.
 
 
+### Geneneral statistical patterns
+General statistical patterns
+
+This is the broadest category.
+
+The idea is to look for **repeatable behaviours in data** that are not obvious from a single price chart. Instead of saying, “this asset feels cheap,” you are saying, “historically, when these conditions appear, a certain outcome tends to happen more often than chance.”
+
+These patterns can come from:
+- price behaviour
+- volatility behaviour
+- seasonality
+- order flow
+- cross-asset relationships
+- reactions after news or events
+- intraday timing effects
+
+So general statistical trading is really about:
+
+**find a pattern -> test whether it is real -> trade it if the expected value is positive**
+
+Examples:
+
+- prices tend to bounce after extreme short-term moves
+- volatility clusters after shocks
+- one asset tends to react a few seconds after another
+- a spread between related assets tends to close after widening
+
+This is often the foundation under many other strategies.
+
+### Pairs Trading
+Pairs trading is a form of **relative value trading.**
+
+Instead of asking whether one asset is cheap on its own, you ask whether **two related assets are mispriced relative to each other.**
+
+The idea is:
+
+- find two assets that usually move together
+- wait for them to diverge
+- buy the relatively cheap one
+- sell the relatively rich one
+- profit if the relationship normalises
+
+So you are not necessarily betting that both will rise or both will fall.
+You are betting that their **spread or relationship** will revert.
+
+Example:
+
+If two supermarket stocks usually trade in a stable relationship, but one suddenly becomes much more expensive relative to the other, you might short the expensive one and buy the cheap one.
+
+In plain English:
+
+Pairs trading is **trading the gap between related assets,** rather than trading one asset alone.
+
+**Here are some resources to go over.**
+Pairs trading: https://hudsonthames.org/definitive-guide-to-pairs-trading/ \
+Pairs trading: https://palomar.home.ece.ust.hk/MAFS5310_lectures/slides_pairs_trading.pdf \
+Portfolio optimization with Pairs Trading https://portfoliooptimizationbook.com/slides/slides-pairs-trading.pdf \
+QuantConnect on Pairs Trading: https://github.com/QuantConnect/Research/blob/master/Analysis/02%20Kalman%20Filter%20Based%20Pairs%20Trading.ipynb \
+AJeanis on Pairs Trading: https://github.com/AJeanis/Pairs-Trading \
+Ozenc Gungor's repo on Pairs trading: https://github.com/ozencgungor/Pairs_Trading_Kalman \
+KidQuant on Pairs trading: https://github.com/KidQuant/Pairs-Trading-With-Python/blob/master/PairsTrading.ipynb \
+Awdneyk: https://github.com/Awdneyk/stat-arb-pair-selection
 
 
+### Momentum trading
+
+Momentum trading is almost the opposite of mean reversion.
+
+Instead of assuming a move has gone too far, momentum assumes:
+
+**a move may continue because strength tends to attract further strength**
+
+The trader looks for evidence that something is already moving with force, and then joins that move.
+
+Examples:
+
+- buying assets breaking upward with strong participation
+- selling assets in persistent downtrends
+- following medium-term strength across sectors or futures
+
+Momentum can exist over many horizons:
+
+- seconds or minutes in microstructure
+- days or weeks in swing trading
+- months in medium-term trend following
+
+In plain English:
+
+Momentum trading means **buying strength and selling weakness,** because trends often persist longer than expected.
+
+### Mean reversion trading
+
+Mean reversion trading is based on the idea that price, spread, or some signal can move too far away from its normal level and then come back.
+
+The core belief is:
+
+**extreme moves often partially reverse**
+
+So the trader looks for:
+
+- price far above average
+- price far below average
+- spread unusually wide or narrow
+- short-term imbalance likely to fade
+
+Then the trader positions for a move back toward the mean.
+
+Examples:
+
+- selling after an unusually strong short-term spike
+- buying after a temporary overshoot downward
+- trading a spread back toward its historical average
+
+In plain English:
+
+Mean reversion is the idea that **what moved too far may snap back.**
+
+It works best when there really is a stable anchor, equilibrium, or repeated pullback behaviour.
+
+### Volatility trading
+
+Volatility trading is not mainly about predicting whether price goes up or down.
+
+It is about predicting **how much price will move.**
+
+A trader in volatility asks questions like:
+
+- Will the market be calmer or wilder than people expect?
+- Is implied volatility too high or too low compared with realised volatility?
+- Are options overpriced or underpriced relative to expected future movement?
+
+The key point is:
+
+- **directional trading cares about where price goes**
+- **volatility trading cares about how much price moves**
+
+Examples:
+
+- buying options when you think future movement will be bigger than the market expects
+- selling options when you think implied volatility is overpriced
+- trading volatility spreads across strikes, maturities, or related assets
+
+In plain English:
+
+Volatility trading is a bet on **movement intensity**, not just direction.
+
+
+## Other notes for alpha
 Because some of you seem completely convinced **that alpha is the key to godhood**, rather than something that has to coexist with inventory management, I have decided to put together a YouTube playlist and expand this page further.
 
 [IMC Inspirational videos on YouTube](https://www.youtube.com/playlist?list=PLjBE3SzJV9A3ahXCKrEXwG8uKa5fQkDMC)
