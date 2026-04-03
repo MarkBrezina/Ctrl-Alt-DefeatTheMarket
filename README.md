@@ -3,7 +3,7 @@
 
 Before anything else, I would like to acknowledge a few people.
 
-First, thank you to the IMC team for putting together such a strong challenge and opportunity, and for consistently helping participants by answering questions across a wide range of topics.
+First, thank you to the IMC team for putting together such a wonderful challenge and opportunity, and for consistently helping participants by answering questions across a wide range of topics.
 
 I would also like to thank @Tomas, @Jack, and the forum admins, who have all been incredibly helpful.
 
