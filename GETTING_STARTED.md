@@ -234,7 +234,7 @@ If you want to go further beyond Prosperity, you can also explore broader backte
 
 IMC does not recommend any specific backtester. Jasper’s backtester is from Prosperity 3, but it can still be a useful tool.
 
-I personally also use [equirag](https://prosperity.equirag.com/) as an additional check, especially when I want to inspect inventory positions and signal behaviour more carefully.
+I personally also use [equirag](https://prosperity.equirag.com/) and [vercel](https://imc-prosperity-visualizer.vercel.app/) as an additional check, especially when I want to inspect inventory positions and signal behaviour more carefully.
 
 
 ## How do you get from a very early submission into improving your performance?
@@ -436,6 +436,5 @@ One of the hardest parts of the challenge is that you are trying to compress the
 You are not competing against the biggest quant firms in the world, but you are competing against people who may find resources faster, implement ideas faster, or simply have more experience already.
 
 That can make the challenge intense, but it is also what makes it valuable.
-
 
 
