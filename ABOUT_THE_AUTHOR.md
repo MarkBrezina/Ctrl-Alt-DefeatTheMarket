@@ -54,7 +54,6 @@ A picture of me signing up and participating at the 9th London–Paris Bachelier
 </p>
 
 
-
 ## What Kind of Trader / Researcher I Am
 
 Because I come from a physics background, I naturally look at markets through the lens of dynamics: fluid flow, particle systems, aggregation, and interacting agents. That is also what led me toward mean field theory in the first place.
@@ -127,3 +126,6 @@ For now I am trying my best to stay together with my partner in London.
   <img src="utils/Mark_Julia.JPG" alt="Landing page" width="400" />
 </p>
 
+**Note:** Since November 2025, I have made every possible effort to secure a career-aligned role. By March 2026, I had to accept that financial reality comes first, and I shifted my focus toward taking any honest work available.
+
+If some see that as failure, defeat, or a loss of hope, they are fortunate enough not to have experienced the harsher sides of adult life. I hope they never have to learn firsthand that hardship, poverty, and real struggle are not abstract ideas, but very real parts of life for many people.
