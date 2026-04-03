@@ -88,10 +88,10 @@ I fully respect that many people will also want to work through the manual tradi
 
 *There will be a section added soon covering manual trading walk-throughs and recommended reading.*
 
-If you want an early **leaderboard**, you can use [this one] or [this one].  
+If you want an early **leaderboard**, you can use [this one](https://prosperity.equirag.com/) or [this one]().  
 They are not “stealing your strategy” — you are simply uploading the log from your run on IMC’s website.
 
-You may also want to sign up for the [IMC webinar: Discover Prosperity 4]().
+You may also want to sign up for the [IMC webinar: Discover Prosperity 4](https://job-boards.eu.greenhouse.io/imc/jobs/4790350101?gh_src=tt0n71b2teu).
 
 If you are in London, there may also be a chance to grab a pint and have a chat near Citadel’s offices.
 
@@ -310,7 +310,7 @@ The market does not care whether one order came from your alpha model and the ot
 
 This is why alpha, risk, and inventory cannot be designed in isolation. They must work together, otherwise one component may accidentally amplify or cancel another.
 
-[Inventory resources]()
+[Inventory resources](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/inventory)
 
 
 ### Execution
@@ -367,7 +367,7 @@ Call it **distribution, slicing,** or **VWAP-style execution**. The exact method
 
 good execution helps imperfect signals survive reality.
 
-[Execution resources]()
+[Execution resources](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/execution)
 
 ### Portfolio management
 
@@ -392,7 +392,7 @@ It is also a good way to let more systematic people outrank you.
 
 A better starting point is to think in terms of expected return, variance, correlation, and capital allocation.
 
-[Portfolio management resources]()
+[Portfolio management resources](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/portmng)
 
 
 ## Where beginners should stop, and where advanced readers should continue
