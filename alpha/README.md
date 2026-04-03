@@ -51,9 +51,7 @@ I'll write down a simple code that has the above mean reversion strategy.
 
 
 ## Common mistakes
-Many players assume that finding a good alpha, must necessarily mean that they've hit a one-hit goldmine, where nothing other than buy 1 at buy signal, sell 1 at sell signal is necessary.
-But in reality there will always be false positives and false negatives. Along with that, there is noise, random events and more.
-Most of the time alpha is good, but you will need inventory adjustments, signal strength, risk adjustments, signal combinations. Because multiple alphas may signal simultaenously. 
+Many traders mistake a strong alpha for a 'plug-and-play' goldmine, assuming execution is as simple as following binary buy and sell signals. In reality, alpha is rarely clean; it is often obscured by noise, random market events, and statistical outliers. Even with a high-quality edge, success requires sophisticated execution—managing inventory levels, calibrating signal strength, adjusting for risk, and navigating overlapping signals when multiple alphas trigger simultaneously.
 
 
 ## Where to go next
