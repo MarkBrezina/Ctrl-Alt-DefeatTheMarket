@@ -46,8 +46,109 @@ MA20 <= MA40
 ```
 
 ## Code snippet
-I'll write down a simple code that has the above mean reversion strategy.
+Here is a simple code that runs the above mean reversion strategy.
 
+```
+# -*- coding: utf-8 -*-
+"""
+@author: IMC Trading - written into a .py file and shared by Mark Brezina
+"""
+
+from datamodel import OrderDepth, TradingState, Order
+from typing import List, Dict
+import jsonpickle
+
+
+class Trader:
+
+    def bid(self):
+        return 15
+
+    def get_mid_price(self, order_depth: OrderDepth):
+        """Compute mid price from best bid and best ask."""
+        if len(order_depth.buy_orders) == 0 or len(order_depth.sell_orders) == 0:
+            return None
+
+        best_bid = max(order_depth.buy_orders.keys())
+        best_ask = min(order_depth.sell_orders.keys())
+        return (best_bid + best_ask) / 2
+
+    def run(self, state: TradingState):
+        """Main trading function."""
+        print("traderData: " + state.traderData)
+        print("Observations: " + str(state.observations))
+
+        # Load previous history from traderData
+        if state.traderData:
+            data = jsonpickle.decode(state.traderData)
+        else:
+            data = {}
+
+        result = {}
+
+        for product in state.order_depths:
+            order_depth: OrderDepth = state.order_depths[product]
+            orders: List[Order] = []
+
+            # Initialize product history if not present
+            if product not in data:
+                data[product] = {"price_history": []}
+
+            # Get current mid price
+            mid_price = self.get_mid_price(order_depth)
+            if mid_price is not None:
+                data[product]["price_history"].append(mid_price)
+
+            # Keep only last 40 ticks
+            price_history = data[product]["price_history"][-40:]
+            data[product]["price_history"] = price_history
+
+            print(f"{product} price history: {price_history}")
+
+            # Need at least 40 observations for both averages
+            if len(price_history) < 40:
+                result[product] = orders
+                continue
+
+            ma20 = sum(price_history[-20:]) / 20
+            ma40 = sum(price_history[-40:]) / 40
+
+            print(f"{product} MA20: {ma20}, MA40: {ma40}")
+
+            # Best prices
+            if len(order_depth.sell_orders) != 0:
+                best_ask = min(order_depth.sell_orders.keys())
+                best_ask_amount = order_depth.sell_orders[best_ask]
+            else:
+                best_ask = None
+                best_ask_amount = None
+
+            if len(order_depth.buy_orders) != 0:
+                best_bid = max(order_depth.buy_orders.keys())
+                best_bid_amount = order_depth.buy_orders[best_bid]
+            else:
+                best_bid = None
+                best_bid_amount = None
+
+            # Trading rule:
+            # Buy when MA20 > MA40
+            if ma20 > ma40 and best_ask is not None:
+                print("BUY", str(-best_ask_amount) + "x", best_ask)
+                orders.append(Order(product, best_ask, -best_ask_amount))
+
+            # Sell when MA20 <= MA40
+            elif ma20 <= ma40 and best_bid is not None:
+                print("SELL", str(best_bid_amount) + "x", best_bid)
+                orders.append(Order(product, best_bid, -best_bid_amount))
+
+            result[product] = orders
+
+        # Save updated state
+        traderData = jsonpickle.encode(data)
+
+        conversions = 1
+        return result, conversions, traderData
+```
 
 
 ## Common mistakes
