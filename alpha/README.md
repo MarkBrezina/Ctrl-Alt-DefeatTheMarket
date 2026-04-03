@@ -28,6 +28,7 @@ As the products become more complex, the methods used to extract alpha become mo
 
 ## Diagram
 A simple idea is this, we want to be able to illustrate when to buy and when to sell.
+![diagram](utils/alpha.png)
 
 ## Formula or concept
 A very simple strategy to present is the notorious mean reversion cross.
@@ -44,11 +45,31 @@ MA20 <= MA40
 ## Code snippet
 
 
-Plot/example result
-
 ## Common mistakes
-Where to go next
 
+## Where to go next
+In more advanced terms than "buy low, sell high", we should like to express what @maxazs presented on the discord.
+IN order to always be on the right side of the above statement, you actually want the following mathematical idea.
+
+$$
+E[r_t | s_t] > r_m
+$$ 
+
+This reads:
+
+**The expected return of your strategy, given the current market state, is greater than the market return.**
+
+Where:
+
+- $r_t$ is your return at time $t$
+- $s_t$ is the market state at time $t$
+- $r_m$ is the market return
+
+That is a much better framing of alpha.
+
+In general, most quant pipelines look something like this:
+
+```
 market data
 -> features
 -> signals
@@ -58,18 +79,36 @@ market data
 -> fills
 -> risk adjustment
 -> PnL / Sharpe
+```
+
+To find alpha, we need to move away from the idea that alpha is some magical recipe from a cookbook, where adding two tablespoons of salt and 300 grams of flour somehow turns into profit.
+
+If it were that easy, everyone would be rich already.
+
+Instead, we need to think in terms of **market dynamics** and build behaviours that can systematically extract value from them.
+
+The simplest expression is still **buy low, sell high.**
+But the more accurate formulation is:
+
+**Implement a dynamic with positive expected value.**
+
+That distinction matters.
+
+A short position, for example, is not “buy low, sell high.” It is closer to:
+
+**borrow high, return low.**
+
+Pairs trading is not just “one is low and one is high.” It is:
+
+**trade the divergence in a relationship, then reverse when that relationship normalises.**
+
+These are all expressions of **expected return distributions**, not just reactions to raw prices.
+
+In other words, we are not really looking at prices in isolation.
+We are looking at **expected returns conditional on structure, state, and behaviour.**
 
 
-
-In order to gain/dig/find and whatever you want to call it, alpha.
-We must go away from the idea that alpha is a little nice recipe from grandmama's cooking book, where adding 2 tablespoons of salt and 300 grams of flour turns into profit.
-If it was that easy, we would all be millionaires by now.
-
-We instead need to consider the dynamics(behaviours) of assets and implement behaviours that benefit or extract value.
-The simplest idea is "buy low, sell high". The actual idea mostly used is "implement dynamic with positive expected value".
-Because a short is "borrow high, return at low", and pairs trading is "borrow the low one, sell the high one -> reverse on return to correlation".
-Those are all representations of a returns distribution, not a "price is low.... ohhh what now". We are looking at expected returns, not prices.
-
+## Specific Alphas
 
 Here are some generic key words to post into chatgpt to get it to tell you everything about the topics.
 Relevant trading types to go over
@@ -147,8 +186,7 @@ Dual moving average crossover: https://github.com/rbhatia46/Dual-Moving-Average-
 
 
 
-Because you're all apparently completely insane and think that ALPHA IS THE KEY TO GODHOOD, not inventory management... I have decided to put together a youtube playlist.
-Along with an expansion to this page.
+Because some of you seem completely convinced **that alpha is the key to godhood**, rather than something that has to coexist with inventory management, I have decided to put together a YouTube playlist and expand this page further.
 
 [IMC Inspirational videos on YouTube](https://www.youtube.com/playlist?list=PLjBE3SzJV9A3ahXCKrEXwG8uKa5fQkDMC)
 
