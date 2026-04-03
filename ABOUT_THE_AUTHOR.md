@@ -97,7 +97,7 @@ You are welcome to send a message, like, or connection request, but I may not re
 If you have something genuinely worthwhile for both of us, you can contact me here:  
 **mark@brezina.dk**
 
-## About the Author
+## Another Summary
 
 I regularly attend CQF events, London Quant Group events, and any other quant-related events in London that I can access, especially when they are free.
 
