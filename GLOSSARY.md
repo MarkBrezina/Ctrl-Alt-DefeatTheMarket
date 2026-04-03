@@ -1,8 +1,7 @@
 
 # Trading Glossary
 
-Much of this glossary is adapted from the [IMC Wiki Trading Glossary](https://imc-prosperity.notion.site/trading-glossary)
-, with added notes to make the ideas easier to understand in the context of the Prosperity challenge.
+Much of this glossary is adapted from the [IMC Wiki Trading Glossary](https://imc-prosperity.notion.site/trading-glossary), with added notes to make the ideas easier to understand in the context of the Prosperity challenge.
 
 The aim of this page is to introduce players to trading concepts and jargon that appear both in real-world markets and in IMC Prosperity
 
