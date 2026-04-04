@@ -18,13 +18,19 @@ def take_best_orders(
         prevent_adverse: bool = False,
         adverse_volume: int = 0,
     ) -> (int, int):
+
+        # position limits
         position_limit = self.LIMIT[product]
 
+        # sell orders
         if len(order_depth.sell_orders) != 0:
             best_ask = min(order_depth.sell_orders.keys())
             best_ask_amount = -1 * order_depth.sell_orders[best_ask]
 
+                
             if not prevent_adverse or abs(best_ask_amount) <= adverse_volume:
+
+
                 if best_ask <= fair_value - take_width:
                     quantity = min(best_ask_amount, position_limit - position - buy_order_volume)
                     if quantity > 0:
@@ -34,11 +40,14 @@ def take_best_orders(
                         if order_depth.sell_orders[best_ask] == 0:
                             del order_depth.sell_orders[best_ask]
 
+        # buy orders
         if len(order_depth.buy_orders) != 0:
-            best_bid = max(order_depth.buy_orders.keys())
+            best_bid = max(order_depth.buy_orders.keys()) 
             best_bid_amount = order_depth.buy_orders[best_bid]
 
+                
             if not prevent_adverse or abs(best_bid_amount) <= adverse_volume:
+
                 if best_bid >= fair_value + take_width:
                     quantity = min(best_bid_amount, position_limit + position - sell_order_volume)
                     if quantity > 0:
