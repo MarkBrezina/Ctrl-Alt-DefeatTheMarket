@@ -150,10 +150,12 @@ class Trader:
         return result, conversions, traderData
 ```
 
-Do however not expect a decent increase to your PnL from this idea. It goes from -210 on the basic trader to -115000.
+Do however not expect a decent increase to your PnL from this idea. It goes from -210 on the basic trader to -115000 on the mean reverter.
 
 ## Common mistakes
 Many traders mistake a strong alpha for a 'plug-and-play' goldmine, assuming execution is as simple as following binary buy and sell signals. In reality, alpha is rarely clean; it is often obscured by noise, random market events, and statistical outliers. Even with a high-quality edge, success requires sophisticated execution—managing inventory levels, calibrating signal strength, adjusting for risk, and navigating overlapping signals when multiple alphas trigger simultaneously.
+
+With the above code, that is the assumption "strong alpha = 'plug-and-play' goldmine". Mean reversion works, but it needs considerable improvements.
 
 
 ## Where to go next
