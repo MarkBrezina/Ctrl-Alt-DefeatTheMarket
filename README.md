@@ -11,16 +11,24 @@ Special thanks also go to @Jasper. Full credit to him for the list, the backtest
 
 
 ## Updates
-A note should be made, that there has been significant updates to the **alpha** section, since I took note that this section got the most traffic from newcomers after reading the main page.
-- Getting started page has been added specifically for new comers.
-- Glossary page has been added, to assist in explaining key terminology
-- Mindset page has been added, with respect to questions on the psychological strains
-- resources page has been added, to be specifically accessible for resources and reading. More will be added here in the coming days. But it will be sporadic and divided into sections on **books**, **playlists**, **online seminars**, **forums** and so on.
-- 
+A quick note on recent and upcoming updates:
 
-More updates will come out on each section separately, because there was a desire to have the repo back up quickly.
-Next will be updates on **market basics**, **Trader architecture**, in order to assist in simply addressing the coding system, in ways IMC hasn't done specifically. In this way I will attempt to give a simple idea of memory, calculation and setting up your own architecture/infrastructure.
+I’ve made significant updates to the **alpha** section after noticing that it was getting the most traffic from newcomers coming from the main page.
 
+So far, I’ve added:
+
+- **Getting Started** — a page aimed specifically at newcomers
+- **Glossary** — to help explain key terminology
+- **Mindset** — added in response to questions around the psychological strain involved in this space
+- **Resources** — a dedicated page for reading material and useful references, which will gradually be expanded with sections such as **books, playlists, online seminars, forums**, and more
+- **Teammates and Roles** — to help with the basic “I want to join a team” / “I want a teammate” matching questions on the Discord server
+- **About the Author** — for those who want a bit more context than what they may find from a quick look at my LinkedIn
+
+More updates will follow for each section individually. These were pushed out first because I wanted to get the repo back online quickly.
+
+The next areas I plan to expand are **market basics** and **trader architecture**. The goal there is to give a simpler explanation of the coding system in ways that IMC does not currently do, especially around ideas like memory, calculation flow, and setting up your own architecture or infrastructure.
+
+After that, I’ll move further into the **research** section, where I’ll walk through some of my own more advanced ideas. I won’t be sharing exact solutions, since I do not want to give away my edge too early, but I will still cover a number of important details that may be useful to others.
 
 ## What this guide is
 
