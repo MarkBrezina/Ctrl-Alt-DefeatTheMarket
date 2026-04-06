@@ -137,6 +137,8 @@ Ultimately, we are judged by the final PnL.
 
 To go through this in more detail, see the [Getting Started](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/GETTING_STARTED.md) file.
 
+**note:** participation beyond round 3, is based on a set limit for Xirecs, you must have reached 200K by round 3.
+
 ## Strategy building and developing serious submissions
 
 If you have already read the *Getting Started* section — or simply want to jump straight into strategy development — this is where the real work begins.
