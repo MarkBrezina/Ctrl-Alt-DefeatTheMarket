@@ -11,10 +11,14 @@ Special thanks also go to @Jasper. Full credit to him for the list, the backtest
 
 Also a thanks to @Fabian, @oats and @mr. nobody for being active members of the discord.
 
-**Meet-up in London, 13th and 14th**
+### Meet-up in London, 13th and 14th
 Any UKers open to meet on the 13th or 14th of April. I will be at the railway tavern near liverpool street in London probably from 5PM onward. 
 
-The spot is picked due to location and it is around the corner from IMC's offices in London.
+The spot is picked due to location and it is around the corner from IMC's offices in London.¨¨
+
+### Updates
+- **research** has now had its initial update, where I have written notes on the algo parts for each rounds from previous years
+- **market basics** has also had its initial update, going over trading as a business
 
 ## Quick steps if you're new or feeling lost
 
