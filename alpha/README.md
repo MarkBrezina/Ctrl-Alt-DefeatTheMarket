@@ -160,7 +160,7 @@ With the above code, that is the assumption "strong alpha = 'plug-and-play' gold
 
 ## Where to go next
 In more advanced terms than "buy low, sell high", we should like to express what @maxazv presented on the discord.
-IN order to always be on the right side of the above statement, you actually want the following mathematical idea.
+In order to always be on the right side of the above statement, you actually want the following mathematical idea.
 
 $$
 E[r_t | s_t] > r_m
