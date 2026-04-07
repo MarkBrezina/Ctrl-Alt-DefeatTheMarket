@@ -9,6 +9,12 @@ I would also like to thank @Tomas, @Jack, and the forum admins, who have all bee
 
 Special thanks also go to @Jasper. Full credit to him for the list, the backtester, and the work he has done around IMC Prosperity. He chose to share his work openly, and this guide builds on that same spirit by gathering useful resources and making them easier to access.
 
+Also a thanks to @Fabian, @oats and @mr. nobody for being active members of the discord.
+
+**Meet-up in London, 13th and 14th**
+Any UKers open to meet on the 13th or 14th of April. I will be at the railway tavern near liverpool street in London probably from 5PM onward. 
+
+The spot is picked due to location and it is around the corner from IMC's offices in London.
 
 ## Quick steps if you're new or feeling lost
 
