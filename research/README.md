@@ -16,80 +16,77 @@ Round 1 typically introduces a simple market structure: one stable product and o
 
 ### IMC 3
 
-Round 1 introduced Rainforest Resin, Kelp, and Squid Ink.
+Round 1 introduced **Rainforest Resin, Kelp,** and **Squid Ink.**
 
-Rainforest Resin behaved like a highly stable asset with fair value near 10,000. The strategy was simple: market take when quotes were clearly mispriced relative to fair value, and otherwise market make inside the spread. Standing orders at fair value were also useful for inventory management.
-Kelp showed mild drift and modest volatility. A persistent market maker’s mid-price served as a good proxy for fair value, so the same style of market making and taking worked well here too.
-Squid Ink was much more volatile, with large short-term swings and little obvious structure at first. Standard indicators such as z-scores, breakout logic, and MACD did not provide a reliable edge. The eventual adjustment was to reduce position sizing and introduce a spike-detection rule based on rolling standard deviation, trading against unusually large moves. This significantly stabilized PnL.
+- **Rainforest Resin** behaved like a highly stable asset with fair value near 10,000. The strategy was simple: market take when quotes were clearly mispriced relative to fair value, and otherwise market make inside the spread. Standing orders at fair value were also useful for inventory management.
+- **Kelp** showed mild drift and modest volatility. A persistent market maker’s mid-price served as a good proxy for fair value, so the same style of market making and taking worked well here too.
+- **Squid Ink** was much more volatile, with large short-term swings and little obvious structure at first. Standard indicators such as z-scores, breakout logic, and MACD did not provide a reliable edge. The eventual adjustment was to reduce position sizing and introduce a spike-detection rule based on rolling standard deviation, trading against unusually large moves. This significantly stabilized PnL.
 
 ### IMC 2
 
-Round 1 introduced AMETHYSTS and STARFRUIT.
+Round 1 introduced **AMETHYSTS** and **STARFRUIT.**
 
-AMETHYSTS behaved as the stable asset, with trading centered around fair value and order-book mispricings.
-STARFRUIT was the dynamic asset, requiring more adaptive estimation of fair value.
-The core framework combined market making under normal conditions with market taking when quotes were clearly favorable.
-Inventory control mattered heavily, and the team experimented with theoretical execution models, though simpler approaches ultimately worked just as well.
+- **AMETHYSTS** behaved as the stable asset, with trading centered around fair value and order-book mispricings.
+- **STARFRUIT** was the dynamic asset, requiring more adaptive estimation of fair value.
+- The core framework combined **market making** under normal conditions with **market taking** when quotes were clearly favorable.
+- Inventory control mattered heavily, and the team experimented with theoretical execution models, though simpler approaches ultimately worked just as well.
 
 ### IMC 1
 
-Round 1 featured PEARLS and BANANAS.
+Round 1 featured **PEARLS** and **BANANAS.**
 
-PEARLS were essentially stationary around 10,000, making them well suited for simple market making and market taking around a fixed fair value.
-BANANAS were more directional, and short-horizon linear regression on recent prices was used to predict near-term movement.
-The result was a classic split: stationary asset traded around fair value, dynamic asset traded with predictive signals.
+- **PEARLS** were essentially stationary around 10,000, making them well suited for simple market making and market taking around a fixed fair value.
+- **BANANAS** were more directional, and short-horizon linear regression on recent prices was used to predict near-term movement.
+- The result was a classic split: stationary asset traded around fair value, dynamic asset traded with predictive signals.
 
 
 ## Round 2
-Core pattern
+**Core pattern**
 
-Round 2 generally expands beyond a single dynamic asset and introduces either cross-asset relationships, location arbitrage, or basket structures.
+Round 2 generally expands beyond a single dynamic asset and introduces either **cross-asset relationships**, **location arbitrage**, or **basket structures**.
 
 ### IMC 3
 
-Round 2 introduced Croissants, Jams, Djembes, and two baskets: PICNIC_BASKET1 and PICNIC_BASKET2.
-
-The main opportunity came from trading the difference between basket prices and their synthetic values from constituents.
-The strongest signal was mean reversion in the basket premium, rather than forecasting the underlying products directly.
-The final strategy relied on simple, robust threshold trading, with light parameter tuning and some signal adjustment using known trader behavior.
-Position limits prevented perfect hedging, so capital allocation across the two baskets and leftover market making became important.
+Round 2 introduced **Croissants, Jams, Djembes,** and two baskets: **PICNIC_BASKET1** and **PICNIC_BASKET2.**
+- The main opportunity came from trading the difference between **basket prices** and their **synthetic values** from constituents.
+- The strongest signal was mean reversion in the basket premium, rather than forecasting the underlying products directly.
+- The final strategy relied on **simple, robust threshold trading**, with light parameter tuning and some signal adjustment using known trader behavior.
+- Position limits prevented perfect hedging, so capital allocation across the two baskets and leftover market making became important.
 
 ### IMC 2
 
-Round 2 introduced ORCHIDS plus environmental and transport variables.
-
-While there appeared to be many predictive features, they mostly turned out to be distractions.
-The real edge came from understanding the market mechanism: profitable cross-island arbitrage between the local and South Archipelago markets.
-Execution quality and quote placement mattered more than forecasting.
+Round 2 introduced **ORCHIDS** plus environmental and transport variables.
+- While there appeared to be many predictive features, they mostly turned out to be distractions.
+- The real edge came from understanding the market mechanism: profitable **cross-island arbitrage** between the local and South Archipelago markets.
+- Execution quality and quote placement mattered more than forecasting.
 
 ### IMC 1
 
-Round 2 introduced pair trading opportunities such as COCONUTS and PINA_COLADAS.
-
-The core idea was spread trading between related products.
-Momentum approaches were considered, but relative-value trading proved stronger and more reliable.
+Round 2 introduced **pair trading** opportunities such as **COCONUTS** and **PINA_COLADAS**.
+- The core idea was spread trading between related products.
+- Momentum approaches were considered, but relative-value trading proved stronger and more reliable.
 
 ## Round 3
-Core pattern
+**Core pattern**
 
-Round 3 often introduces derivatives or more structured relative-value products.
+Round 3 often introduces **derivatives** or more structured relative-value products.
 
 ### IMC 3
 
-Round 3 introduced Volcanic Rock and five Volcanic Rock Vouchers, effectively options.
+Round 3 introduced **Volcanic Rock** and five **Volcanic Rock Vouchers**, effectively options.
 
-The strongest edge came from modeling the volatility smile and identifying implied-volatility mispricings.
-This supported an IV scalping strategy using fair values derived from Black-Scholes.
-A separate mean-reversion signal existed in the underlying, but it was noisier and less reliable.
-The final approach combined strong options-theory-based trading with limited mean-reversion exposure for diversification and relative-risk control.
+- The strongest edge came from modeling the **volatility smile** and identifying implied-volatility mispricings.
+- This supported an **IV scalping** strategy using fair values derived from Black-Scholes.
+- A separate mean-reversion signal existed in the underlying, but it was noisier and less reliable.
+- The final approach combined strong options-theory-based trading with limited mean-reversion exposure for diversification and relative-risk control.
 
 ### IMC 2
 
-Round 3 introduced GIFT_BASKET, CHOCOLATE, STRAWBERRIES, and ROSES.
+Round 3 introduced **GIFT_BASKET, CHOCOLATE, STRAWBERRIES,** and **ROSES.**
 
-The main opportunity was again the basket premium, defined as basket price minus synthetic price.
-The spread appeared to mean revert around a stable premium, making threshold or modified z-score trading effective.
-The team prioritized robust spread trading over full constituent hedging to keep implementation simple and reduce costs.
+- The main opportunity was again the **basket premium**, defined as basket price minus synthetic price.
+- The spread appeared to mean revert around a stable premium, making threshold or modified z-score trading effective.
+- The team prioritized robust spread trading over full constituent hedging to keep implementation simple and reduce costs.
 
 ### IMC 1
 
