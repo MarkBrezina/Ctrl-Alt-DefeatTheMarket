@@ -197,6 +197,9 @@ If it were that easy, everyone would be rich already.
 
 Instead, we need to think in terms of **market dynamics** and build behaviours that can systematically extract value from them.
 
+*here is a simple picture of some of the diagrams I utilise to find* **market dynamics**
+![market dynamics]()
+
 The simplest expression is still **buy low, sell high.**
 But the more accurate formulation is:
 
