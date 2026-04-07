@@ -14,15 +14,15 @@ Special thanks also go to @Jasper. Full credit to him for the list, the backtest
 
 If you're completely new and just need a place to start, use the pages below as an index. Otherwise, I recommend reading the rest of the guide as well.
 
-- [**Getting Started**] — a page designed specifically for newcomers
-- [**Glossary**] — explanations of key terms and concepts
-- [**Alpha**] — ideas on what each round is about and which strategies you may want to explore
-- [**Mindset**] — added in response to questions about the psychological strain involved in this space
-- [**Resources**] — a dedicated page for reading material and useful references, to be expanded over time with sections such as **books, playlists, online seminars, forums**, and more
-- [**Teammates and Roles**] — a guide for common Discord questions like “I want to join a team” or “I want a teammate”
-- [**Market Basics**] — an introduction to how trading works, why strategies sometimes fail, and how to improve
-- [**Trader Architecture**] — a simpler explanation of the coding structure than IMC currently provides, especially around ideas like memory, calculation flow, and building your own architecture or infrastructure
-- [**Research**] — for deeper discussion of the mathematical side of the markets
+- [**Getting Started**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/GETTING_STARTED.md) — a page designed specifically for newcomers
+- [**Glossary**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/GLOSSARY.md) — explanations of key terms and concepts
+- [**Alpha**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/alpha/README.md) — ideas on what each round is about and which strategies you may want to explore
+- [**Mindset**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/MINDSET.md) — added in response to questions about the psychological strain involved in this space
+- [**Resources**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/RESOURCES.md) — a dedicated page for reading material and useful references, to be expanded over time with sections such as **books, playlists, online seminars, forums**, and more
+- [**Teammates and Roles**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/TEAMMATES_AND_ROLES.md) — a guide for common Discord questions like “I want to join a team” or “I want a teammate”
+- [**Market Basics**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/market_basics/README.md) — an introduction to how trading works, why strategies sometimes fail, and how to improve
+- [**Trader Architecture**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/trader%20architecture/README.md) — a simpler explanation of the coding structure than IMC currently provides, especially around ideas like memory, calculation flow, and building your own architecture or infrastructure
+- [**Research**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/research/README.md) — for deeper discussion of the mathematical side of the markets
 
 ## What this guide is
 
