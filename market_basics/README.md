@@ -1,3 +1,6 @@
+**This is a preliminary writeup, there will be significiant improvements.**
+
+
 Here I want to address a phenomenon I see often among newer participants.
 Some more advanced people fall into this group as well, but far less often than those who are just starting out.
 
