@@ -29,7 +29,7 @@ Round 1 introduced **AMETHYSTS** and **STARFRUIT.**
 - **AMETHYSTS** behaved as the stable asset, with trading centered around fair value and order-book mispricings.
 - **STARFRUIT** was the dynamic asset, requiring more adaptive estimation of fair value.
 - The core framework combined **market making** under normal conditions with **market taking** when quotes were clearly favorable.
-- Inventory control mattered heavily, and the team experimented with theoretical execution models, though simpler approaches ultimately worked just as well.
+- Inventory control mattered heavily, and the teams experimented with theoretical execution models, though simpler approaches ultimately worked just as well.
 
 ### IMC 1
 
