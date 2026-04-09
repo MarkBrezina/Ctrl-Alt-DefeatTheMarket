@@ -11,6 +11,82 @@ In this round, two assets were traded: **PEARLS** and **BANANAS.**
 
 ## Code
 
+At a high level, all of them:
+
+### 1. Use the same event-driven IMC trader structure
+Each solution defines a Trader class with a run(state) method that reads the current TradingState and returns a dictionary of Order objects by product. So they all follow the same competition interface: observe the order book, decide, and send orders.
+
+### 2. Treat each product with a separate logic
+All versions split behaviour by asset. In practice, **PEARLS** and **BANANAS** are handled differently because they have different price dynamics:
+
+- **PEARLS** are treated as a stable/fair-value product around 10,000
+- **BANANAS** are treated as a more dynamic product requiring some form of forecasting or adaptive pricing
+
+So the common idea is: **different assets need different strategies.**
+
+### 3. Use market microstructure directly from the order book
+All the code reads:
+
+- best bid / best ask
+- buy and sell order dictionaries
+- current position
+- available liquidity
+
+That means none of these are purely abstract “signal-only” strategies. They all make decisions from the actual order book and available executable prices.
+
+### 4. Enforce position limits carefully
+A major shared feature is inventory control. Every implementation keeps track of current position and ensures it does not exceed the allowed max long or short position. This is one of the strongest common themes in all the code: **profit-seeking is always constrained by risk/inventory bounds.**
+
+### 5. Combine quoting and taking logic
+All three approaches, in one way or another, are about deciding:
+
+when to **take** liquidity because the current price looks favourable
+when to **make** liquidity by posting bids and asks around an estimated fair price
+
+So the common trading pattern is not just prediction, but **prediction plus execution logic.**
+
+### 6. Depend on an internal estimate of fair value
+Each codebase has some notion of “acceptable” price:
+
+- fixed fair value for PEARLS
+- moving/estimated fair value for BANANAS via averages, EMA, or regression-like prediction
+
+That is probably the single most important conceptual commonality:
+they all compare the current market prices to an internally estimated fair value, then trade when the market deviates enough.
+
+### 7. Maintain memory across timesteps
+All of them store some form of historical information:
+
+- cached bids/asks
+- past prices
+- EMA
+- rolling banana price cache
+- PnL and trade history
+
+So they are not purely reactive to the current book; they are **stateful strategies.**
+
+### 8. Use simple, interpretable models rather than overly complex ones
+Even the more advanced code is still built from understandable pieces:
+
+fixed fair value
+moving averages / EMA
+short rolling regression / cached-price forecast
+simple undercutting of current best bid/ask
+inventory skew
+
+So the common style is practical and competition-oriented: **simple models with direct execution rules.**
+
+
+
+
+
+
+
+
+
+
+
+
 ```
 from typing import Dict, List
 from datamodel import Order, TradingState
