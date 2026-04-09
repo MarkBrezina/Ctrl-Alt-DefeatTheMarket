@@ -238,7 +238,7 @@ That could include ideas such as:
 
 At the time of writing, Round 1 has not started yet, so we do not know what new products or mechanics it will introduce.
 
-In the meantime, here is a simple **1K profit** `.py` file for **EMERALDS** only: [Try experimenting](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/EMERALDS.py)
+In the meantime, here is a simple **1K profit** `.py` file for **EMERALDS** only: [Try experimenting](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/trader%20architecture/EMERALDS.py)
 
 
 ## The five pillars: Alpha, Risk, Inventory, Execution, Portfolio Management
