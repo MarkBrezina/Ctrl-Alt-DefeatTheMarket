@@ -52,6 +52,211 @@ For strong teams, this produced highly competitive results, with top placements 
 ## with the codes
 
 
+# General themes across the code
+## 1. Everything is built around fair value
+
+The central idea in all of these implementations is that the trader first tries to estimate a **fair price**, and then decides what to do relative to that price.
+
+That fair value is handled in different ways:
+
+- **AMETHYSTS** usually gets a fixed fair value, typically 10,000
+- **STARFRUIT** gets a dynamic fair value, often based on:
+    - order book structure,
+    - most popular bid/ask levels,
+    - rolling history,
+    - reversion assumptions,
+    - or short-term regression
+
+So the dominant philosophy is:
+
+> determine fair value first, then trade mispricings around it.
+
+## 2. Market taking and market making are combined
+
+A second major theme is that these strategies are not only passive market makers and not only aggressive takers. They usually do both:
+
+- **Market take** when there is clear value
+  for example:
+  - buy asks below fair
+  - sell bids above fair
+- **Market make** when no obvious mispricing is present
+  for example:
+  - place resting bids below fair
+  - place resting asks above fair
+
+So the general structure is:
+
+> take free edge immediately, otherwise quote around fair and wait.
+
+That is probably the single most common pattern in all the code.
+
+## 3. Inventory management is treated as essential
+
+A huge shared theme is that **position is not just a constraint, it is part of the strategy.**
+
+This shows up in several ways:
+
+- hard position limits
+- soft position limits
+- clearing or liquidation logic
+- quote skewing when inventory becomes too long or too short
+- reducing size when close to bounds
+- taking zero-EV or near-zero-EV trades just to free up capacity
+
+So these traders are not saying:
+
+> “I found alpha, now trade it.”
+
+They are really saying:
+
+> “I found alpha, but I must preserve room to keep trading it.”
+
+This is one of the strongest recurring ideas in the code.
+
+## 4. Order book microstructure matters more than simple price series
+
+These implementations rely heavily on the **shape of the book**, not just the mid-price.
+
+Common order book features include:
+
+- best bid / best ask
+- spread
+- maximum-volume quote levels
+- top 1–3 levels of the book
+- VWAP
+- large “market-maker-like” quotes
+- depth at specific prices
+- historical depth structure
+
+So a major theme is:
+
+> the true signal may be hidden in liquidity structure, not just in last price or raw mid.
+
+This is especially important for STARFRUIT, where many teams seem to distrust the raw mid and prefer a more robust fair-value proxy from the book.
+
+## 5. STARFRUIT is treated as noisy but locally predictable
+
+Across these codebases, STARFRUIT is not treated as random chaos, but also not as something with a deeply stable constant value like AMETHYSTS.
+
+Instead, the general view is:
+
+- it moves,
+- it is noisy,
+- but it has enough short-term local structure to estimate a reasonable fair value.
+
+Different teams express this differently:
+
+- mean reversion adjustment
+- popular bid/ask midpoint
+- regression on recent quotes
+- moving averages
+- market-maker midpoint
+
+But the common belief is:
+
+> STARFRUIT cannot be priced statically, but it can be priced approximately from recent local information.
+
+## 6. Execution quality matters a lot
+
+These teams are not just generating a direction like “buy” or “sell.” They care about **how** the order is placed.
+
+That includes:
+
+- pennying the best quote
+- joining an existing quote
+- choosing a default edge
+- undercutting or outbidding by 1 tick
+- deciding when to cross the spread versus rest passively
+- using “popular” price levels
+- avoiding adverse fills from very large quotes
+
+So another major theme is:
+
+prediction alone is not enough; quote placement is a large part of the edge.
+
+## 7. Many strategies are rule-based and competition-practical
+
+Even when some code uses math-heavy language or models, most of it still ends in a very practical rule-based engine.
+
+Examples:
+
+- if price < fair, buy
+- if price > fair, sell
+- if inventory too long, make ask more aggressive
+- if inventory too short, make bid more aggressive
+- if quote near fair, join; otherwise penny
+- if large order looks adverse, ignore it
+
+So the code is generally:
+
+- **simple enough to run reliably**
+- **interpretable**
+- **tuned for competition conditions**
+- **less academic than it first appears**
+
+Even the more sophisticated pieces are usually turned into direct quoting rules.
+
+## 8. Persistent memory across timesteps is important
+
+A lot of these strategies carry information forward:
+
+- traderData
+- cached book history
+- last STARFRUIT fair
+- rolling windows
+- recent timestamps and prices
+- historical order depth arrays
+- liquidation state windows
+
+So these are not one-step stateless bots. They are **stateful**, and that matters for:
+
+- prediction,
+- smoothing,
+- inventory handling,
+- and estimating fair more robustly.
+
+
+## 9. AMETHYSTS and STARFRUIT are consistently separated by regime
+
+Another very strong theme is the product split:
+
+- **AMETHYSTS**
+  treated as stable, stationary, and ideal for fixed fair-value market making
+- **STARFRUIT**
+  treated as dynamic, noisy, and needing adaptive fair-value estimation
+
+So the code repeatedly reflects a broader principle:
+
+> different market regimes need different modelling assumptions.
+
+This is one of the clearest shared design patterns.
+
+### 10. Risk control is embedded directly into execution code
+
+Risk control is not a separate module here. It is built directly into order logic.
+
+You see that in:
+
+- checking remaining buy/sell capacity before every order
+- updating real-time position after hypothetical fills
+- limiting order size by residual capacity
+- liquidation procedures
+- adverse-selection filters
+- avoiding fills when size looks dangerous
+
+So the code is not:
+
+> alpha first, risk later.
+
+It is:
+
+> every order must already satisfy risk logic at creation.
+
+
+
+
+
+
 ```
 from datamodel import OrderDepth, UserId, TradingState, Order
 from typing import List
