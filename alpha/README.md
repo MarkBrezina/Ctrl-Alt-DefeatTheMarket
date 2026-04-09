@@ -1,3 +1,5 @@
+**Note:** It is worth considering that it seems we neither have market impact or transaction fees to pay.
+
 
 ## Plain-English explanation
 Alpha is in its simplicity a description for "how do we make money in the markets".
