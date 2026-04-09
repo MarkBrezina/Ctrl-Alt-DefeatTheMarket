@@ -227,6 +227,41 @@ This team built the **most aggressive and advanced trading engine**, with regres
 
 ## Direct comparison
 
+Comparing Team Approaches
+
+Although all three teams follow the same basic IMC trading structure, their implementations differ quite a lot in style, complexity, and trading philosophy.
+
+### Team 1 — Modular strategy framework
+
+The first team built the cleanest and most structured codebase. Their design separates the trader into reusable strategy classes, with a base Strategy class and product-specific subclasses such as FixedStrategy for PEARLS and CrossStrategy for BANANAS. The Trader class mostly acts as a coordinator that resets state and delegates trading decisions to the relevant product strategy.
+
+For PEARLS, they use a simple fixed fair-value idea: buy below 10,000 and sell above 10,000. For BANANAS, they cache recent bids and asks, compute weighted averages from recent order book data, and trade when the current market deviates sufficiently from those averages.
+
+This approach is strong from a software-engineering perspective. It is easy to read, extend, and maintain. However, the actual trading logic is relatively simple, especially for BANANAS, and appears less execution-focused than the other teams.
+
+In essence: Team 1 prioritised clean architecture and reusable strategy design.
+
+### Team 2 — Simple market making with EMA anchoring
+
+The second team used a much more compact and practical design. Instead of building multiple strategy classes, they kept the logic inside a single Trader class, with one function for PEARLS and another for BANANAS. They also explicitly track positions, cash, PnL, and EMA prices.
+
+Their PEARLS strategy is straightforward market making: post a bid just below 10,000 and an ask just above 10,000. Their BANANAS strategy uses an exponential moving average as a dynamic fair value, then shifts quotes depending on whether the trader is flat, long, or short. This means the strategy is not only adaptive to price movement, but also to inventory.
+
+Compared with Team 1, this code is less modular, but it is very readable and robust. It also introduces a more practical inventory-aware quoting style, especially for BANANAS.
+
+In essence: Team 2 prioritised simplicity, robustness, and inventory-aware market making around EMA-based fair value.
+
+### Team 3 — Advanced competition-style execution engine
+
+The third team built the most sophisticated and aggressive trading system. Their code is much larger, more monolithic, and clearly geared toward extracting as much edge as possible rather than being easy to maintain. It supports many products beyond PEARLS and BANANAS, stores extensive internal state, tracks PnL and traded volume, and even keeps information about other participants.
+
+For PEARLS, they combine market taking and market making, while also undercutting existing quotes and adjusting behaviour based on current inventory. For BANANAS, they use a rolling cache of recent mid-prices and apply a hard-coded regression model to predict the next price. This forecast is then converted into acceptable bid and ask bounds, which guide both taking and making logic.
+
+This is the most execution-heavy of the three approaches. It includes queue-improvement behaviour, stronger inventory control, more detailed price logic, and a much more explicit forecasting model for BANANAS. The tradeoff is that the code is harder to read, harder to debug, and less elegant than the other two approaches.
+
+In essence: Team 3 prioritised performance, predictive execution, and trading sophistication over code simplicity.
+
+
 ### Architecture
 - Team 1: best software structure, modular classes
 - Team 2: simplest single-class design
