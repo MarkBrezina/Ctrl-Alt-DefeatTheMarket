@@ -1,157 +1,295 @@
+## Detailed Round 1 Summary
 
-Round 1: Market Making
-Rainforest Resin
-Rainforest Resin was the simplest and most beginner-friendly product in Prosperity 3, perfectly suited to teach the fundamentals of market making. The product’s true price was permanently fixed at 10,000, meaning there were no intrinsic price movements to worry about. This setup clearly demonstrated the roles of makers and takers: takers would cross the true price by either buying above 10,000 or selling below it, while makers posted passive orders hoping to be matched. The only thing that mattered for profitability here was the distance between the trade price and the true price — commonly referred to as the "edge." In short, the further you could buy below 10,000 or sell above 10,000, the better.
+Round 1 introduced three products — **Rainforest Resin, Kelp,** and **Squid Ink** — and although all three traded through the same order-book mechanics, they behaved very differently. As a result, teams often ended up using different combinations of **fair-value estimation, market taking, market making, and inventory management** depending on the product.
 
-A key insight not just for Rainforest Resin but for all Prosperity products was understanding how the simulation handled order flow. At the start of every new timestep, the simulation first cleared all previous orders. Then, it sequentially processed new submissions: first some deep-liquidity makers, then occationally some takers, then our own bot’s actions (take or make), followed by other bots — usually more takers. This structure meant that speed and order cancellation were irrelevant: you had a full snapshot of the book and could submit any combination of passive or aggressive orders without racing against anyone. For Rainforest Resin, this confirmed that all focus should be on carefully optimizing the edge versus fill probability trade-off.
+A broad lesson from the round was that success did not come from complexity for its own sake. The strongest approaches usually began by understanding the market structure properly: how orders were matched, how long orders remained in the book, how positions constrained future trading, and how fair value could best be approximated from the visible order book. Once those mechanics were understood, the product-specific strategy became much clearer.
 
-Figure 1: Rainforest Resin Orderbook over Time
-Dynamic dashboard
-Snippet of orderbook over time for Rainforest Resin. Black stars are our quotes. Orange crosses are fills we got, profitable opportunities we immediately took, or trades at 10,000 we used to unwind inventory.
-Final Strategy
-Our final strategy for Rainforest Resin was straightforward. Each timestep, we first immediately took any favorable trades available — buying below 10,000 or selling above it. Afterward, we placed passive quotes slightly better than any existing liquidity (existing orders in orderbook): overbidding on bids and undercutting on asks while maintaining positive edge. If inventory became too skewed, we flattened it at exactly 10,000 to free up risk capacity for the next opportunities. No sophisticated logic or aggressiveness was needed due to the stable true price and the clean snapshot-based trading model.
+## 1. Rainforest Resin
 
-Anyone could have come up with this approach by carefully studying the competition's matching rules and observing the environment during the tutorial round. Realizing that the true price was constant, fills were processed sequentially, and that orders only lived for one timestep simplified the problem dramatically. Having a basic visualization of price levels and logging fill quality would have made it even more obvious. Rainforest Resin alone consistently contributed around 39,000 SeaShells per round to our total PnL.
+Rainforest Resin was by far the simplest product of the round and served as the clearest demonstration of basic market-making principles.
 
+Its true or fair value was effectively fixed at 10,000 and did not drift in any meaningful way. That meant there was no real forecasting problem. There was no need to estimate trend, predict next-step movement, or identify hidden dynamics. The only thing that mattered was whether the currently available prices in the market were favourable relative to this known fair value.
 
-Kelp
-Kelp was very similar in nature to Rainforest Resin, with the only major difference being that its price could move slightly from one timestep to the next. Instead of a fixed true price like Rainforest Resin, Kelp's true price followed a slow random walk. However, this movement was minor enough that the basic structure of the problem remained unchanged. Buyers and sellers still interacted as takers when crossing the fair price, and makers earned profits based on how far their trades deviated from the true price at the moment of execution.
+That naturally split trading into two simple activities:
 
-The critical insight for Kelp was recognizing that, despite small movements, the future price was essentially unpredictable. Once teams realized that takers lacked predictive power and that the next true price could not be systematically forecasted, it became clear that the best available estimate for the true price was simply the current one. In fact, while there was a minor technical edge — stemming from the fact that the true price was internally a floating-point value and orders could only be posted at integer levels (creating slight mean-reversion tendencies after ticks) — this effect was too small to materially alter strategy. Just like with Rainforest Resin, the optimal approach was to treat the WallMid as the fair price and quote around it.
+### Market taking
 
-Figure 2a: Kelp Orderbook over Time (Raw)
-Dynamic dashboard
-Same as Figure 1, but showing Kelp's price movement over time.
-Figure 2b: Kelp Orderbook over Time (Normalized)
-Static, normalized dashboard
-Same as Figure 2a, but with prices normalized by the Wall Mid indicator to make the series stationary. Notice how it resembles Rainforest Resin, but with a tighter bid-ask spread.
-Final Strategy
-Our final strategy for Kelp was nearly identical to that for Rainforest Resin. At each timestep, we first immediately took any favorable trades available relative to the current wall mid, then placed slightly improved passive orders (overbidding and undercutting) around the fair price. If inventory became too large, we neutralized it by trading at zero edge relative to the current price estimate. No major changes were needed compared to the first product.
+- If an ask appeared below **10,000**, it was profitable to buy it.
+- If a bid appeared above **10,000**, it was profitable to sell into it.
 
-Teams that approached Kelp correctly would have first verified whether takers or the market exhibited any predictability, either through simple empirical analysis or by observing that naive strategies (like quoting around the current price) worked well. Realizing that there was no meaningful adverse selection risk meant that treating Kelp identically to Rainforest Resin was the optimal path. On average, Kelp generated around 5,000 SeaShells per round, primarily limited by the tighter spreads compared to the first product.
+These trades were essentially direct arbitrage relative to the known true price. Since the product itself was stable, capturing these mispricings was low risk and mechanically attractive.
 
+### Market making
 
-Squid Ink
-Squid Ink differed from the previous two products mainly in that it had a tighter bid-ask spread relative to its average movement, combined with occasional sharp price jumps. This made pure market-making less attractive, not because of systematic losses, but because it introduced higher variance in realized PnL. In other words, fills could swing more widely in value depending on unpredictable price jumps, even if there was no predictable adverse selection in the classic sense. Officially, the product was described as mean-reverting in the short term, suggesting that mean-reversion strategies might work. However, after investigating the market dynamics more carefully, we discovered an entirely different and more reliable opportunity.
+Because obvious mispricings did not happen at every moment, teams also made markets around 10,000 by posting passive bids below fair value and passive asks above fair value. The key question here became how far away from fair value to quote.
 
-Our main insight was that one of the anonymous bot traders consistently exhibited a strikingly predictable pattern: buying 15 lots at the daily low and selling 15 lots at the daily high. We observed this behavior early on, without initially knowing who the trader was. It was only in the final round — when trader IDs were temporarily visible — that we learned this trader was named Olivia. Anticipating this kind of behavior and designing logic to detect it gave us a clear edge. Without revealing our exact identification method (to avoid encouraging blind copying), the general approach involved tracking the daily running minimum and maximum. When a trade occurred at a daily extreme — and in the expected direction relative to the mid price — we flagged it as a signal and positioned accordingly. False positives were managed by monitoring for corresponding new extrema that contradicted earlier signals.
+That gave rise to the classic market-making tradeoff:
 
-Figure 3a: Squid Ink Prices with Informed Trader
-Dynamic dashboard
-This plot shows that Olivia bought exactly at the daily minimum and sold exactly at the daily maximum.
-Figure 3b: Squid Ink Prices with Anonymous Trades
-Static, normalized dashboard
-This plot filters all anonymous trades to only show trades with quantity = 15, as it appeared during early rounds. Careful teams could have spotted this pattern and identified Olivia's behavior during Rounds 1–4.
-Final Strategy
-Our final strategy for Squid Ink focused purely on following this daily-extrema trading behavior, dynamically updating our positions based on detected trades and resetting when invalidations occurred. No active market making or mean reversion trading was used for this product. The result was a low-risk, high-reliability PnL contributor that did not rely on predicting price moves directly.
+- quoting closer to fair increased fill probability,
+- quoting further away increased profit per fill.
 
-Anyone who carefully analyzed historical Prosperity 2 data or public write-ups — such as Stanford Cardinal’s or Jasper's — could have anticipated similar behaviors and prepared detection logic in advance. We also discovered and executed this strategy on another product in Prosperity 2 without having participated in Prosperity 1. Early identification of this behavior consistently netted us on average 8,000 SeaShells per round, providing a stable and important edge in Round 1.
+This distance from fair was the **edge**, and much of the optimization for Rainforest Resin was simply about finding the best edge. Many teams used backtests, visual dashboards, and grid search to determine which quoting distance produced the best overall PnL.
 
+### Inventory management
 
+Even though the product itself was simple, inventory management still mattered a great deal. A recurring issue was that traders could get stuck at the position limit, meaning they could no longer take profitable opportunities on one side of the market.
 
+To solve that, many teams added some form of **position-clearing or liquidation** logic. The idea was to sometimes trade at **zero edge** or near-zero edge — for example, at exactly 10,000 — not because the individual trade was especially profitable, but because it reduced inventory and restored the ability to capture future profitable trades. This often improved performance materially.
 
+### Overall role in the round
 
+Rainforest Resin became the cleanest and most reliable source of profits. It rewarded a basic but well-executed strategy:
 
+- take obvious mispricings,
+- make markets around fair value,
+- clear inventory when necessary.
 
+For many strong teams, Rainforest Resin was one of the largest and most stable contributors to round PnL.
 
+## 2. Kelp
 
-Algo
-Round 1 introduced 3 new products: Rainforest Resin, Kelp, and Squid Ink. All of these products were relatively distinct but traded like stocks would in the real world -- nothing fancy just an order book and market price.
+Kelp looked similar to Rainforest Resin at first glance, but it introduced one important complication: **its fair value was not fixed.** Instead, it moved slowly over time, roughly like a mild random walk.
 
-Rainforest Resin was the easiest and most consistent to trade. The fair value hovered around 10,000 seashells with almost no drift (+/-4 seashells). We market took anytime bids were above 10,000 or asks below 10,000, and market made inside the spread. Additionally, we exploited standing orders exactly at fair value to better balance our long/short positions, significantly boosting our PNL.
+That meant Kelp still behaved like a market-making product, but unlike Rainforest Resin, it required some estimate of the current fair value before trading could be done well.
 
-Kelp was trickier, showing mild drift and volatility. We found a persistent market maker whose mid-price effectively defined the real-time fair value, and confirmed this by submitting an order to buy 1 kelp and holding until the end of the day comparing the final PNL to our buy price. Using this mid-price, we applied the same market making/taking strategy as Resin, without adding any directional bias given the low volatility (~40 seashells over 10,000 steps).
+### Basic character of the product
 
-Squid Ink was pure chaos — with regular 100 seashell swings within a single step and no obvious structure despite IMC’s hints. We tested rolling z-scores, volatility breakouts, and MACD signals without finding any consistent edge. Ultimately, we reused the Kelp/Resin strategy here, but due to random massive price spikes, PNL was extremely volatile. We chose to gamble and submit as-is for Round 1.
+Kelp was not wildly directional and did not usually display extreme or persistent trends. Its movement was small enough that many teams concluded the product was still best handled with a largely market-making approach, not with heavy directional speculation.
 
+The main problem was therefore not “where will Kelp go over the next long horizon?” but rather:
 
+> what is the best current estimate of fair value, given that the visible order book is noisy?
 
-Products: Rainforest resin, kelp, squid ink
+### Fair-value estimation
 
-Strategy: For Kelp, we implemented a market making strategy that identified large bids and asks from consistent market makers to reduce noise from small orders. Our strategy tracked their mid-price to determine a reliable fair value, placing limit orders around this price with configurable spreads. We also incorporated opportunistic taking of orders when they appeared mispriced relative to our fair value.
+This became the central challenge of Kelp.
 
-For Rainforest Resin, we used a simplified market making approach with a hardcoded fair value of 10000. This allowed us to avoid complexities of price discovery in a relatively stable product while still capturing spread from market making.
+Some natural first attempts included:
 
-For Squid Ink, we implemented a short-term volatility spike mean-reversion strategy. We would detect price movements that exceeded 3 standard deviations from a 10-timestamp moving window and take positions in the opposite direction of these movements, betting on the price reverting to the mean. The strategy also included position management rules to limit exposure time and risk.
+- the raw mid-price,
+- a rolling average of the mid-price,
+- local smoothing or moving averages,
+- microprice or volume-weighted fair values.
 
-After Round 1, we were ranked 207 in the world.
+However, many teams found that the visible mid-price was noisy because smaller participants often placed orders at odd levels that distorted the best bid and best ask. So while the simple midpoint was available, it was not always the cleanest representation of the real consensus price.
 
+This led stronger teams to look deeper into the order book structure. Several better proxies emerged:
 
+- the midpoint of **large standing bid and ask quotes,**
+- the midpoint of the **popular bid and ask prices,**
+- the midpoint of a consistent market maker’s quotes,
+- filtered order-book levels that ignored small noisy orders.
 
-Round 1 introduced the first three products: Rainforest Resin, Kelp, and Squid Ink. Resin remained stable around a known historical price. Kelp moved up and down without a clear trend, while Squid Ink was highly volatile.
+In other words, instead of trusting the top of the book blindly, teams tried to identify the more meaningful liquidity providers and use their quotes as the fair-value anchor.
 
-🌳 Rainforest Resin
-We treated Resin as a static-value product centred at 10,000. The strategy combined tight market making with controlled position management. We placed passive bids and asks slightly inside inefficient book levels, while selectively taking favourable quotes when prices deviated from the fair value to capture mispricing. We used additional passive orders outside the spread to gently rebalance positions to minimise exposure.
+Some teams even verified this empirically by comparing their own backtests with the platform’s PnL marking, concluding that the “real” internal fair used by the game was closer to this large-quote midpoint than to the naive visible mid.
 
-🪸 Kelp
-Kelp required a more adaptive strategy. We first plotted volume frequency distributions to identify the most reliable quoted sizes on each side of the book. These filtered quotes were then used to compute a more platform-aligned fair price. Around this price, we deployed a mix of passive market making and aggressive liquidity-taking if spreads widened. We also used conservative passive orders to manage position buildup.
+### Execution strategy
 
-🦑 Squid Ink
-For Squid Ink, we implemented a directional signal based on top-of-book pressure. We computed a running pressure score by analysing changes in the best bid and ask levels and their volumes. Based on the signal (buy/sell/hold), we placed limit orders with self-adjusting price offsets that adapted based on recent fill volumes.
+Once a robust fair-value estimate had been chosen, the strategy for Kelp looked much like Rainforest Resin:
 
+- take obvious favourable quotes relative to fair,
+- place passive quotes around fair,
+- improve existing quotes by one tick when attractive,
+- and manage inventory conservatively.
 
+Because Kelp’s spread was typically tighter than Resin’s, the total profit opportunity was smaller. This meant accurate fair-value estimation mattered more, and there was less room for sloppy quoting.
 
+### Predictability
 
-Round 1
-Products introduced
+An important realization for many teams was that there was not much exploitable directional predictability in Kelp. Although the price moved, it did not do so in a consistently forecastable way. The best practical assumption was often that the **current filtered fair value is the best estimate of the next fair value.**
 
-RAINFOREST_RESIN – historically stable
-KELP – regular ups & downs
-SQUID_INK – large, fast swings; rumored price pattern
-Position limits
+Some minor effects were observed, such as tiny mean-reverting tendencies from integer rounding versus underlying floating-point fair values, but these were usually too small to drive the whole strategy.
 
-Product	Limit
-RAINFOREST_RESIN	50
-KELP	50
-SQUID_INK	50
-Key hint
+### Overall role in the round
 
-Squid Ink’s volatility makes large open positions risky.
-Price spikes tend to mean-revert—track the deviation from a recent average and fade extreme moves for edge.
+Kelp was basically a more subtle version of Rainforest Resin:
 
+- still spread-driven,
+- still suitable for market making,
+- but much more dependent on choosing the right fair-value proxy.
 
-New Products
-RAINFOREST_RESIN: Stable commodity with predictable market behavior.
-KELP: Volatile asset showing strong mean-reversion tendencies.
-SQUID_INK: Extremely volatile asset characterized by sharp short-term trends.
-🛠️ Our Strategy
-RAINFOREST_RESIN: Used fixed fair-value market-making around 10,000. Implemented dynamic bid and ask spread adjustments based on live order-book data to manage risk and optimize trades.
-KELP: Deployed a mean-reversion strategy with a dynamic fair-value calculation based on order-book depth filtering. Safeguards were implemented to reduce adverse selection from large volume orders.
-SQUID_INK: Combined SMA (Simple Moving Averages) with volatility-triggered mean-reversion. Adapted trade aggressiveness dynamically based on short-term volatility and market conditions.
-2️⃣ Round 2
+The teams that did best on Kelp were often those that realized the raw mid-price was too noisy and that the structure of liquidity itself offered a cleaner signal.
 
+## 3. Squid Ink
 
-Round 1 introduced three products - Rainforest Resin, Kelp, and Squid Ink.
+Squid Ink was the most difficult and most controversial product of the round.
 
-Rainforest Resin
+Compared with Rainforest Resin and Kelp, it was much more volatile, had tighter spreads relative to its price movement, and experienced frequent sharp jumps or reversals. This made ordinary market making much less comfortable.
 
-Rainforest Resin is the simplest product in the competition. Its fair value is permanently fixed at 10,000 SeaShells. As observed from the figures below, bots quote bid and ask prices around the fair price with a very wide spread.
+### Basic character of the product
 
-Rainforest Resin Price Chart Rainforest Resin Order Book
+The main difference with Squid Ink was not necessarily that it always had a directional trend, but that its short-term moves were large enough to create a lot more **variance** in realized PnL.
 
-The first trade idea from a market-taking perspective is to buy whenever the ask crosses below 10,000 and sell whenever the bid crosses above 10,000.
+Even if there was no classic adverse selection in every case, being filled passively in Squid Ink could be much riskier because the product might move sharply soon after the trade. So while market making was still possible, it was less stable and less forgiving than for the other two products.
 
-Although this strategy almost guarantees profit, this setup happens too infrequently to make enough profit. Another trade idea is to make market by submitting bid and ask orders based on the current order book. We place a bid at one seashell above the current market bid, and an ask at one seashell below the current market ask. In the meantime, we make sure that our bid must be less than or equal to 9,999 SeaShells, and our ask must be greater than or equal to 10,001 SeaShells.
+### Mean-reversion interpretations
 
-Lastly, we also realize that some trading opportunities may not be captured if our position is stuck at the limit. Therefore, before we implement the market-making strategy, we have an additional step to offload excessive inventory at the fair price. This brings our position closer to zero whenever possible and allow us to capture more trading opportunities.
+The product was often described as having some mean-reverting behaviour, and many teams naturally tried to exploit that through:
 
-This concludes the three-step strategy for Rainforest Resin. We start with the market taking algorithm to trade on deviations from the fair price, then offload excessive inventory at the fair price if possible, and lastly quoting bid and ask orders in the market.
+- rolling z-score reversions,
+- moving average deviations,
+- volatility spike fades,
+- breakout reversal logic,
+- pressure-based top-of-book signals,
+- SMA or MACD-like indicators.
 
-Kelp
+In some cases this produced reasonable results, but for many teams these signals were inconsistent. Squid Ink often looked chaotic enough that purely statistical short-term signals were hard to trust.
 
-Kelp's price moves around but remains relatively stable. As seen from the figures below, the bid-ask spread is much tighter for Kelp, but there are no extreme spikes in the price movements. Therefore, we settled on some metrics based on the current order book to estimate Kelp's fair price. We also noticed that there are often small-volume orders before the popular bid and popular ask prices. We define the popular bid/ask price as the bid/ask price with the highest volume. As a result, when we estimate the fair price for Kelp, we use the popular mid, which better reflects the consensus price levels in the market. [ \text{Popular Mid Price} = \dfrac{\text{Popular Bid Price} + \text{Popular Ask Price}}{2} ]
+### Divergence in team approaches
 
-Kelp Price Chart Kelp Order Book
+This is where team strategies differed the most.
 
-Other than the fair price determination, the strategy for Kelp is similar to that of Rainforest Resin.
+**Approach A: standard mean reversion**
 
-Squid Ink
+Some teams treated Squid Ink as a high-volatility mean-reverting asset. They would:
 
-Squid Ink is much more volatile than the other two products mentioned above. From the figures, there are occasional extreme spikes in the price followed by a rapid reversal. The bid-ask spread is tighter. Combined with the volatile prices, this leaves less room for profitable market making.
+- estimate a short rolling mean,
+- detect moves several standard deviations away from that mean,
+- and trade in the opposite direction, expecting reversion.
 
-Squid Ink Price Chart Squid Ink Order Book
+This could work in some environments, but it was also risky because Squid Ink’s moves were large and could persist or overshoot enough to cause pain before any reversion happened.
 
-To capture this mean-reversion behavior, we implemented a mean reversion trading strategy on a rolling window.
+**Approach B: reuse market making logic**
+
+Some teams, unable to find a strong directional signal, simply reused their Resin/Kelp-style market making logic. They would still estimate fair value and quote around it, perhaps with more caution.
+
+This sometimes worked, but usually produced much more volatile outcomes because Squid Ink had less forgiving price action.
+
+**Approach C: behaviour-based signal detection**
+
+The most interesting and arguably strongest edge described in the text came from identifying a **predictable participant pattern** rather than from modelling Squid Ink price directly.
+
+One anonymous trader repeatedly appeared to:
+
+- buy 15 lots at the daily low,
+- and sell 15 lots at the daily high.
+
+This was an unusually strong behavioural regularity. Once detected, it gave a far more robust signal than abstract technical indicators. By tracking the running daily minima and maxima, and flagging trades that matched the expected direction and size at these extremes, a team could infer when this trader had likely acted and position accordingly.
+
+Later, when IDs were briefly visible, this trader was identified as Olivia, confirming the pattern.
+
+This transformed Squid Ink from a difficult statistical forecasting problem into a participant-behaviour detection problem.
+
+### Why this mattered
+
+This was a very different style of edge from the other two products.
+
+For Rainforest Resin and Kelp, the edge mainly came from:
+
+- estimating fair value,
+- placing good quotes,
+- and managing inventory.
+
+For Squid Ink, at least in the strongest account, the edge came from:
+
+- detecting another trader’s systematic behaviour,
+- reacting to that behaviour,
+- and invalidating signals when the pattern broke.
+
+That made the strategy much more selective and less reliant on direct price forecasting.
+
+### Overall role in the round
+
+Squid Ink was the most difficult product to trade well and often the least uniform across teams. Some teams struggled to find consistent alpha from conventional signals. Others used volatility-based mean reversion. The strongest reported approach was based on behavioural pattern recognition rather than raw time-series modelling.
+
+## Cross-product strategic themes
+
+Across all three products, several common principles kept appearing.
+
+### A. Fair value was central
+
+Every product required some notion of fair value:
+
+- fixed at 10,000 for Rainforest Resin,
+- filtered dynamic fair for Kelp,
+- more uncertain, strategy-dependent fair or behavioural trigger for Squid Ink.
+
+The quality of fair-value estimation often determined how well a team could separate profitable trades from noise.
+
+### B. Market taking and market making worked together
+
+Strong strategies were rarely only takers or only makers.
+
+They usually:
+
+- took obvious profitable quotes immediately,
+- then placed passive orders around fair value to capture spread.
+
+This combination was especially effective in stable or semi-stable products like Rainforest Resin and Kelp.
+
+### C. Inventory management was crucial
+
+Position limits were not just a mechanical rule — they materially affected profitability.
+
+When inventory became too skewed:
+
+- future profitable trades could no longer be taken,
+- market-making flexibility dropped,
+- risk increased.
+
+So many teams added:
+
+- soft liquidation,
+- hard liquidation,
+- position-clearing at fair,
+- more aggressive quoting to rebalance.
+
+This often improved results significantly.
+
+### D. The order book contained more information than raw price alone
+
+Especially for Kelp, teams found that the visible raw mid-price was often less useful than:
+
+- large quote levels,
+- most popular price levels,
+- filtered depth,
+- stable market-maker quotes.
+
+The order book was not just execution infrastructure; it was also part of the signal.
+
+### E. Simplicity often beat overfitting
+
+A recurring theme in the text is that many sophisticated ideas were tried:
+
+- regression,
+- z-scores,
+- MACD,
+- volatility models,
+- OU processes,
+- signal engineering.
+
+But the best practical approaches often remained relatively simple:
+
+- fixed or filtered fair value,
+- opportunistic taking,
+- passive quoting,
+- inventory management,
+- and in Squid Ink, possibly a very specific behavioural detector.
+
+## Comparison of the three products
+
+### Rainforest Resin
+- easiest product
+- fixed fair value
+- pure market-making / market-taking environment
+- no real forecasting required
+- very strong and reliable PnL source
+
+### Kelp
+- similar structure to Resin
+- fair value moved slowly
+- main challenge was filtering noise from the order book
+- market making remained strong once fair was estimated properly
+- tighter spreads reduced total PnL opportunity
+
+
+### Squid Ink
+- much more volatile
+- ordinary market making became riskier
+- many statistical signals were attempted
+- strongest edge may have come from trader-behaviour detection rather than raw price modelling
+- more variance and less consensus across teams
 
 
 
