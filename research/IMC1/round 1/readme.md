@@ -9,7 +9,10 @@ In this round, two assets were traded: **PEARLS** and **BANANAS.**
 
 **Mark's Note:** Market making on Pearls, Trend on Bananas, LR for simple trend prediction on fair value
 
-## Code
+## Code reviews
+
+
+Looking at the code referenced below, I've found.
 
 At a high level, all of them:
 
@@ -40,8 +43,8 @@ A major shared feature is inventory control. Every implementation keeps track of
 ### 5. Combine quoting and taking logic
 All three approaches, in one way or another, are about deciding:
 
-when to **take** liquidity because the current price looks favourable
-when to **make** liquidity by posting bids and asks around an estimated fair price
+- when to **take** liquidity because the current price looks favourable
+- when to **make** liquidity by posting bids and asks around an estimated fair price
 
 So the common trading pattern is not just prediction, but **prediction plus execution logic.**
 
@@ -68,16 +71,191 @@ So they are not purely reactive to the current book; they are **stateful strateg
 ### 8. Use simple, interpretable models rather than overly complex ones
 Even the more advanced code is still built from understandable pieces:
 
-fixed fair value
-moving averages / EMA
-short rolling regression / cached-price forecast
-simple undercutting of current best bid/ask
-inventory skew
+- fixed fair value
+- moving averages / EMA
+- short rolling regression / cached-price forecast
+- simple undercutting of current best bid/ask
+- inventory skew
 
 So the common style is practical and competition-oriented: **simple models with direct execution rules.**
 
 
 
+# Main code differences.
+
+## 1. First team: modular object-oriented strategy framework
+
+This team built a **clean strategy architecture** first, then plugged product logic into it.
+
+### Main characteristics
+- Uses a shared base Strategy class
+- Each product gets its own class, such as Pearls(FixedStrategy) and Bananas(CrossStrategy)
+- The Trader class mainly acts as a dispatcher
+- Logic is split into reusable methods like:
+    - reset_from_state
+    - buy_product
+    - sell_product
+    - continuous_buy
+    - continuous_sell
+
+### PEARLS
+- Uses a **fixed fair value** of 10,000
+- Simply buys below fair value and sells above fair value
+- Very straightforward mean-reversion / fair-value taking logic
+
+
+### BANANAS
+- Uses a **cross / recent-book averaging approach**
+- Stores old bids and asks
+- Computes weighted average bid and ask from recent cached books
+- Trades if the current book is favourable relative to these averages by some threshold
+
+
+### Strengths
+- Very readable and extendable
+- Easy to add new products or replace strategy logic
+- Good separation of concerns
+
+### Weaknesses
+- BANANAS logic is relatively simple
+- Does not seem very aggressive about market making
+- More focused on structure than squeezing maximum edge from execution
+
+### In one sentence
+
+This team built the **cleanest framework**, with product-specific strategy classes and reusable execution logic.
+
+## 2. Second team: simple per-product quoting around default or EMA value
+
+This team used a much more compact and practical implementation.
+
+### Main characteristics
+- All logic is inside a single Trader class
+- Separate methods for pearls_strategy and bananas_strategy
+- Tracks:
+    - positions
+    - PnL
+    - cash
+    - EMA prices
+    - past prices
+
+This team is less modular than the first one, but more explicit in how it manages valuation and quoting.
+
+### PEARLS
+- Posts both sides around the default price:
+    - buy at 9999
+    - sell at 10001
+- This is more of a **pure market-making** setup than the first team
+
+### BANANAS
+- Uses **EMA as a dynamic fair value**
+- Adjusts quotes based on current inventory:
+    - flat position: symmetric around EMA
+    - long position: shifts quotes downward to encourage selling / reduce further buying
+    - short position: shifts quotes upward to encourage buying back
+
+So this team builds **inventory-aware quoting** directly into the pricing.
+
+### Strengths
+- Very simple and robust
+- Tracks PnL explicitly
+- Uses dynamic fair value for BANANAS
+- Inventory skew is nicely incorporated
+
+### Weaknesses
+- Less sophisticated than regression-based forecasting
+- Less reusable architecture
+- PEARLS logic is almost entirely static
+
+### In one sentence
+
+This team focused on **simple market making with EMA-based pricing and inventory skew**, rather than more detailed predictive logic.
+
+## 3. Third team: most advanced and most execution-heavy
+
+This is clearly the most **complex and performance-oriented** code.
+
+### Main characteristics
+- Large monolithic Trader class
+- Supports many products beyond PEARLS and BANANAS
+- Keeps extensive state:
+    - positions
+    - traded volume
+    - per-product cash PnL
+    - rolling caches
+    - signals from market participants
+    - multiple product-specific parameters
+
+This team is not aiming for elegance. It is aiming for **trading edge and breadth.**
+
+### PEARLS
+- Uses explicit acceptable bid/ask bounds around 10,000
+- Aggressively combines:
+    - market taking when quotes are favourable
+    - market making by undercutting current best price
+    - inventory-dependent quote adjustment
+
+This is much richer execution logic than the first two teams.
+
+### BANANAS
+- Uses a **hard-coded regression forecast** on recent cached mid-prices
+- Predicts next price from a rolling banana cache
+- Converts that forecast into lower/upper acceptable prices
+- Then trades and quotes around those bounds
+
+So BANANAS here is the most explicitly **forecast-driven** of the three.
+
+### Extra features
+Undercuts best bid / ask to improve queue priority
+Tracks other participants like Olivia / Pablo / Camilla
+Computes detailed per-product PnL
+Handles many more products and relationships
+
+### Strengths
+Most sophisticated execution logic
+Strong combination of forecasting, taking, making, and inventory control
+Probably strongest from a competition-performance perspective
+
+### Weaknesses
+- Harder to read and maintain
+- Much more brittle
+- Less elegant and less reusable
+- More difficult to debug
+
+### In one sentence
+This team built the **most aggressive and advanced trading engine**, with regression-style forecasting, undercutting, inventory-aware execution, and much richer product logic.
+
+## Direct comparison
+
+### Architecture
+- Team 1: best software structure, modular classes
+- Team 2: simplest single-class design
+- Team 3: largest and most complex monolithic engine
+
+### PEARLS approach
+- Team 1: fixed fair-value taking
+- Team 2: static two-sided market making around 10,000
+- Team 3: full execution logic with taking, making, undercutting, and inventory skew
+
+### BANANAS approach
+- Team 1: recent average bid/ask comparison
+- Team 2: EMA-based adaptive quoting
+- Team 3: regression-based next-price prediction plus execution around forecast bounds
+
+### Inventory handling
+- Team 1: position limits enforced, basic inventory control
+- Team 2: position-aware quote shifts
+- Team 3: strongest inventory-aware execution and sizing logic
+
+### Execution sophistication
+- Team 1: basic
+- Team 2: moderate
+- Team 3: highest
+
+### Code quality / readability
+- Team 1: cleanest
+- Team 2: simplest
+- Team 3: most powerful but messiest
 
 
 
@@ -86,6 +264,9 @@ So the common style is practical and competition-oriented: **simple models with 
 
 
 
+
+
+## Actual code references
 
 ```
 from typing import Dict, List
