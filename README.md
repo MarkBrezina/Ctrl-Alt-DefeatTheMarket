@@ -20,6 +20,7 @@ The spot is picked due to location and it is around the corner from IMC's office
 - **research** has now had its initial update, where I have written notes on the algo parts for each rounds from previous years.
 - **research** has had ALL of the previous datasets added, with sub-folders relating to challenge number and round number.
 - **market basics** has also had its initial update, going over trading as a business
+- **Clean up** I've cleaned up some silly little mistakes I made after updating to version 2 of the guide.
 
 ## Quick steps if you're new or feeling lost
 
