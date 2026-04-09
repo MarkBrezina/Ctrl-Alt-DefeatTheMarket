@@ -1,67 +1,52 @@
 
-In round 1, we had access to two symbols to trade: amethysts and starfruit.
+## Round 1 Summary
 
-amethysts 🔮
-Amethysts were fairly simple, as the fair price clearly never deviated from 10,000. As such, we wrote our algorithm to trade against bids above 10,000 and asks below 10,000. Besides taking orders, our algorithm also would market-make, placing bids and asks below and above 10,000, respectively, with a certain edge. Using our backtester, we gridsearched over several different values to find the most profitable edge to request. This worked well, getting us about 16k seashells over backtests
+In Round 1, the two tradable products were **AMETHYSTS** and **STARFRUIT**, and most teams approached them as a combination of **fair-value trading, market making, and inventory management.**
 
-However, through looking at backtest logs in our dashapp, we discovered that many profitable trades were prevented by our position limits, as we were unable to long or short more than 20 amethysts (and starfruit) at any given moment. To fix this issue, we implemented a strategy to clear our position–our algorithm would do 0 ev trades, if available, just to get our position closer to 0, so that we'd be able to do more positive ev trades later on. This strategy bumped our pnl up by about 3%.
+## AMETHYSTS
 
-starfruit ⭐
-Finding a good fair price for starfruit was tougher, as its price wasn't fixed–it would slowly randomwalk around. Nonetheless, we observed that the price was relatively stable locally. So we created a fair using a rolling average of the mid price over the last n timestamps, where n was a parameter which we could optimize over in backtests1. Market-making, taking, and clearing (the same strategies we did with amethysts) worked quite well around this fair value.
+AMETHYSTS were relatively straightforward because their fair value stayed effectively fixed at **10,000.** The main strategy was therefore to:
 
-However, using the mid price–even in averaging over it–didn't seem to be the best, as the mid price was noisy from market participants continually putting orders past mid (orders that we thought were good to fair and therefore ones that we wanted to trade against). Looking at the orderbook, we found out that, at all times, there was a market making bot quoting relatively large sizes on both sides, at prices that were unaffected by smaller participants2. Using this market maker's mid price as a fair turned out to be much less noisy and generated more pnl in backtests.
+- **market-take** bids above 10,000 and asks below 10,000,
+- while also **market-making** around 10,000 with a chosen edge.
 
-Screenshot 2024-05-20 at 11 54 46 PM
-histograms of volumes on the first and second level of the bid side
+Teams used backtesting and grid search to optimize the quoting edge. A key improvement came from adding **position-clearing / liquidation logic:** when inventory got stuck near the position limit, the algorithm would accept roughly zero-EV trades to reduce exposure and free up capacity for better trades later. This improved PnL by allowing the strategy to keep trading instead of being blocked by position limits.
 
-Surprisingly, when we tested our algorithm on the website, we figured out that the website was marking our pnl to the market maker's mid instead of the actual mid price. We were able to verify this by backtesting a trading algorithm that bought 1 starfruit in the first timestamp and simply held it to the end–our pnl graph marked to market maker mid in our own backtesting environment exactly replicated the pnl graph on the website. This boosted our confidence in using the market maker mid as fair, as we realized that we'd just captured the true internal fair of the game. Besides this, some research on the fair price showed that starfruit was very slightly mean reverting3, and the rest was very similar to amethysts, where we took orders and quoted orders with a certain edge, optimizing all parameters in our internal backtester with a grid search.
+## STARFRUIT
 
-After round 1, our team was ranked #3 in the world overall. We had an algo trading profit of 34,498 seashells–just 86 seashells behind first place.
+STARFRUIT was more difficult because its fair value was not fixed and instead moved over time in a slow random-walk-like manner. Early approaches estimated fair value using:
 
+- a **rolling average of the mid price,**
+- or other local smoothing methods.
 
+However, the visible mid price turned out to be noisy because of smaller traders placing orders away from the real center. A better signal was found in the order book itself: there was often a **large market-making participant** quoting meaningful size on both sides. The midpoint of those large bid/ask quotes provided a much cleaner estimate of fair value and more closely matched the game’s hidden internal valuation. This became a stronger basis for both market taking and market making.
 
-The algo side of round 1 appeared to be a continuation of the tutorial round on new data. I tried to improve my market making strategy, but couldn't improve on my tutorial code, so ended up submitting that without any changes.
+Some teams also explored:
 
-I spent most of the tutorial round building developer tooling for later rounds. I made all of them open-source (visualizer, backtester, and submitter), and although I didn't embed analytics in them, based on Discord messages I believe a significant number of participants used at least one of them :).
+- **microprice / volume-weighted fair values,**
+- **linear regression** on STARFRUIT,
+- and more formal stochastic models such as **Ornstein–Uhlenbeck** or diffusion-based market making,
 
-After building developer tools I spent about a day on building a market-making algorithm for amethysts and starfruit. I took some inspiration from the code of the team that finished 2nd in IMC Prosperity 1, especially their use of the popular buy/sell price, i.e. the buy/sell price with maximum volume. For amethysts I assumed a true value of 10k, and for starfruit I assumed a true value in the middle between the popular buy and sell prices. I also found some improvement in adding soft/hard liquidation procedures, which would force a buy or a sell at less-than-usual prices to get out of prolonged positions at the boundary of the limit (position = limit or position = -limit), because in those positions we can no longer market-make in both directions.
+but these generally did not outperform the simpler fair-value-plus-execution approach.
 
-Based on Discord messages from other participants I also tried to do some sort of linear regression on starfruit, but couldn't get that to work profitably.
+## Common strategic themes
 
-ound 1
-Description
-The first two tradable products are introduced: STARFRUIT and AMETHYSTS. While the value of the AMETHYSTS has been stable throughout the history of the archipelago, the value of STARFRUIT has been going up and down over time.
+Across the round, the strongest strategies shared the same core elements:
 
-Fair Value
-We compared the fair price with the order book. If there was a mispricing, we execute a market order to capture the arbitrage opportunity, while making markets under normal circumstances.
+- estimate a fair value,
+- **take mispriced orders** when the book is favourable,
+- **quote around fair value** to earn spread,
+- and actively manage inventory through **soft/hard liquidation** or position-clearing rules.
 
-Initially, we aimed to trade around the midprice. However, midprice had noise from traders placing orders at unusual prices. To mitigate this, we tried trading using micro prices (volume-weighted average midprice).
+## Overall takeaway
 
-There was a slight difference between the PnL in our backtesting tool and pnl in IMC dashboard. IMC used the hidden fair value for PnL calculation. Additionally, both bid and ask sides consistently had one level with significantly large quantities. We discovered that the average of these two prices closely resembled the hidden fair value. Therefore, we traded around the average of the two prices.
+Round 1 was largely an extension of the tutorial round, but with more refinement in tooling and execution. The biggest edge came not from overly complex prediction, but from:
 
-Strategy
-Market Making:
+- choosing a better fair value,
+- optimizing quoting parameters,
+- and handling inventory intelligently.
 
-Our goal was to place orders that maximize the expected utility per trade, calculated as (profit + other utility increment) * execution probability.
-
-For example, if a buy order at 9998 was executed when the fair value was 10000, the profit from that trade would be 2.
-
-Other utility includes inventory risk. When market making, keeping a position close to zero is highly advantageous. Larger positions involve higher exposure to market risk. And as positions approach their limits, the potential for profitable trades decreases due to smaller execution quantities.
-
-Initially, we implemented Ornstein-Uhlenbeck process-based market making for AMETHYSTS and 
-dS = σ d W
-process based market making for STARFRUIT.
-
-However, these market making models were not perfectly suited to our market since the execution probability was modeled using an exponential function. To address this, we attempted to estimate the execution probability using a Poisson distribution. Unfortunately, this did not result in a significant improvement in PnL, so we reverted back to the original model.
-
-Market Taking:
-
-When there were bid prices higher than the fair value, we executed market sell orders to profit from the mispricing. Also, we executed market sell orders even if the bid price was at the fair price and we had positive positions, to reduce our position.
-
-We followed a similar approach when executing market buy orders.
-
-
-
+For strong teams, this produced highly competitive results, with top placements separated by only small differences in seashell profit.
 
 
 ## with the codes
