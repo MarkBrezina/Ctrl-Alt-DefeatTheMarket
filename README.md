@@ -196,7 +196,7 @@ In the tutorial round, we are given two assets: **Tomatoes** and **Emeralds**. A
 
 If you open the data capsules and start exploring the files, you can begin to reverse-engineer the basic mechanics IMC has built into these products.
 
-![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20110755.png)
+![Screenshot](utils/assets.png)
 
 If you are not sure where to find the data, it is available here: [Tutorial folder](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Tutorial)
 
@@ -220,7 +220,7 @@ For example, a backtest result around **35K** roughly translated to about **9K**
 **Emeralds**, much like **Rainforest Resin** in IMC 3, behave like a classic stationary asset.  
 If you plot the historical data for Emeralds, you will see that the mid-price stays centred around **10,000** and oscillates around that level with a spread of roughly **16**. That makes it a strong candidate for a straightforward market-making strategy.
 
-![Screenshot](utils/Sk%C3%A6rmbillede%202026-03-23%20111444.png)
+![Screenshot](utils/assets.png)
 
 **Tomatoes**, much like **Kelp** in IMC 3, show drift.  
 Because of that, you cannot simply deploy a static market-making strategy and call it a day. You need an approach that either adapts to the drift or actively benefits from it.
