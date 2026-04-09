@@ -252,7 +252,231 @@ It is:
 
 > every order must already satisfy risk logic at creation.
 
+## Significant differences between the teams
+### 1. Fair value estimation was the biggest difference
 
+This is probably the clearest dividing line.
+
+For **AMETHYSTS**, most teams agreed on the same core assumption:
+
+- fair value is basically fixed at **10,000**
+
+So there was not much difference there.
+
+For **STARFRUIT**, however, teams differed a lot:
+
+- some used a **rolling average of the mid price**
+- some used the **midpoint of the largest bid and ask quotes**
+- some used the **“popular” bid and ask prices**, meaning the price levels with the most size
+- some used **regression on recent bid/ask prices**
+- some added a **mean-reversion adjustment**
+- some used a **market-maker midpoint**, because they believed the large quotes reflected the hidden internal fair better than the visible noisy mid
+
+So one major difference was:
+
+> some teams treated STARFRUIT fair value as a smoothed price series, while others treated it as an order-book-structure problem.
+
+### 2. Some teams were mainly execution-focused, while others were more predictive
+
+Another major difference is whether the edge came from:
+
+- **better execution around a known fair**
+  or
+- **better forecasting of the next fair**
+
+For example:
+
+- some teams mostly said:
+  “fair value is known or approximately known; now quote and take well”
+- other teams tried to predict short-term movement with:
+    - linear regression
+    - local drift
+    - mean reversion
+    - rolling book-based estimation
+
+So the split is roughly:
+
+- **execution-first teams:** strong on market making, joining, pennying, liquidation, inventory skew
+- **prediction-first teams:** stronger emphasis on dynamic fair estimation and next-step forecasting
+
+### 3. Inventory management sophistication varied a lot
+
+All teams cared about inventory, but not to the same degree.
+
+Some teams only had:
+
+- a hard position limit
+- simple checks to not exceed it
+
+Others added much more advanced inventory behaviour:
+
+- **soft position limits**
+- **clearing trades** at fair or near fair
+- **liquidation rules** when stuck near the boundary
+- **quote skewing** to encourage rebalancing
+- making quotes more aggressive when too long or too short
+- accepting zero-EV trades to free up room for future positive-EV trades
+
+So the difference here was:
+
+> some teams treated position limits as a hard constraint, while others treated inventory control as a central alpha-preserving mechanism.
+
+### 4. Some teams trusted the raw mid price, others explicitly distrusted it
+
+This is a very important conceptual difference.
+
+Some teams started with:
+- mid price
+- rolling mid
+- smoothed mid
+- EMA-like fair
+
+Others concluded that the raw mid was too noisy because:
+
+- small traders were placing odd quotes,
+- the visible midpoint was not the best proxy for the hidden game fair.
+
+So they instead preferred:
+
+- maximum-volume price levels
+- large market-maker quotes
+- volume-weighted or microprice-style estimates
+- “popular” buy/sell levels
+
+So another major difference was:
+
+> whether fair value was inferred from the visible midpoint, or from the deeper liquidity structure of the order book.
+
+### 5. Quote placement logic differed a lot
+
+Even when teams had similar fair values, they often differed in how they placed orders.
+
+Some approaches were simple:
+
+- quote at fixed offsets from fair
+- buy at fair minus 1 or minus 3
+- sell at fair plus 1 or plus 3
+
+Others were much more adaptive:
+
+- **join** existing good quotes
+- **penny** by 1 tick
+- use a **default edge** when no good quote exists
+- alter quotes based on current position
+- move quotes inward when inventory is large
+- avoid large potentially adverse quotes
+
+Some teams also used more formal models such as:
+
+- OU-style market making
+- GLFT-style quoting
+- utility-based quote optimisation
+
+So a big difference was:
+
+> some teams used simple fixed-edge quoting, while others used adaptive or model-based quote placement.
+
+### 6. Statefulness and memory differed
+
+Another difference is how much history each team stored and used.
+
+Some teams used very light memory:
+
+- maybe last price
+- maybe a short rolling window
+
+Others stored much more:
+
+- historical bid/ask depths
+- recent top levels of the book
+- rolling windows of whether they hit position limits
+- prior fair values
+- timestamps and old quotes
+- recent observations for external variables
+
+So the difference here was:
+
+> some teams were essentially local/reactive, while others built a fuller stateful market model.
+
+### 7. Some teams separated architecture cleanly, others built more monolithic systems
+
+There is also a software design difference.
+
+Some teams built:
+
+- reusable Strategy classes
+- MarketMakingStrategy
+- per-product subclasses
+- separate state/status abstractions
+
+Others just wrote:
+
+- one Trader
+- several product-specific functions
+- direct procedural logic
+
+So there is a difference between:
+
+- **clean modular architecture**
+  and
+- **competition-driven monolithic implementation**
+
+This does not necessarily change the trading idea, but it changes:
+
+- readability,
+- maintainability,
+- ease of iteration.
+
+### 8. Some teams leaned more academic, others more empirical
+
+A few teams clearly tried to formalise their approach with:
+
+- Ornstein–Uhlenbeck ideas
+- GLFT market making
+- implied volatility / options-type tools
+- explicit utility-based logic
+
+Other teams were much more empirical:
+- backtest a lot
+- grid search edges
+- use what works
+- choose popular bid/ask midpoint because it matches dashboard PnL better
+
+So another major difference was:
+
+> some teams approached the problem through modelling theory, while others approached it through empirical competition tuning.
+
+## Simplified comparison by team style
+
+You can almost group the teams into these buckets:
+
+### Team type 1: fixed-fair and execution-oriented
+- AMETHYSTS fair = 10,000
+- STARFRUIT fair = simple rolling estimate
+- focus on market making + taking
+- strong practical execution
+- simpler architecture
+
+### Team type 2: order-book-structure fair value
+- distrust noisy mid
+- use max-volume or market-maker quotes
+- fair value comes from liquidity structure
+- often stronger STARFRUIT performance
+
+### Team type 3: predictive / regression-based
+- estimate next STARFRUIT price directly
+- use rolling history and regression
+- still market make, but around a forecast rather than just current fair
+
+### Team type 4: inventory-aware market makers
+- fair value may be simple
+- edge comes from excellent inventory handling
+- clearing, liquidation, skew, soft limits, quote adjustment
+
+### Team type 5: model-heavy teams
+- OU / GLFT / utility-based quote logic
+- more mathematical market making design
+- often combined with practical constraints from the order book
 
 
 
