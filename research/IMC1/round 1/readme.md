@@ -6,8 +6,16 @@ For bananas, we ran a linear regression on the last few timesteps of banana pric
 
 Participants have worked with two assets, namely PEARLS, whose price remains relatively constant over time at a value of 10k seashells, and BANANAS, an asset whose price is highly volatile, fluctuating frequently.
 
+## Summary
+
+In this round, two assets were traded: **PEARLS** and **BANANAS.**
+
+- **PEARLS** had a stable fair value around 10,000, with occasional mispricings (e.g., bids above and asks below fair value). This made them ideal for straightforward market-making and market-taking strategies centered around the mean.
+- **BANANAS** were more volatile. A linear regression on recent prices was used to predict short-term movements, enabling effective market-taking. Combining this with market-making improved performance further. Attempts at real-time (on-the-fly) regression were less successful due to instability and technical issues.
+- It was also observed that price trends in bananas were somewhat consistent across days, suggesting that using prior-day patterns could enhance predictions and PnL.
 
 
+## Code
 
 
 
