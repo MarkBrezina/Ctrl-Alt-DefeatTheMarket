@@ -17,11 +17,7 @@ Any UKers open to meet on the 13th or 14th of April. I will be at the railway ta
 The spot is picked due to location and it is around the corner from IMC's offices in London.
 
 ### Updates
-- **research** has now had its initial update, where I have written notes on the algo parts for each rounds from previous years.
-- **research** has had ALL of the previous datasets added, with sub-folders relating to challenge number and round number.
-- **market basics** has also had its initial update, going over trading as a business
-- **Clean up** I've cleaned up some silly little mistakes I made after updating to version 2 of the guide.
-- **research** I'm working on adding round by round walk-overs of previous top submissions, this will take a while however, I expect to be done by Sunday 12/04/2026, just in time for the first round to start.
+I will have to do a review of the main sections soon, to incorporate easy to read connections out to the more advanced topics. I'll do it after round 1 starts, as I will be busy building strategy now.
 
 ## Quick steps if you're new or feeling lost
 
