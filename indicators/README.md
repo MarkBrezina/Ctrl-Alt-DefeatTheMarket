@@ -205,5 +205,15 @@ Momentum is simply the change in price over a chosen window.
 
 ```python
 def momentum(series: pd.Series, window: int = 10) -> pd.Series:
+
+
+
+## 11. Microprice
+
+## 12. Order imbalance
+
+## 13. Order flow
+
+## 14. Thalweg
     return series - series.shift(window)
 ```
