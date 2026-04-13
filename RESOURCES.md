@@ -80,3 +80,75 @@ yth place: https://fan2goa1.github.io/mkdocs-material/blog/2023/12/24/kaggle-opt
 
 General option pricing: https://github.com/Robin-Guilliou/Option-Pricing \
 General microstructure pricing: https://github.com/xhshenxin/Micro_Price
+
+
+## resources in random order
+
+### articles
+[Optimal Allocation with Continuous Sharpe Ratio Covariance Bandits](https://www.pm-research.com/content/iijjfds/7/3/171) \
+[Celebrating three dedaces of stock manipulation](https://arxiv.org/abs/1912.01708) \
+[XVA, the front office way](https://www.slideshare.net/slideshow/xva-the-front-office-way/248296229) \
+[Walk-over of AD](https://auto-ed.readthedocs.io/en/latest/mod3.html) \
+[substack on AD](https://stats.stackexchange.com/questions/224140/step-by-step-example-of-reverse-mode-automatic-differentiation)
+
+
+The most important -> [Mean Field Games with Partial Information for Algorithmic Trading](https://arxiv.org/abs/1803.04094)
+[Mean Field Game of High-Frequency Anticipatory Trading](https://arxiv.org/abs/2404.18200) \
+[Advanced Statistical Arbitrage with Reinforcement Learning](https://arxiv.org/html/2403.12180v1)
+[High-frequency Statistical Arbitrage Strategy Based on Stationarized Order Flow Imbalance](https://www.sciencedirect.com/science/article/pii/S1877050921008917)
+[Schrödinger Bridge Problem for Jump Diffusions](https://arxiv.org/abs/2411.13765)
+[Algorithms for optimisation](https://drive.google.com/file/d/1qYjI1igDuBg3x884JKZaCWuJkgdPylHN/view)
+[An Impulse Control Approach to Market Making in a Hawkes LOB Market](https://arxiv.org/abs/2510.26438)
+
+### videos
+[quantitative finance seminar playlist](https://www.youtube.com/playlist?list=PLArBKNfJxuumDwk6qbcJEOC7GTlj63Oro)
+[Low-Latency Programming and High-Frequency Trading Masterclass](https://www.youtube.com/watch?v=XkQzvBU7ts8)
+[When Nanoseconds Matter: Ultrafast Trading Systems in C++](https://www.youtube.com/watch?v=sX2nF1fW7kI)
+
+
+### websites
+**resource bundles**
+[Best of Algorithmic Trading](https://github.com/merovinh/best-of-algorithmic-trading)
+[150+ quantitative finance Python programs to help you gather, manipulate, and analyze stock market data](https://github.com/shashankvemuri/Finance)
+Compendium of free ML reading resources[](https://github.com/Carl-McBride-Ellis/Compendium-of-free-ML-reading-resources)
+[Awesome quant](https://github.com/wilsonfreitas/awesome-quant)
+[Awesome-Quant-Machine-Learning-Trading](https://github.com/grananqvist/Awesome-Quant-Machine-Learning-Trading)
+[awesome-systematic-trading](https://github.com/wangzhe3224/awesome-systematic-trading)
+
+[Wilmotts forum](https://wilmott.com/)
+[StackExchange](https://quant.stackexchange.com/)
+
+[quantitative risk tutorial](https://qrmtutorial.org/)
+[ARCH package](https://bashtage.github.io/arch/doc/univariate/univariate.html)
+[forecasting](https://otexts.com/fpp2/)
+[discrete hedging](https://github.com/MarcosCarreira/DermanPapers)
+[Stochastic processes](https://quantcatalysts.com/stochastic-processes-and-filtrations-a-practical-guide-for-quants)
+[some algo resources?](https://github.com/Mohpann/AlgoTrading)
+[Micropredictions](https://github.com/microprediction/home/tree/main)
+[Interest rate products](https://github.com/jingmouren/lbegatti-interest-rate-modelling/tree/main)
+[time series analysis](https://github.com/ritvikmath/Time-Series-Analysis)
+[time series analysis 2](https://github.com/AileenNielsen/TimeSeriesAnalysisWithPython)
+[deep learning time series](https://github.com/Alro10/deep-learning-time-series/tree/master)
+[Market making](https://github.com/vishnugovind10/MarketMaking)
+[structural breaks](https://github.com/secabird/structural-break-challenge)
+[structural breaks 2](https://github.com/aParsecFromFuture/ADIA-Lab-Structural-Break-Challenge-Solution)
+[structural breaks 3](https://turquoise-hose-0e1.notion.site/ADIA-Lab-Structural-Break-Challenge-ee031919bf24459991eba619692ba194)
+[structural breaks 4](https://angry-sandal-e9b.notion.site/ADIA-Lab-2025-Structural-Break-286f5ef98def808a8a2ceb0c017e30a7)
+
+CQF webinars
+London quant group
+[Bloomberg webinars](https://www.bloomberg.com/professional/insights/webinars/all/)
+[Bloomberg events](https://www.bloomberglive.com/calendar/)
+[Oxford mathematics public events online](https://www.maths.ox.ac.uk/events/public-lectures-events)
+Oxford man
+
+[FinRL 2025](https://github.com/Open-Finance-Lab/FinRL_Contest_2025/tree/main)
+[Derivatives training](https://www.mathfinance.com/derivatives-training/)
+[bayesian inference](https://rxinfer.com/)
+[Polynomial chaos indicator](https://github.com/fbourgey/polynomial-chaos-indicator/blob/main/main.ipynb)
+[rank 3 quant challenge](https://github.com/vamshikrishna-1234/Rank_3-Quant-Challenge-2025)
+[volatility curve prediction](https://github.com/vamshikrishna-1234/NK-SECURITIES-RANK_15-VOLATALITY-CURVE-PREDICTION/tree/main)
+
+### Blogs and such
+[Bouchaud](https://bouchaud.substack.com/?utm_source=global-search)
+[ML quant](https://blog.ml-quant.com/?utm_source=global-search)
