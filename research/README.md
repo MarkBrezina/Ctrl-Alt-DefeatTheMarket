@@ -6,7 +6,10 @@ Instead of our reliable stationary straight line asset (EMERALDS in the tutorial
 
 We once again have the drifting asset (TOMATOES in the tutorial round), we now have that called "ASH_COATED_OSMIUM", which is the same idea as previous years.
 
+## Pepper Root
 ![Pepper Root](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/utils/pepper_root.png)
+
+## Osmium
 ![Osmium](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/utils/osmium.png)
 
 
