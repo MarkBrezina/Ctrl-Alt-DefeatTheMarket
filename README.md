@@ -15,7 +15,7 @@ Also a thanks to @Fabian, @oats and @mr. nobody for being active members of the 
 
 - [Read over the research piece](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/research/README.md) for an idea of what may happen on each round as we progress. These will for now just be notes on what others have done previously
 - previous data for each challenge has been uploaded in the research section
-- I have shared the code I used to get 2.6K in the tutorial round. 
+- I have shared the code I used to get 2.6K in the tutorial round.[basic trader](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/trader%20architecture/tutorial_round_2600.py)
 
 
 ### Meet-up in London, 13th and 14th
