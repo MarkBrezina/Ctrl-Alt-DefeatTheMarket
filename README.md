@@ -11,13 +11,17 @@ Special thanks also go to @Jasper. Full credit to him for the list, the backtest
 
 Also a thanks to @Fabian, @oats and @mr. nobody for being active members of the discord.
 
+### Updates
+
+- [Read over the research piece](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/research/README.md) for an idea of what may happen on each round as we progress. These will for now just be notes on what others have done previously
+- previous data for each challenge has been uploaded in the research section
+
+
 ### Meet-up in London, 13th and 14th
 Any UKers open to meet on the 13th or 14th of April. I will be at the railway tavern near liverpool street in London probably from 5PM onward. 
 
-The spot is picked due to location and it is around the corner from IMC's offices in London.
+The spot is picked due to ease of access and it is around the corner from IMC's offices in London.
 
-### Updates
-I will have to do a review of the main sections soon, to incorporate easy to read connections out to the more advanced topics. I'll do it after round 1 starts, as I will be busy building strategy now.
 
 ## Quick steps if you're new or feeling lost
 
@@ -31,7 +35,7 @@ If you're completely new and just need a place to start, use the pages below as 
 - [**Teammates and Roles**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/TEAMMATES_AND_ROLES.md) — a guide for common Discord questions like “I want to join a team” or “I want a teammate”
 - [**Market Basics**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/market_basics/README.md) — an introduction to how trading works, why strategies sometimes fail, and how to improve
 - [**Trader Architecture**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/trader%20architecture/README.md) — a simpler explanation of the coding structure than IMC currently provides, especially around ideas like memory, calculation flow, and building your own architecture or infrastructure
-- [**Research**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/research/README.md) — for deeper discussion of the mathematical side of the markets
+- [**Research**](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/research/README.md) — For research on previous competitions and potential solutions.
 
 ## What this guide is
 
