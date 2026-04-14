@@ -1,4 +1,18 @@
-## Summary of the tutorial rounds
+# IMC 4
+
+This year @tomas apparently had a hand in mixing up the assets.
+
+Instead of our reliable stationary straight line asset (EMERALDS in the tutorial round), we now have "INTARIAN_PEPPER_ROOT", which is simply the same idea, but adjusted for a linear regression.
+
+We once again have the drifting asset (TOMATOES in the tutorial round), we now have that called "ASH_COATED_OSMIUM", which is the same idea as previous years.
+
+
+
+
+
+
+
+## Summary of previous tutorial rounds
 
 Across the tutorial rounds, the product design has usually followed a familiar pattern: one relatively stationary asset and one more dynamic asset.
 Examples include:
