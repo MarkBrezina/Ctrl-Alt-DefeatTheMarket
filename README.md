@@ -17,13 +17,6 @@ Also a thanks to @Fabian, @oats and @mr. nobody for being active members of the 
 - previous data for each challenge has been uploaded in the research section
 - I have shared the code I used to get 2.6K in the tutorial round.[basic trader](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/trader%20architecture/tutorial_round_2600.py)
 
-
-### Meet-up in London, 13th and 14th
-Any UKers open to meet on the 13th or 14th of April. I will be at the railway tavern near liverpool street in London probably from 5PM onward. 
-
-The spot is picked due to ease of access and it is around the corner from IMC's offices in London.
-
-
 ## Quick steps if you're new or feeling lost
 
 If you're completely new and just need a place to start, use the pages below as an index. Otherwise, I recommend reading the rest of the guide as well.
