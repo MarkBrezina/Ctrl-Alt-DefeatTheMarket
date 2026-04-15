@@ -225,9 +225,12 @@ We are looking at **expected returns conditional on structure, state, and behavi
 
 ## General summary of Alphas
 
+**Note:** In honor of this year's assets I've added an additional *alpha*.
+
 Here are some generic key words to post into chatgpt to get it to tell you everything about the topics.
 Relevant trading types to go over
 
+- **Buy and Hold**, Buying an asset at a low price and simply holding onto it.
 - **Pairs Trading**, Trade two historically related assets when their spread diverges, expecting convergence.
 - **Trend Following**, Trade in the direction of short-, medium-, or long-term price momentum.
 - **Mean Reversion**, Trade the idea that price, spread, or another signal has moved too far from a short-term or long-term average and is likely to revert back.
@@ -248,6 +251,15 @@ A neat grouping would be:
 **Model-based mispricing:** Price discrepancy / statistical arbitrage
 
 ## Specific alpha walk-throughs.
+
+### Buy and Hold.
+Buying and holding an asset isn't usually something that we experience in trading, it is a more common "strategy" for investing.
+Where time-horizons and earnings aren't directly tied together.
+
+The idea is as follows.\
+We expect an asset to increase in value and we have no constraint on when to sell the asset.\
+This idea works well for asset managers, as most surviving assets have a somewhat exponential growth over longer time-horizons.
+
 
 ### Market making.
 Market making is different from the strategies above because it is less about taking a strong view on direction and more about **providing liquidity.**
