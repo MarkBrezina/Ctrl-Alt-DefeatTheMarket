@@ -1,5 +1,6 @@
 **Note:** I was asked by the mods not to give away code and too big hints, so I will present the simple description of the assets until after the round is over.
 
+# Algorithmic challenge
 
 ## Interian Pepper Root
 Pepper root is similar to EMERALDS from the tutorial round, but instead of a straight line with 0 slope, it has a slope of X > 0. \
@@ -23,3 +24,8 @@ I knew that my inventory adjustments were suboptimal, but simply had to load in.
 The optimal strategy I was going for was a combination of market-making, market-taking on mispricings, mean reversion and a bit of drift.
 The goal than becomes finding the proper quoting mixes of this. Talking with several people on the discord, we all struggled to find this
 ideal combination and that is what I suspect gets the difference between all of us.
+
+
+# Manual
+
+9999@30 and 19999@17
