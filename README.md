@@ -235,9 +235,13 @@ For the first round, we traded two primary assets: **Intarian Pepper Root** and 
 Similar to **Tomatoes**, **Ash Coated Osmium** functioned as a dynamic asset; however, it was characterized by much more aggressive mean-reversion behavior. It consistently oscillated within a tight range, frequently snapping back to its 10,000-unit baseline after brief deviations.
 ![Screenshot](utils/osmium.png)
 
+Here is a link to the folder for [round 1](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Round%201)
+
 ### Round 2
 
 No updates until the round finishes.
+
+Here is a link to the folder for [round 2](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Round%202)
 
 ## The five pillars: Alpha, Risk, Inventory, Execution, Portfolio Management
 
