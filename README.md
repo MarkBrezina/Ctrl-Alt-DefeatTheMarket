@@ -229,16 +229,16 @@ That could include ideas such as:
 
 ### Round 1
 
-For the first round we had two assets.
+For the first round, we traded two primary assets: **Intarian Pepper Root** and **Ash Coated Osmium**. These followed patterns similar to **Emeralds** and **Tomatoes** from the tutorial round, but with a few key evolutions in their behavior:
 
-**Intarian Pepper Root** and **Ash Coated Osmium**, these two assets followed similar behaviours to **Emeralds** and **Tomatoes** from the tutorial round, with one slightly significant change.
+**Intarian Pepper Root** mirrored the reliability of **Emeralds**, but transitioned from a static price to a consistent **linear upward trend**. This steady climb aligns with the moderators' sentiment: reaching the 200K cutoff this year remains a very realistic goal despite the high target.
 
-**Intarian Pepper Root** was similar to **Emeralds**, but with a linear slope upwards. Thereby following what the mods were saying, there will not be a problem in getting to 200K this year, despite it being the cut off.
+**Ash Coated Osmium** functioned as the dynamic counterpart, similar to **Tomatoes**, but displayed much more aggressive **mean-reversion**. It remained tightly anchored to a baseline (around 10,000), frequently snapping back to its center after brief bouts of volatility.
 
-![Screenshot](utils/Emeralds.png)
+![Screenshot](utils/pepper_root.png)
 
-**Ash Coated Osmium** was similar to **Tomatoes** in that it is a dynamic asset, this time with significant mean reversion behaviour.
-![Screenshot](utils/tomatoes.png)
+Similar to **Tomatoes**, **Ash Coated Osmium** functioned as a dynamic asset; however, it was characterized by much more aggressive mean-reversion behavior. It consistently oscillated within a tight range, frequently snapping back to its 10,000-unit baseline after brief deviations.
+![Screenshot](utils/osmium.png)
 
 ### Round 2
 
