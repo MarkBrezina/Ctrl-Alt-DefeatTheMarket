@@ -1,21 +1,3 @@
-# IMC 4 - Round 1
-
-This year @tomas apparently had a hand in mixing up the assets.
-
-Instead of our reliable stationary straight line asset (EMERALDS in the tutorial round), we now have "INTARIAN_PEPPER_ROOT", which is simply the same idea, but adjusted for a linear regression.
-I have so far found that simply running a linear regression on mid_price, 100 timestep window or so, yields a fairly decent result.
-
-We once again have the drifting asset (TOMATOES in the tutorial round), we now have that called "ASH_COATED_OSMIUM", which is the same idea as previous years.
-
-## Pepper Root
-![Pepper Root](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/utils/pepper_root.png)
-
-## Osmium
-![Osmium](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/utils/osmium.png)
-
-
-
-
 
 ## Summary of previous tutorial rounds
 
