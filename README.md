@@ -229,6 +229,20 @@ That could include ideas such as:
 
 ### Round 1
 
+For the first round we had two assets.
+
+**Intarian Pepper Root** and **Ash Coated Osmium**, these two assets followed similar behaviours to **Emeralds** and **Tomatoes** from the tutorial round, with one slightly significant change.
+
+**Intarian Pepper Root** was similar to **Emeralds**, but with a linear slope upwards. Thereby following what the mods were saying, there will not be a problem in getting to 200K this year, despite it being the cut off.
+
+![Screenshot](utils/Emeralds.png)
+
+**Ash Coated Osmium** was similar to **Tomatoes** in that it is a dynamic asset, this time with significant mean reversion behaviour.
+![Screenshot](utils/tomatoes.png)
+
+### Round 2
+
+No updates until the round finishes.
 
 ## The five pillars: Alpha, Risk, Inventory, Execution, Portfolio Management
 
