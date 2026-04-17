@@ -20,7 +20,7 @@ Similar to **TOMATOES** from the tutorial, **Osmium** is a "drifting" asset. The
 
 **Note on research:** I went over an exercise on denoising the price of Osmium, in order to improve my own signal quality on mean reversion, there was significant benefit in backfilling mid_prices on empty orderbook moments and on using full orderbook volume adjusted mid prices, as well as backfilling for prices with significnat orderflow and imbalance.
 
-![Osmium](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/utils/osmium.png)
+![denoised](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/utils/denoised.png)
 
 # Manual Challenge
 The manual challenge required balancing volume against price impact to maximize net profit. Here is the breakdown of my logic:
