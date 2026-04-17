@@ -69,8 +69,8 @@ The goal was a sophisticated blend of **Market Making (MM)**, **Market Taking (M
 The real challenge—and what likely separated the top of the leaderboard from the rest of us—is finding the perfect "quoting mix" for these strategies. In discussions on Discord, it’s clear that balancing these weights was a universal struggle.
 
 **My Specific (and Flawed) Algo:**
-- **Aggressive MM:** Quoted at $best\_bid + 1$ (with $best\_ask$ volume) and $best\_ask - 1$ (with $-best\_bid$ volume).
-- **Passive MM:** Placed small orders (volume of 3) exactly at the $best\_bid$ and $best\_ask$.
+- **Aggressive MM:** Quoted at $best \_ bid + 1$ (with $best \_ ask$ volume) and $best \_ ask - 1$ (with $-best \_ bid$ volume).
+- **Passive MM:** Placed small orders (volume of 3) exactly at the $best \_ bid$ and $best \_ ask$.
 - **Market Taking:** Executed based on a $Z$-score on price (which, in hindsight, was likely suboptimal).
 
 **The "Idiotic" Move:** A major error was simply subtracting a flat volume of 3 from both sides without a `max(0, quote)` check. For empty timestamps, this caused the algorithm to cross its own orders and short aggressively—an "experiment" in inventory management that proved to be a disaster.
