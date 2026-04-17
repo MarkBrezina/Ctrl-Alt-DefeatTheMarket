@@ -18,6 +18,8 @@ In this round, two new strategic layers have been introduced:
 **Implementing the Bid:**
 To participate in the MAF auction, incorporate the bid() function into your Trader class. Note that this function is unique to Round 2; it is ignored in all other rounds and during the manual "Test Run" phase.
 
+**Game Theory Tip:** You don't need to be the highest bidder to win; you just need to be in the top half. Placing an excessively high bid guarantees access but eats into your final PnL. The goal is to find the "Goldilocks" bid that clears the median without overpaying.
+
 # Algorithmic challenge
 The 2nd round continues the 1st round, with the same assets, but with a new mechanism, the bid mechanism that was left in on the standard trader function.
 We are now posed with the problem
