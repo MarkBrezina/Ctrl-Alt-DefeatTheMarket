@@ -28,4 +28,6 @@ ideal combination and that is what I suspect gets the difference between all of 
 
 # Manual
 
-9999@30 and 19999@17
+DRYLANX_FLAX: bid 9999 @30. This leads to a clearing price of 29, and a fill of 9999 for our bid order. Profit is therefore 9999(30-29) = 9999. Increasing our order size to 10k would push the clearing price up to 30, leading to 0 profit despite our bid getting filled, and bidding lower either leads to our bid not getting filled, or getting 5k filled @29, leading to a smaller profit of 5000.
+
+EMBER_MUSHROOM: bid 19999 @17. This leads to a clearing price of 16 (matched volume of 91k), meaning our profit is 19999(19.9-16). Note here that 19.9 is the buyback at 20 minus transaction costs (0.05 for buying and 0.05 for selling per unit). Profit here is therefore 77996.1, and increasing our bid volume to 20k would push the clearing price up to 17, leading to less profit.
