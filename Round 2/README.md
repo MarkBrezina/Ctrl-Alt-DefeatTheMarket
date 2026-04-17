@@ -48,32 +48,39 @@ Similar to **TOMATOES** from the tutorial, **Osmium** is a "drifting" asset. The
 
 ![denoised](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/utils/denoised.png)
 
-I cocked this up quite significantly on my own submission, going back over my code I not only reversed my Z-score entry and exit. \
-But also force my market making to return negative orders for some timestamps, leading to random orderbook crosses at will. \
-I knew that my inventory adjustments were suboptimal, but simply had to load in.
+## Research & Denoising: Finding the Signal
+I spent considerable time denoising the price of **Osmium** to improve my signal quality for mean reversion. There was a significant advantage in:
+- **Backfilling** `mid_prices` during empty order book moments.
+- Utilizing **volume-weighted mid-prices** across the full order book.
+- Adjusting for prices during periods of significant **order flow imbalance.**
 
-The optimal strategy I was going for was a combination of market-making, market-taking on mispricings, mean reversion and a bit of drift.
-The goal than becomes finding the proper quoting mixes of this. Talking with several people on the discord, we all struggled to find this
-ideal combination and that is what I suspect gets the difference between all of us.
+**Post-Mortem: Where it Went Sideways**
+To be blunt, I fumbled my own submission quite significantly. After a post-round review of my code, I discovered a comedy of errors:
 
+1. **Directional Logic:** I managed to completely reverse my $Z$-score entry and exit signals.
 
-My specific algo was.
-1. Market making, best_bid +1 with best_ask_volume, best_ask -1 with -best_bid_volume.
-2. Passive market making, best_bid with 3, best_ask with -3.
-3. Market taking on Z-score on price. I now suspect this is suboptimal too.
+2. **Order Execution:** I inadvertently forced my market-making logic to return negative orders for certain timestamps, leading the algorithm to "cross the spread" and trade against itself at will.
 
-A set of my errors here was to simply flat subtract 3 on both side, causing my market making for empty timestamps to cross and short. Which is an absolutely idiotic move, I did simply to experiment with my market-making inventory. \
-with no adjustment for max of (0, bid/ask_quote).
+3. **Suboptimal Inventory:** I knew my inventory adjustments were flawed, but I was forced to ship the code as-is due to the deadline.
 
-A set of notes for improvements I have considered were the following.
-1. correcting for moments with no bid, ask or mid price.
-2. correcting for noisy mid pricing, to develop a memory and timeseries of denoised mid prices.
-3. correcting for microtrend following into the mean reversion set up.
-4. adding passive quotes in the book.
+## The "Ideal" Strategy vs. Reality
+The goal was a sophisticated blend of **Market Making (MM)**, **Market Taking (MT)** on mispricings, **Mean Reversion**, and a slight **Drift adjustment.**
 
+The real challenge—and what likely separated the top of the leaderboard from the rest of us—is finding the perfect "quoting mix" for these strategies. In discussions on Discord, it’s clear that balancing these weights was a universal struggle.
 
+**My Specific (and Flawed) Algo:**
+- **Aggressive MM:** Quoted at $best\_bid + 1$ (with $best\_ask$ volume) and $best\_ask - 1$ (with $-best\_bid$ volume).
+- **Passive MM:** Placed small orders (volume of 3) exactly at the $best\_bid$ and $best\_ask$.
+- **Market Taking:** Executed based on a $Z$-score on price (which, in hindsight, was likely suboptimal).
 
+**The "Idiotic" Move:** A major error was simply subtracting a flat volume of 3 from both sides without a `max(0, quote)` check. For empty timestamps, this caused the algorithm to cross its own orders and short aggressively—an "experiment" in inventory management that proved to be a disaster.
 
+## Roadmap for Improvements
+Moving forward, I’m focusing on these four pillars to stabilize the algorithm:
+1. **Handling Gaps:** Implementing robust logic for moments with no bids, asks, or mid-prices.
+2. **Memory & Denoising:** Developing a time-series "memory" of denoised mid-prices to filter out temporary noise.
+3. **Trend Integration:** Adding micro-trend following to better time the entries for the mean reversion setup.
+4. **Passive Liquidity:** Refining the placement of passive quotes within the book to capture spread without getting "run over."
 
 # Manual Challenge
 This is an optimisation problem between profit and cost. Once again I will not be participating in this part, someone else is working on this and I will not share the solution until the round is over.
