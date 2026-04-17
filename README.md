@@ -1,18 +1,13 @@
 
 # Ctrl-Alt-DefeatTheMarket
 
-Before anything else, I would like to acknowledge a few people.
+Before diving in, I would like to express my gratitude to the people who made this possible.
 
-First, thank you to the IMC team for putting together such a wonderful challenge and opportunity, and for consistently helping participants by answering questions across a wide range of topics.
+First, thank you to the IMC team for organizing such a rewarding challenge and for their dedication to supporting participants across a wide range of topics. I would also like to thank @Tomas, @Jack, and the forum admins for their consistent help.
 
-I would also like to thank @Tomas, @Jack, and the forum admins, who have all been incredibly helpful.
+A special thanks goes to @Jasper. I owe him full credit for the asset list and the backtester; his decision to share his work openly inspired this guide, which aims to centralize these resources for the community. I’m also grateful to @Fabian, @oats (April), @mr. nobody, and many others for being such active contributors to the Discord server.
 
-Special thanks also go to @Jasper. Full credit to him for the list, the backtester, and the work he has done around IMC Prosperity. He chose to share his work openly, and this guide builds on that same spirit by gathering useful resources and making them easier to access.
-
-Also a thanks to @Fabian, @oats(April) and @mr. nobody any many more for being active members of the discord server.
-
-I was asked by @Tomas, to not overshare, so I will be updating backwards, such that when a round ends, I will add in my own observations, research and more.
-Each round will pop up as a separate folder.
+To respect a request from @Tomas regarding oversharing, I will be updating this guide retrospectively. Once a round concludes, I will add my specific research and observations. Each round will be organized into its own dedicated folder.
 
 ## Quick steps if you're new or feeling lost
 
