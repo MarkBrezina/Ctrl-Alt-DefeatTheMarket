@@ -9,13 +9,7 @@ I would also like to thank @Tomas, @Jack, and the forum admins, who have all bee
 
 Special thanks also go to @Jasper. Full credit to him for the list, the backtester, and the work he has done around IMC Prosperity. He chose to share his work openly, and this guide builds on that same spirit by gathering useful resources and making them easier to access.
 
-Also a thanks to @Fabian, @oats and @mr. nobody for being active members of the discord.
-
-### Updates
-
-- [Read over the research piece](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/research/README.md) for an idea of what may happen on each round as we progress. These will for now just be notes on what others have done previously
-- previous data for each challenge has been uploaded in the research section
-- I have shared the code I used to get 2.6K in the tutorial round.[basic trader](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/blob/main/trader%20architecture/tutorial_round_2600.py)
+Also a thanks to @Fabian, @oats(April) and @mr. nobody for being active members of the discord.
 
 ## Quick steps if you're new or feeling lost
 
