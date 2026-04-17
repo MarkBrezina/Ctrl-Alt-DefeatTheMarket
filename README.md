@@ -203,7 +203,7 @@ It is also worth mentioning that **Jasper Merle’s backtester** was a major hel
 For example, a backtest result around **35K** roughly translated to about **9K** in Round 1 of IMC 3, which was approximately **top 10%**.
 
 
-## Tutorial round assets
+### Tutorial round assets
 
 **Emeralds**, much like **Rainforest Resin** in IMC 3, behave like a classic stationary asset.  
 If you plot the historical data for Emeralds, you will see that the mid-price stays centred around **10,000** and oscillates around that level with a spread of roughly **16**. That makes it a strong candidate for a straightforward market-making strategy.
