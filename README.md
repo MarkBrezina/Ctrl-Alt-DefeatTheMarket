@@ -9,7 +9,10 @@ I would also like to thank @Tomas, @Jack, and the forum admins, who have all bee
 
 Special thanks also go to @Jasper. Full credit to him for the list, the backtester, and the work he has done around IMC Prosperity. He chose to share his work openly, and this guide builds on that same spirit by gathering useful resources and making them easier to access.
 
-Also a thanks to @Fabian, @oats(April) and @mr. nobody for being active members of the discord.
+Also a thanks to @Fabian, @oats(April) and @mr. nobody any many more for being active members of the discord server.
+
+I was asked by @Tomas, to not overshare, so I will be updating backwards, such that when a round ends, I will add in my own observations, research and more.
+Each round will pop up as a separate folder.
 
 ## Quick steps if you're new or feeling lost
 
