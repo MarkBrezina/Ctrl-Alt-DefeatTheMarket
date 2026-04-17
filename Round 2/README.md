@@ -25,3 +25,11 @@ I knew that my inventory adjustments were suboptimal, but simply had to load in.
 The optimal strategy I was going for was a combination of market-making, market-taking on mispricings, mean reversion and a bit of drift.
 The goal than becomes finding the proper quoting mixes of this. Talking with several people on the discord, we all struggled to find this
 ideal combination and that is what I suspect gets the difference between all of us.
+
+
+My specific algo was.
+1. Market making, best_bid +1 with best_ask_volume, best_ask -1 with -best_bid_volume.
+2. Passive market making, best_bid with 3, best_ask with -3.
+
+My error here was to simply flat subtract 3 on both side, causing my market making for empty timestamps to cross and short. Which is an absolutely idiotic move, I did simply to experiment with my market-making inventory. \
+Yeah, no adjustment for max of (0, bid/ask_quote)
