@@ -9,6 +9,13 @@ A special thanks goes to @Jasper. I owe him full credit for the asset list and t
 
 To respect a request from @Tomas regarding oversharing, I will be updating this guide retrospectively. Once a round concludes, I will add my specific research and observations. Each round will be organized into its own dedicated folder.
 
+
+## Updates
+
+I have updated the following two folders on the rounds so far.
+- [Round 1](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Round%201), with notes on what I did and how I f-cked up my own submission
+- [Round 2](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Round%201), with notes on the current round and how I intend on improving my submission.
+
 ## Quick steps if you're new or feeling lost
 
 If you're completely new and just need a place to start, use the pages below as an index. Otherwise, I recommend reading the rest of the guide as well.
