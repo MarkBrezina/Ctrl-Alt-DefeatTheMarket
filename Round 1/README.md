@@ -2,6 +2,15 @@
 
 # Algorithmic challenge
 
+
+This year @tomas apparently had a hand in mixing up the assets.
+
+Instead of our reliable stationary straight line asset (EMERALDS in the tutorial round), we now have "INTARIAN_PEPPER_ROOT", which is simply the same idea, but adjusted for a linear regression.
+I have so far found that simply running a linear regression on mid_price, 100 timestep window or so, yields a fairly decent result.
+
+We once again have the drifting asset (TOMATOES in the tutorial round), we now have that called "ASH_COATED_OSMIUM", which is the same idea as previous years.
+
+
 ## Interian Pepper Root
 Pepper root is similar to EMERALDS from the tutorial round, but instead of a straight line with 0 slope, it has a slope of X > 0. \
 This changes a key part of the ideal strategy significantly.
@@ -31,3 +40,6 @@ ideal combination and that is what I suspect gets the difference between all of 
 DRYLANX_FLAX: bid 9999 @30. This leads to a clearing price of 29, and a fill of 9999 for our bid order. Profit is therefore 9999(30-29) = 9999. Increasing our order size to 10k would push the clearing price up to 30, leading to 0 profit despite our bid getting filled, and bidding lower either leads to our bid not getting filled, or getting 5k filled @29, leading to a smaller profit of 5000.
 
 EMBER_MUSHROOM: bid 19999 @17. This leads to a clearing price of 16 (matched volume of 91k), meaning our profit is 19999(19.9-16). Note here that 19.9 is the buyback at 20 minus transaction costs (0.05 for buying and 0.05 for selling per unit). Profit here is therefore 77996.1, and increasing our bid volume to 20k would push the clearing price up to 17, leading to less profit.
+
+
+
