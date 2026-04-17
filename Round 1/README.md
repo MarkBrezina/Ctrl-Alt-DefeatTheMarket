@@ -1,14 +1,34 @@
-**Note:** I was asked by the mods not to give away code and too big hints, so I will present the simple description of the assets until after the round is over.
+**Note:** Out of respect for the moderators' request, I will not be sharing specific code or substantial spoilers while rounds are active. Instead, I will provide high-level descriptions of the assets until the conclusion of each round.
 
 # Algorithmic challenge
+This year, **@Tomas** and the team introduced some interesting variations to the asset classes.
 
+## Intarian Pepper Root
+Instead of the perfectly stationary "straight-line" behavior seen with **EMERALDS** in the tutorial, we have **Intarian Pepper Root**. This asset follows a similar logic but is adjusted for a **linear trend.**
+- **Observation:** I found that running a linear regression on the `mid_price` using a window of roughly 100 timesteps yielded a fairly decent predictive result.
+- **Strategy:** While the "ideal" strategy appeared to be **Buy and Hold**, a naive "buy as fast as possible" approach proved suboptimal due to high transaction costs.
+- **Pro Tip:** As **@oats(April)** pointed out, there were also significant opportunities to capture value by analyzing and reacting to the increasing spread.
 
-This year @tomas apparently had a hand in mixing up the assets.
+## Ash-covered Osmium
+Similar to **TOMATOES** from the tutorial, **Osmium** is a "drifting" asset. The goal here was to adapt a drift-adjusted mean reversion strategy.
+- **The "Post-Mortem":** I'll be honest—I botched the implementation here. Going back through my code, I realized I had accidentally reversed my Z-score entry and exit logic. Furthermore, a bug in my market-making function forced negative orders at certain timestamps, leading to unintended orderbook crosses. While I knew my inventory management was suboptimal, I had to ship the code as-is for the round.
+- **Optimal Approach:** The winning play likely involved a sophisticated blend of **market-making, market-taking on mispricings**, and **mean reversion**—all while accounting for the underlying drift. Finding the perfect "quoting mix" for these factors was the main challenge discussed by the community on Discord.
 
-Instead of our reliable stationary straight line asset (EMERALDS in the tutorial round), we now have "INTARIAN_PEPPER_ROOT", which is simply the same idea, but adjusted for a linear regression.
-I have so far found that simply running a linear regression on mid_price, 100 timestep window or so, yields a fairly decent result.
+# Manual Challenge
+The manual challenge required balancing volume against price impact to maximize net profit. Here is the breakdown of my logic:
 
-We once again have the drifting asset (TOMATOES in the tutorial round), we now have that called "ASH_COATED_OSMIUM", which is the same idea as previous years.
+## DRYLANX_FLAX
+- **The Play:** Bid **9999 @ 30.**
+- **The Result:** This results in a clearing price of **29**, leading to a full fill of the 9999 order.
+- **Profit Calculation:** $9999 \times (30 - 29) = 9999$.
+- **Why not more?** Increasing the order size to 10,000 would have pushed the clearing price up to 30, resulting in zero profit. Conversely, bidding lower would either result in no fill or a partial fill (e.g., 5,000 units), both of which yield lower total profit.
+
+## EMBER_MUSHROOM
+- **The Play:** Bid **19,999 @ 17.**
+- **The Result:** This leads to a clearing price of **16** (matching a volume of 91k).
+- **Profit Calculation:** $19,999 \times (19.9 - 16) = 77,996.1$.
+  - *Note: 19.9 represents the 20.0 buyback price minus 0.10 in total transaction costs (0.05 for the buy and 0.05 for the sell).*
+- **Why not more?** Bidding for 20,000 units would have moved the clearing price to 17, significantly reducing the profit margin per unit.
 
 
 ## Interian Pepper Root
