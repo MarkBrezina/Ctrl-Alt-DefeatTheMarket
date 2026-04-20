@@ -9,7 +9,7 @@ A special thanks goes to @Jasper. I owe him full credit for the asset list and t
 
 To respect a request from @Tomas regarding oversharing, I will be updating this guide retrospectively. Once a round concludes, I will add my specific research and observations. Each round will be organized into its own dedicated folder.
 
-## meet-up for UKers
+## GB - UK Participants Meet-up
 For anyone interested in grabbing a drink and chatting with fellow participants—whether you want to celebrate your Phase 1 wins, swap strategies, or just network—you are more than welcome to join us.
 
 - Location: [The Railway Tavern](https://www.greeneking.co.uk/pubs/greater-london/railway) (right outside IMC’s London office, near Liverpool Street Station).
