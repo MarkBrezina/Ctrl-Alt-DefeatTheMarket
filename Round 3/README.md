@@ -50,107 +50,151 @@ Overall, the Orchid strategy was not a predictive model on environmental variabl
 
 
 ## ETF / basket arbitrage
+From previous years, we were already familiar with basket-style products such as PICNIC_BASKET, composed of UKULELE, BAGUETTE, and DIP. In this year’s competition, the same structural idea reappeared in several forms. In Round 3, for example, GIFT_BASKET was introduced alongside its constituents: 4 CHOCOLATE, 6 STRAWBERRIES, and 1 ROSE. Similarly, in another basket round we saw PICNIC_BASKET1 and PICNIC_BASKET2, each defined as fixed linear combinations of underlying products.
 
-From previous years we had PICNIC_BASKET, UKULELE, DIP, and BAGUETTE. We have been informed that one PICNIC_BASKET consists of one UKULELE, two BAGUETTEs, and four DIPs.
-WE also had Gift baskets, chocolate, roses, and strawberries were introduced in Round 3. Each gift basket consisted of 4 chocolate bars, 6 strawberries, and 1 rose. Our main focus in this round was spread trading, where we defined the spread as:
-```
-basket - synthetic
-```
-with `synthetic` equal to the total price of the basket components.
+This type of setup naturally suggests a basket-versus-synthetic arbitrage problem. For any quoted basket, one can construct a corresponding synthetic basket price by summing the prices of the constituents in the correct proportions. The central object we traded was therefore the basket premium or spread, defined as:
 
-Very quickly, we narrowed our thinking to two main hypotheses. The first was that either the synthetic basket would lead the quoted basket, or vice versa, creating a lead-lag relationship we could exploit. The second was that the spread itself might simply be mean reverting.
+spread = quoted basket price − synthetic basket price
 
-When we plotted the spread, we found that although it should theoretically be zero, in practice it oscillated around a fairly stable level of roughly 370 across all three days of historical data. That suggested a potentially profitable mean-reversion strategy: buy the spread (long basket, short synthetic) when it was too low, and sell the spread when it was too high.
+If markets were perfectly efficient and frictionless, this spread would be close to zero or at least stable around a trivial constant. In practice, however, the basket often traded persistently rich or cheap relative to its synthetic value, and this deviation exhibited clear short-horizon mean reversion. That made the problem less about directional prediction and more about relative value trading.
 
-We explored several ways of parameterizing this trade. Our first pass was a simple threshold strategy: trade only when the spread moved a fixed distance away from its average level. After backtesting a range of hard-coded thresholds, our best version projected roughly 120k in PnL.
+### Core hypothesis
 
-However, this approach had an obvious weakness. If the spread reverted before reaching our entry threshold, we would miss the move entirely. Moving the thresholds closer solved that problem only partially, since it also caused us to trade too early and sacrifice edge before the spread reached a local maximum or minimum.
+At the start, we considered two broad possibilities.
 
-To address this, we developed a more adaptive version based on a modified z-score. We used a hard-coded long-run mean for the spread, but estimated volatility with a relatively short rolling window. The logic was that the mean level likely reflected something structural—such as the basket’s embedded pricing—while the day-to-day volatility was less stable and better handled adaptively.
+The first was a lead-lag hypothesis: perhaps the constituents moved first and the basket followed, or vice versa. If true, this would allow us to forecast short-term price moves using one side of the structure as a predictor for the other.
 
-We then traded based on z-score thresholds: selling the spread when the z-score rose above a certain level, and buying when it fell below a corresponding negative threshold. Because the rolling standard deviation window was short, the z-score would often spike just as volatility compressed, which tended to happen near turning points in the spread. In practice, this helped us enter trades closer to local extrema. This improved our projected backtest PnL from around 120k to roughly 135k.
+The second was a mean-reversion hypothesis: perhaps neither side truly led, but instead the spread itself oscillated around a stable equilibrium or premium level. In that case, the profitable strategy would be to buy the spread when it became too cheap and sell it when it became too rich.
 
-After live results were released, we discovered that our actual PnL suffered meaningful slippage relative to the backtest. We made only 111k seashells in the round. Even so, we benefited from the fact that many of the teams ahead of us appeared to have overfit more aggressively, and we finished the round ranked #2 overall.
-```
-# basket arbitrage code block here
-```
+After plotting the time series and analyzing historical behaviour, the second interpretation proved much more convincing. The spread was not centered exactly at zero; rather, it fluctuated around a stable non-zero mean. For the gift basket round, this level was roughly 370 across the available historical data. That strongly suggested that the market was pricing baskets with a persistent premium, but that deviations around this premium were mean reverting.
 
-Algo
-Round 2 introduced new products: CROISSANTS, JAMS, DJEMBES, PICNIC_BASKET1, and PICNIC_BASKET2.
-PICNIC_BASKET1 contained 6 Croissants, 3 Jams, and 1 Djembe.
+### Structural interpretation
 
-PICNIC_BASKET2 contained 4 Croissants and 2 Jams.
+This mattered because it shaped how we thought about execution. Our working model was that the constituents were the more fundamental objects, while the quoted basket price was effectively the constituent value plus a noisy, mean-reverting premium. Under that interpretation, the constituents were not “following” the basket. Instead, the basket was temporarily drifting away from and then back toward its synthetic value.
 
-We recognized the structure from previous years and analyzed the price difference between each basket and its components. The basket premiums appeared mean-reverting, so we hard-coded the mean from bottle data, used a short rolling window for standard deviation, and calculated rolling z-scores:
+This implied that the cleanest source of alpha was the premium itself, not trend following on the basket and not prediction of the underlying components. It also meant we should be careful about adding unnecessary complexity. Techniques like moving-average crossovers or heavily parameterized forecasting rules might fit the data, but without a clear structural rationale they would be much more vulnerable to overfitting.
 
-When z-score > 20, we shorted the basket and longed the constituents.
+So our strategy centered on a simple principle:
 
-When z-score < -20, we did the opposite.
+when the basket premium is too high, the basket is expensive relative to the synthetic, so we sell the basket spread;
+when the basket premium is too low, the basket is cheap relative to the synthetic, so we buy the basket spread.
 
-This hedging isolated and traded the basket premium directly.
+In portfolio terms, that means going long basket / short synthetic when the spread is low, and short basket / long synthetic when the spread is high.
 
+### First implementation: fixed-threshold spread trading
 
+Our first implementation used a fixed-threshold model. We estimated the average premium from the historical data and entered trades only when the spread moved sufficiently far away from that baseline. This was robust and easy to reason about. If the spread was rich by more than some threshold, we sold; if it was cheap by more than some threshold, we bought.
 
-We ran into a problem with this though. The position limits prevented fully hedging both baskets simultaneously. To fix this, we did a few things
+The advantage of this approach was that it respected the structural picture and avoided overfitting. The disadvantage was that it could miss profitable reversions. If the spread reversed before reaching the threshold, we earned nothing. Tightening the threshold helped capture more moves, but also caused us to enter too early and give up edge before the spread reached a local extreme.
 
-We focused on the difference in basket premiums between Basket 1 and Basket 2.
+Even so, this simple threshold model worked reasonably well and projected solid profits in backtests.
 
-Used the z-score (Basket1 premium - Basket2 premium) as entry and exits, using the same 20 and -20 scores for entry/exits, then hedging accordingly.
+### Adaptive version: modified z-score strategy
 
-Using this strategy used the following of our position limits:
+To improve timing, we moved from fixed spread thresholds to a more adaptive modified z-score framework.
 
-100% of Basket 1’s position limit,
+The basic idea was to treat the premium mean as relatively stable, but allow the volatility of the spread to change through time. Rather than normalize the spread using a long and slow estimate of volatility, we used a short rolling standard deviation window. This caused the z-score to become more sensitive exactly when the spread began compressing or volatility dropped, which often coincided with turning points.
 
-60% of Basket 2’s limit.
+Formally, we used:
 
-We did z-score trading with the remaining 40% of position limit on Basket 2, but had to limit it to 32% because we couldn't perfectly hedge due to position limits on the constituents. The remaining 8% of Basket 2’s position limit was unused — so we deployed it by market making (taking advantage of ~7–10 seashell spreads).
+z-score = (spread − long-run premium mean) / rolling spread standard deviation
 
-Overall, this strategy allowed us to fully utilize 100% of allowed position limits while minimizing unhedged risk. Market making with the leftover 8% added ~5k seashells/day in backtests with very low volatility.
+We then traded this z-score directly:
 
-Chris also spotted suspicious trade quantity 15 patterns at highs/lows for Squid Ink and Croissants — hinting at potential price signals. However, it was too late to build a reliable strategy around them, so we planned to revisit this idea in Round 5.
+if the z-score rose above a positive threshold, we sold the spread;
+if the z-score fell below a negative threshold, we bought the spread.
 
-Description
-The GIFT_BASKET is now available as a tradable good. This lovely basket contains three things:
+This improved the strategy in two ways. First, it made entries more responsive to the actual local regime rather than forcing all deviations to be interpreted in raw price units. Second, because the denominator was short-window volatility, the signal often sharpened near local maxima and minima, allowing us to enter closer to the turning point rather than simply waiting for a large absolute deviation.
 
-Four CHOCOLATE bars
-Six STRAWBERRIES
-A single ROSES
-All four of the above products can now also be traded on the island exchange. Are the gift baskets a bit expensive for your taste?
+This was still fundamentally a mean-reversion strategy, but it was a more adaptive one. The z-score did not replace the structural model; it refined the entry rule.
 
-Strategy
-The price of GIFT_BASKET oscillated based on the underlying index, so we only traded GIFT_BASKET. We did not trade the underlying assets to reduce transaction costs. Although trading the underlying assets could have made the portfolio more stable despite some transaction costs, our goal was to maximize expected returns, so we chose not to do so.
+### Hedged versus unhedged implementation
 
-We optimized the trading strategy by augmenting data using Monte Carlo simulation. This helps us avoid overfitting to past data.
+A key design question was whether to trade the basket premium in a fully hedged way or to trade only the basket itself.
 
-When trading GIFT_BASKET, we placed market orders deep into the order book, accepting slippage to seize trading opportunities immediately.
+The fully hedged version is the textbook statistical arbitrage implementation: take the basket position and offset it with the underlying constituents in the exact weights needed to isolate the premium. This reduces directional exposure and makes the trade much purer in theory.
 
-Since our limit orders were rarely filled, we did not performed market making.
+However, there were practical trade-offs:
 
+trading more legs means paying more spread and crossing costs;
+execution becomes more complex and less certain;
+constituent liquidity and basket liquidity were not always symmetric;
+in some rounds, position limits made a perfectly hedged implementation impossible at scale.
 
-ound 2: ETF Statistical Arbitrage
-Picnic Baskets
-In Round 2, three new individual products — Croissants, Jams, and Djembes — were introduced alongside two new baskets: PICNIC_BASKET1 (6x Croissants, 3x Jams, 1x Djembes) and PICNIC_BASKET2 (4x Croissants, 2x Jams). Each basket represented a combination of different quantities of the three products, but crucially, it was not possible to directly convert baskets into their underlying constituents. This setup clearly simulated a basic ETF (Exchange-Traded Fund) structure: linked assets that normally move together, but which might temporarily deviate, creating statistical arbitrage opportunities. In quantitative trading, finding and exploiting such linkages — when the synthetic price of a basket diverges from the sum of its parts — is a classic technique.
+Because of these trade-offs, our implementation varied by round.
 
-A deeper look revealed two main spread opportunities: first, trading the spread between the two baskets adjusted by Djembes (ETF1 - 1.5*ETF2 - Djembes), and second, trading each basket relative to its synthetic value based on the underlying products (ETF - Constituents). While both avenues were possible, we quickly identified that comparing baskets directly to their constituent sums was the stronger and more reliable path.
+For Gift Basket, we often found that the quoted basket itself carried the signal most cleanly, and we were willing to trade the basket more aggressively rather than always fully replicating or hedging every constituent leg. This reduced transaction costs and simplified execution, at the cost of carrying some extra exposure.
 
-Figure 4: Basket Spreads over Time
-Basket spread plot
-This plot shows the spreads (basket price minus synthetic value) for both Picnic Baskets over time, revealing short-term mean reversion patterns.
-When approaching this kind of structure, it's crucial not to blindly apply textbook strategies but to first ask a fundamental question: How could the market data have been generated? The most natural generation process seemed to be that the three constituents' prices were independently randomized, and a mean-reverting noise sequence was then added on top to produce the basket price. If that's true — and our early testing supported it — then the baskets were mean-reverting relative to their synthetic value, while the constituents themselves were not responding to the baskets. Thus, it made sense to treat baskets as drifting toward their synthetic value, not the other way around. Furthermore, while "hedging" by taking opposite positions in constituents could reduce variance, it would actually lower expected value slightly, especially when accounting for spread costs.
+In other basket rounds, especially where synthetic construction was more executable, we leaned more directly into the hedged spread trade, using the constituents to isolate the basket premium.
 
-This understanding had important implications for strategy design. Many teams might have rushed into using moving average crossovers or z-scores for trading signals — but applying such methods without a clear theoretical justification is dangerous. For instance, a moving average crossover only makes sense if you believe there is a short-term trend overlaying a longer-term mean, which was not suggested by the structure here. Similarly, using a z-score normalizes the spread by recent volatility, but unless volatility is known to vary meaningfully over time (which we did not observe here), this introduces unnecessary complexity and risk of overfitting. It's easy to fall into the trap of throwing fancy techniques at the problem after a few hours of backtesting — but if you can't explain why a strategy should work from first principles, then any "outperformance" in historical data is probably noise. From the beginning, we placed the highest value on building a deep structural understanding and keeping strategies simple, minimizing parameters whenever possible to maximize robustness.
+Conceptually, we viewed this as a continuum rather than a binary choice. A strategy can be seen as a linear combination of fully hedged and fully unhedged exposure. In some cases, we deliberately chose a partial hedge, for example hedging 50% of exposure as a compromise between lower variance and higher expected return.
 
-Final Strategy
-Based on that philosophy, our final strategy was built around a fixed threshold model. We entered long positions on the basket when the spread fell below a certain negative threshold, and short positions when it rose above a positive threshold. Instead of dynamically scaling signals or chasing moving averages, we relied on fixed levels tuned through light grid search, focusing on robustness rather than maximizing historical PnL. We further enhanced this base strategy by integrating an informed signal: having already detected Olivia's trading behavior on Croissants (similar to Ink Squid), we used her inferred long/short position to bias our basket spread thresholds dynamically. For example, if our base threshold was ±50, detecting Olivia as short would shift the long entry to -80 and the short entry to +20, dynamically tilting our bias in the favorable direction. This cross-product adjustment allowed us to intelligently exploit correlations between Croissants and the baskets without overcomplicating the system.
+### Position-limit-aware basket allocation
 
-Figure 5: Optimal Parameter Search Grid
-Optimal parameter grid search
-These plots show the backtested basket PnLs across different parameter combinations. The left plot corresponds to Basket 1, and the right plot to Basket 2. num_param_1 represents the base threshold values, while num_param_2 controls the informed threshold adjustments based on Olivia's position.
-During parameter selection, we always prioritized landscape stability over pure performance peaks. Rather than picking the best parameter set based on maximum backtested profit, we chose combinations that showed consistent, flat regions of good performance, reducing sensitivity to slight shifts and avoiding overfit disasters. Additionally, because we noticed that the basket prices carried a slight persistent premium (the mean of the spread was not zero), we subtracted an estimated running premium from the spread during live trading, continuously updating it to prevent bias.
+One of the more difficult problems emerged when multiple baskets shared the same constituents and position limits prevented us from hedging everything simultaneously.
 
-Also, for the final round, we were uncertain whether or not to fully hedge our basket exposure with the constituents. Recognizing that any trading strategy can be viewed as a linear combination of two other strategies — in this case, fully hedged and fully unhedged — we decided to hedge 50% of our exposure as a balanced compromise. Additionally, we adjusted our execution logic: instead of waiting for spreads to fully revert and cross opposite thresholds, we neutralized positions immediately upon spreads crossing zero (adjusted for the informed signal). This change aimed to reduce variance and lock in profits more consistently, while maintaining approximately zero expected value under the assumption that spreads did not exhibit momentum when crossing zero. It is important to note that here, "zero" still referred to the base threshold after incorporating informed adjustments.
+This was particularly important in the dual-basket setup with PICNIC_BASKET1 and PICNIC_BASKET2. Each basket had its own premium relative to its synthetic value, but both baskets also competed for the same constituent inventory and the same position limits. In practice, this meant we could not simply max out both independent basket-versus-synthetic trades at the same time.
 
-Anyone thinking carefully about the problem — starting from generation assumptions, doing proper exploratory data analysis, and resisting the temptation to blindly overfit — could have arrived at a similar approach. Concepts like synthetic replication, mean-reversion modeling (e.g., Ornstein-Uhlenbeck processes), and cross-product signal integration are core ideas in quantitative finance. With the dynamic informed adjustment based on Croissants, our strategy made about 40,000–60,000 SeaShells per round on baskets, plus another 20,000 SeaShells per round directly from trading Croissants individually.
+To solve this, we decomposed the opportunity into two layers.
+
+The first layer was the relative premium spread between Basket 1 and Basket 2. Instead of only asking whether each basket was rich or cheap relative to its own synthetic, we also examined whether Basket 1’s premium was rich relative to Basket 2’s premium, or vice versa. That gave us a higher-level spread:
+
+premium spread = Basket 1 premium − Basket 2 premium
+
+We then z-scored this difference and traded it as a relative-value signal. This was attractive because it used capital efficiently and reduced some of the shared constituent exposure problem.
+
+The second layer was then to allocate the remaining available risk budget to the stronger standalone basket-premium trades. We effectively treated the total book as a constrained optimization problem: first deploy capacity where the spread opportunity was strongest and most hedge-efficient, then use remaining inventory room for secondary opportunities.
+
+In practical terms, this meant:
+
+using 100% of Basket 1 capacity where justified;
+using only part of Basket 2 capacity when constituent limits prevented a full hedge;
+scaling down positions when exact synthetic replication became impossible;
+and reserving leftover unused capacity for other low-risk strategies.
+
+### Using leftover capacity: residual market making
+
+When position limits prevented perfect deployment into basket arbitrage, we did not want capital to sit idle if it could be used safely. In some rounds, a small residual portion of basket capacity remained after all hedge-feasible statistical arbitrage had been allocated.
+
+We used that leftover capacity for light market making, especially when quoted basket spreads were consistently wide. This was not the main source of profit, but it was a useful secondary overlay. The logic was straightforward: if we could not deploy the last few units into a hedged premium trade, we could still earn from passive liquidity provision with tight inventory control.
+
+Because this residual market-making layer was small and used only leftover exposure room, it contributed incremental PnL with low additional variance.
+
+### Signal refinement and informed bias
+
+We also explored whether other products could help refine basket entries. In some cases, suspicious recurring order patterns or participant behaviour in related products suggested that certain names might contain informational signals relevant to the baskets.
+
+For example, if a related constituent appeared to be systematically bought or sold by an informed participant, we could use that inferred directional bias to tilt our spread thresholds. Instead of entering symmetrically, we would shift the long-entry and short-entry levels to favour the side supported by the cross-product signal.
+
+This did not replace the basket-premium framework. Rather, it acted as a bias term layered on top of the base mean-reversion model. The philosophy here was important: we wanted to keep the core structural strategy simple, and only use external signals to adjust thresholds, not to completely redefine the trade.
+
+### Execution philosophy
+
+Execution mattered almost as much as signal generation.
+
+In these basket products, passive quoting was often unreliable. Basket signals could appear and disappear quickly, and if the position limit was small relative to the available opportunity, waiting passively for fills was often more costly than crossing the spread. As a result, when the premium moved far enough away from equilibrium, we frequently chose to cross the market and trade immediately, sometimes even deeper into the order book, accepting slippage in exchange for securing the position.
+
+This reflected a deliberate prioritization: if the expected reversion was strong enough, missing the trade entirely was more expensive than paying some execution cost upfront.
+
+At the same time, we were careful on exits. Rather than always requiring the spread to travel all the way to the opposite threshold, we often neutralized once it had reverted sufficiently close to fair value or crossed the adjusted equilibrium level. This helped reduce variance and lock in profits more consistently.
+
+### Strategy summary
+
+Overall, our basket strategy was built on a relatively simple but robust insight: the baskets traded with a persistent premium over their synthetic value, and deviations from that premium tended to mean revert.
+
+Everything else followed from that:
+
+compute the synthetic value from the constituents,
+define the basket premium as basket minus synthetic,
+estimate a stable long-run premium mean,
+normalize deviations using either fixed thresholds or a short-window rolling z-score,
+buy the spread when the basket becomes too cheap,
+sell the spread when it becomes too rich,
+hedge fully, partially, or not at all depending on transaction costs, liquidity, and position limits,
+allocate capacity across multiple baskets with awareness of shared constituent constraints,
+and use any remaining unused capacity for small residual market making.
+
+The key point is that this was never a purely mechanical z-score strategy. It was a structural relative-value strategy grounded in how baskets and constituents were likely generated, with the z-score serving only as a practical entry-timing device. That kept the model interpretable, limited overfitting, and made it much easier to adapt across different versions of the basket products introduced in different rounds.
 
 
 
