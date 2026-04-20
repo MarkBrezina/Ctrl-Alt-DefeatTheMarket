@@ -355,3 +355,264 @@ Add only a small and controlled overlay of underlying mean reversion rather than
 
 That was the intellectual core of the strategy: not forecasting the underlying directly, but pricing volatility more accurately than the market and managing the hedge well enough to capture that edge.
 
+# Additional Notes
+Cross-year signal discovery
+
+Our leading hypothesis for Puerto Vallarta’s outsized profits was that they had found some way to predict future price movements. A result on the order of 1.2 million SeaShells looked too large to be explained by ordinary execution improvements alone; it seemed more consistent with a very strong predictive signal spanning multiple products.
+
+We therefore began a broad search for missed structure in the data. First, we ran regressions on both contemporaneous and lagged returns across all symbols and all available days, looking for cross-asset relationships we might have overlooked. A few effects looked mildly interesting—for example, Starfruit appeared to have some lagged predictive power for several other products—but nothing remotely strong enough to explain the sort of edge we were trying to replicate.
+
+As a final attempt, we looked outside the competition year itself. The previous year’s competition, as discussed in the Stanford Cardinal write-up, appeared to share a number of structural similarities with this one, especially in the early rounds where the product set sounded almost identical. That led us to source the previous year’s public data from GitHub and test whether returns in last year’s assets might map onto this year’s products.
+
+The results were absurd, but hard to ignore. Returns in last year’s Diving Gear, scaled by roughly 3, were almost a perfect predictor of Roses, with an R
+2
+ of about 0.99. Similarly, last year’s Coconuts were an almost perfect predictor of this year’s Coconuts, with a beta of roughly 1.25 and an R
+2
+ again near 0.99.
+
+These relationships were obviously artificial, but the competition objective was simple: maximize PnL. Since the prior-year data was public, we treated it as fair game. From that point onward, our focus shifted from discovery to extraction: if other teams could find the same relationships, then implementation quality and optimization would matter just as much as the signal itself.
+
+Our first pass was straightforward. We simply bought or sold Coconuts and Roses whenever the predictor implied a sufficiently large future move to overcome the spread. Even this naïve implementation dramatically outperformed almost everything we had built in earlier rounds. But because the historical signal was so strong, we believed even more value could be extracted by optimizing pathwise execution rather than using crude entry thresholds.
+
+That led us to a dynamic programming (DP) approach. Since the predictor effectively gave us a future price path, the real challenge was no longer forecasting direction, but determining the optimal sequence of trades subject to realistic trading constraints. These constraints included:
+
+spread costs,
+limited executable size at each timestamp,
+and hard position limits.
+
+The need for DP came from the fact that we could not always move directly to the ideal position. The optimal trade at a given timestamp depended not just on the forecasted future prices, but on which intermediate inventory levels were actually reachable under order-book volume constraints.
+
+A simple example illustrates the issue. Suppose prices evolve as:
+
+8 → 7 → 12 → 10
+
+with a position limit of 2.
+
+If enough volume is available at every step, the optimal trade sequence is:
+
+sell 2 → buy 4 → sell 4
+
+for a total PnL of 16.
+
+But if execution is capped at 2 units per step, the optimum changes to:
+
+buy 2 → buy 2 → sell 2
+
+for a total PnL of 14.
+
+This kind of path dependence is exactly what the dynamic program was designed to handle.
+
+The inputs to the DP were the predictor price series, an average spread estimate, and an estimate of executable volume as a fraction of the position limit. Because the predictive relationship was so strong, it was sufficient to generate trades directly from the predictor path. The DP then produced a timestamp-by-timestamp action sequence for each product, deciding whether to buy, sell, or hold in order to maximize total achievable PnL under the constraints.
+
+Using this approach across Roses, Coconuts, and Gift Baskets, we achieved an algo PnL of roughly 2.1 million SeaShells, the highest of any team in that round. That performance was ultimately the main driver behind our rise back up the overall leaderboard.
+
+# dynamic programming code block here
+Counterparty analysis and informed flow
+
+In another round, no new products were introduced. Instead, the exchange revealed the identities of the counterparties we were trading against. There were 11 other bots active in the market, and that immediately suggested a different kind of edge: perhaps one of the bots was systematically better informed than the rest.
+
+We began by visualizing the full trade flow of every bot across every product. For each product, we plotted the price series and overlaid the trades of individual bots, which made it possible to visually inspect whether any trader consistently bought near lows or sold near highs. One name stood out almost immediately: Olivia.
+
+Across multiple products, Olivia’s trades appeared suspiciously well timed. She repeatedly bought near local lows and sold near local highs, often across the same products on consecutive days. This confirmed a suspicion we had already formed in earlier rounds from pattern analysis alone: some trades in the data were not random, and at least one trader seemed to possess a strong directional signal.
+
+From there, the question became how best to exploit that information.
+
+Squid Ink
+
+For Squid Ink, we chose a hybrid approach. Before Olivia’s signal appeared, we continued with our existing market-making and liquidity-taking strategy. Once Olivia traded, however, we treated that as a regime shift and followed her direction for the rest of the day. In practice, this meant that Olivia’s signal dominated our directional posture once it appeared, while our earlier strategy monetized the spread and volatility while waiting for it.
+
+Croissants and basket interaction
+
+Croissants were more complicated because they were also one of the main components in our basket trades. Chris reasoned that if Olivia had a true directional edge in Croissants, then we should not continue running basket trades that effectively put us in the opposite direction. Since Croissants represented roughly 50% of the value of the baskets, opposing Olivia through the basket could undo a substantial part of the signal’s value.
+
+This insight pushed us toward a much more aggressive stance. Rather than merely copy Olivia in Croissants with the direct product limit, we realized that we could amplify that exposure indirectly through the baskets. Our direct Croissant position limit was 250, but by going long through both baskets we could reach an effective exposure closer to 1050 Croissants.
+
+This was a much more aggressive strategy than our previous basket-stat-arb implementation, but the upside looked compelling. On weaker days, the difference between the high and low in Croissants was still often around 40 SeaShells, which implied that an extra 800 Croissant-equivalent exposure could add something like 32k in additional PnL even in a relatively poor scenario. On stronger days, when the high-low move was more like 120, the extra upside was enormous.
+
+By comparison, our statistical basket arbitrage often produced around 50k on its best days, whereas “YOLO-ing” into Croissants on Olivia’s signal could produce as much as 120k on strong days. That trade-off made the decision attractive, especially because it was also much simpler to implement cleanly.
+
+To support this structure, we hedged the baskets with the remaining components—Jams and Djembes—as much as position limits allowed, since basket movement still remained substantially correlated with those products. Even after hedging, we ended up with some unavoidable residual exposure, including about 30 Jams. We accepted that risk because it allowed us to take on even more effective Croissant exposure, and the expected gain from the Croissant signal appeared larger than the likely downside in Jams.
+
+Premium risk in baskets
+
+This strategy did leave us exposed to basket premium risk. In a near-worst-case scenario, if we entered a basket position at the top of its premium and exited at the bottom, the premium movement alone could cost roughly 300 SeaShells per basket, or as much as 45,000 SeaShells in aggregate in an extreme case.
+
+We could not find a good way to hedge that premium risk directly. Instead, we relied on a probabilistic argument. Chris found evidence that the change in basket premiums was approximately stationary, with reasonably strong statistical confidence. Under that assumption, premium movements were more like noise than drift, and the probability of systematically entering at the exact worst moment seemed low—provided Olivia’s signal was not itself correlated with premium extrema. In hindsight, that latter assumption should probably have been tested more directly, but at the time we concluded that the expected premium loss was close to zero and that the practical worst-case loss was likely far smaller than the theoretical bound.
+
+That made the risk worth taking.
+
+Final optimization
+
+One final optimization Chris added was to continue market making and taking on both picnic baskets while waiting for Olivia’s first signal to arrive. Since both baskets had wide spreads, this added up to another 10k SeaShells per day depending on how long the wait was before the signal appeared.
+
+By the time trader IDs were formally exposed in the final round, this did not fundamentally change our strategy, since we had already identified Olivia’s behavior earlier. What it did do was simplify and harden the implementation. Instead of inferring Olivia’s actions indirectly from suspicious price patterns and trade locations, we could check the trader ID directly, which reduced false positives, lowered the chance of missing a real signal, and saved a few hundred SeaShells over the round.
+
+Because we entered the final round with a lead of roughly 190k over third place, we also made the overall portfolio more conservative. We half-hedged basket exposure and toned down the mean-reversion sleeve in order to reduce the risk of a catastrophic late-round loss.
+
+Summary of the counterparty strategy
+
+The strategy in this round was not merely “copy Olivia.” It had several layers:
+
+identify which trader had genuine predictive timing;
+follow her directly in products where the signal was clearly superior to our own alpha;
+stop trading correlated basket structures against her directional information;
+increase effective exposure through basket components where risk-reward justified it;
+hedge residual basket risk where possible;
+and continue harvesting spread income while waiting for the signal to appear.
+
+That combination of signal extraction, structural amplification, and pragmatic execution was one of the most profitable and conceptually satisfying parts of our overall approach.
+
+Pair trading
+
+We also experimented with more classical relative-value trades during the competition. In the Coconuts / Pina Coladas setup, Konstantin implemented a pair-trading strategy based on the spread:
+
+Pina Colada − (15/8) × Coconut
+
+The idea was to exploit deviations from the historical relationship between the two products. We also considered momentum-based alternatives, but pair trading consistently generated stronger results in our tests, so it remained the main approach in that product pair.
+
+This strategy never became the centerpiece of our book, but it was one of several examples where standard statistical-arbitrage logic still produced decent returns when the product design supported it.
+
+Research that did not make it into production
+
+Throughout the competition, we explored a number of ideas that were theoretically interesting but either too fragile, too complex, or too unreliable to deploy live.
+
+Basket mean-reversion modeling
+
+We tried to model the spread between picnic baskets and their synthetic values for standalone mean-reversion trading. The logic was sound, but the implementation became messy, especially once position limits and cross-product dependencies started to matter. Some variants backtested well, but the performance was not consistent enough to justify relying on them as core production strategies.
+
+Volatility surface fitting
+
+For Volcanic Rock vouchers, we experimented with fitting a full volatility surface / smile to implied volatilities as a function of moneyness. In principle this would have given us a more refined options-pricing framework than a single rolling implied vol estimate. In practice, it proved too complex to implement reliably under time pressure, and we were not sufficiently confident in the live robustness of the calibration.
+
+Delta hedging
+
+We also attempted more sophisticated delta-hedged options strategies in Volcanic Rock and its vouchers. Conceptually, this was attractive: isolate implied-volatility mispricing while hedging away directional exposure in the underlying. But in practice, calibration, timing, and position-limit interactions made the live implementation much harder than expected.
+
+Direct basket-component arbitrage
+
+We wrote code to arbitrage directly between picnic baskets and their constituents (Croissants, Jams, Djembes), but ran into implementation bugs and hedge-allocation problems. We never managed to deploy a version we trusted.
+
+Broad price-pattern analysis
+
+We spent a great deal of time modeling almost every product—Squid Ink, Croissants, Jams, Djembes, Volcanic Rock, Macarons, and others—for autocorrelation, seasonality, and cross-asset predictive structure. Some of that effort paid off indirectly by sharpening our intuition, but much of it did not produce live-tradable strategies.
+
+More advanced use of Olivia’s signal
+
+After identifying Olivia as an informed trader, we tried to integrate her signal more subtly into our quoting logic—for example by dynamically shifting bids and asks rather than just following her trades outright. These approaches were elegant in theory, but the added complexity did not translate into sufficiently reliable gains. Direct copy-trading and directional positioning simply worked better.
+
+Round-by-round overview
+Round 1
+
+Round 1 introduced the first three products: Rainforest Resin, Kelp, and Squid Ink.
+
+Rainforest Resin
+
+We treated Resin as a stable-value product centered around 10,000. The strategy combined tight market making with controlled inventory management. We placed passive orders slightly inside inefficient book levels and selectively took favorable quotes when the market drifted away from fair value. Additional passive rebalancing orders helped keep inventory under control.
+
+Kelp
+
+Kelp required a more adaptive fair-value model. We first analyzed the frequency of quoted sizes to identify the most reliable order-book levels, and then used those filtered quotes to compute a more platform-aligned estimate of fair value. Around this estimate, we ran a mix of passive market making and opportunistic liquidity taking when spreads widened. Conservative inventory management remained central throughout.
+
+Squid Ink
+
+For Squid Ink, our first implementation used a directional signal based on top-of-book pressure. We tracked changes in best bid/ask levels and volumes, converted those into a pressure score, and then generated buy, sell, or hold signals. Execution used adaptive offsets that adjusted based on recent fill behavior.
+
+Round 2
+
+Round 2 introduced Croissants, Jams, Djembes, Picnic Basket 1, and Picnic Basket 2.
+
+Squid Ink
+
+After poor results in Round 1, we rebuilt the Squid Ink model from scratch. The new version used a runtime-trained logistic regression with a seven-feature vector including z-score, momentum, order-book imbalance, MACD-style signals, and pressure features. Orders were sized and priced based on model confidence, and the model was retrained every 50 timestamps on recent history.
+
+Jams
+
+Jams looked more naturally mean reverting, so we traded them with a rolling z-score framework combined with light trend confirmation. Position sizes were adjusted based on existing exposure.
+
+Croissants and Djembes
+
+We initially chose not to trade Croissants or Djembes individually. Both were volatile, and neither looked like a clean standalone product for market making or directional execution at that stage.
+
+Picnic Basket 1
+
+For Basket 1, we computed its synthetic value from the components:
+
+Synthetic = 6 × Croissants + 3 × Jams + 1 × Djembe
+
+We then traded the basket directionally whenever its quoted price diverged from this synthetic value by more than a threshold. To reduce latency and execution complexity, we avoided trading all legs simultaneously and instead focused on the basket itself.
+
+Picnic Basket 2
+
+We tested the same logic on Basket 2:
+
+Synthetic = 4 × Croissants + 2 × Jams
+
+But Basket 2 proved harder to trade consistently. Correlation with the synthetic was less stable, spreads were tighter, and noise was proportionally larger. Backtests showed significantly worse drawdowns, so we dropped it from the live book in that round.
+
+Round 3
+
+Round 3 introduced Volcanic Rock and five Volcanic Rock vouchers, which effectively behaved as European call options with seven in-game days to expiry.
+
+Squid Ink
+
+Squid Ink once again underperformed, which pushed us toward a simpler mean-reversion model. We replaced the previous logic with a z-score / EMA-based setup and kept position sizes very small to limit further damage.
+
+Picnic Baskets
+
+We made modest improvements to the basket strategies, including using volume-weighted mids and re-tuning thresholds.
+
+Volcanic Rock
+
+For the underlying itself, we ran a position-sensitive dynamic market-making strategy that adjusted quoting aggressiveness based on both inventory and recent execution pressure.
+
+Volcanic Rock Vouchers
+
+We initially focused on the 10,000 and 10,250 strike vouchers, which were the most attractive based on moneyness and liquidity. We priced them using Black-Scholes, inferred implied volatility from market prices, and compared that to a rolling reference level. When deviations were large enough, we traded volatility directionally by buying underpriced premium and selling overpriced premium.
+
+Round 4
+
+Round 4 introduced Magnificent Macarons, a conversion-based product influenced by sunlight, sugar prices, transport fees, tariffs, and storage costs.
+
+Squid Ink
+
+After repeated rewrites and continued losses, we finally gave up on Squid Ink. At that point, it had become a sink of engineering time without delivering reliable PnL.
+
+Picnic Basket 1
+
+We improved Basket 1 by smoothing the synthetic value with an EMA, introducing separate entry and exit thresholds, and layering orders across multiple price levels to improve fill probability.
+
+Picnic Basket 2
+
+We applied the same structural improvements to Basket 2 and tuned the thresholds in our own backtester.
+
+Volcanic Rock and vouchers
+
+We revisited the options sleeve in more depth. We found that the 9500 and 9750 vouchers were now deeply in the money and closely co-moved with the underlying, so we applied a mean-reversion framework similar to the one used for Volcanic Rock. The 10,000 voucher remained close to at-the-money, so we continued using implied-volatility z-score arbitrage. The 10,250 voucher sat in an intermediate region, and we reused the 10,000-strike logic there as well.
+
+Magnificent Macarons
+
+We explored several regression-based fair-value models using sunlight and sugar prices, but the combination of unstable dependencies, strict conversion constraints, and inventory-storage costs made the product far more complex than it looked. With exams approaching and limited time, we chose not to trade Macarons in that round.
+
+Round 5
+
+No new products were introduced in the final round, but the exchange began revealing counterparty identities, which enabled trader-specific signal extraction.
+
+By then we were around 15th globally, and our priority shifted from upside maximization to protecting rank by avoiding large negative PnL.
+
+Volcanic Rock vouchers
+
+We refined our strike selection based on updated volatility analysis. The 10,250 voucher was removed because it appeared likely to remain deeply out of the money. The 10,000 voucher remained active using the same IV-based logic, while the 9500 and 9750 vouchers continued under the mean-reversion approach tied to Volcanic Rock.
+
+Magnificent Macarons
+
+We finally introduced a very conservative, one-sided arbitrage strategy. Whenever the local bid exceeded Pristine Cuisine’s adjusted ask—including transport and import fees—we sold locally and converted from Pristine Cuisine. We disabled the reverse direction because export tariffs made it rarely worthwhile. This created a safe, low-frequency source of alpha with essentially zero directional exposure.
+
+Signal-based trading using trader identities
+
+We performed a broad analysis of all traders, plotting their trades across products and studying their interactions. Olivia once again emerged as the clearest source of predictive information, particularly in:
+
+Squid Ink
+Croissants
+Kelp
+
+Knowing that many teams would likely have identified the same signal, we focused on execution quality as the differentiator. Rather than simply crossing the best bid or ask when Olivia traded, we placed layered limit orders across multiple price levels, distributing volume according to confidence and historical fill behavior. This turned a widely known signal into a more differentiated source of realized alpha.
