@@ -87,31 +87,227 @@ This is an optimisation problem between profit and cost. Once again I will not b
 
 
 
-# Notes on improvement and missed alpha.
-Once again, I will beat myself over the head with this one, as I have experienced this in reality many times, but never really dealt with it as a market maker.
-I am a MFT and portfolio management man, so I discarded these alphas as noise, the way I have been taught to do so.
+Post-Mortem: Where My Submission Broke Down
 
-Here are the ideas,
+In hindsight, the biggest gap between the strategy I wanted to run and the strategy I actually submitted was implementation quality.
 
-1. Pepper root is linearly upwards trending, buy and hold. Hopefully everyone caught this idea.
-2. Osmium is mean reverting, mirroring more real world assets.
+After reviewing the code post-round, I found several major issues:
 
-Both show some of the same characteristics, some of the things appearing in reality as well. 
-I cannot myself utilise these alphas, due to transaction costs. But if we have no transaction costs they are easy cash grabs.
+Reversed directional logic:
+I accidentally inverted my $Z$-score entry and exit logic, which meant I was often leaning the wrong way on the very signal I intended to trade.
+Broken order handling:
+At certain timestamps, my market-making logic produced negative order quantities where it should not have. In practice, this sometimes caused the strategy to cross the spread and trade against its own intended logic.
+Weak inventory control:
+I already knew my inventory adjustments were underdeveloped, but I ran out of time and had to ship the strategy as-is. That left the system much more exposed than I would have liked.
 
-1. microprice mispricings, these can be caught using orderflow.
-So if OF is negative, you expect:
- negative return -> postive return.
-Which means you buy low, sell high.
+So while the high-level idea was reasonable, the actual submission suffered from several avoidable execution errors. In a round where edge came from small but repeatable microstructure signals, those implementation mistakes mattered a lot.
 
-If OF is positive, you expect:
-Positive return -> negative return.
-Which means you sell high, buy low.
+Missed Alpha and What I Underestimated
 
-2. Single-sided orderbooks.
-If you're the only person on a side of the orderbook. Essentially you are the only buyer or seller in the market.
-YOU GET TO DECIDE THE PRICE.
+One of the main lessons from this round is that I initially dismissed several useful microstructure signals as “noise.”
 
-3. Single person in a seemingly empty market.
-If you seem to be the only person around, simply propose your prices and if someone comes around to look, let them buy if desired.
+Coming from a more medium-frequency / portfolio-management mindset, I’m used to filtering out very short-horizon effects unless they survive transaction costs and capacity constraints. In this environment, though, some of those short-lived effects were not noise at all — they were a meaningful source of edge.
 
+Here are the main patterns I think mattered most:
+
+1. Pepper Root: trend was the obvious first-order signal
+
+Intarian Pepper Root showed a fairly clean upward linear trend. The first and most important conclusion was simple: the asset wanted to go up.
+In that sense, a buy-and-hold style bias was likely the correct baseline view, and I assume most participants picked up on that quickly.
+
+The harder part was not identifying the trend, but executing around it efficiently. A naive “buy immediately and as aggressively as possible” approach leaves too much value on the table through spread costs and poor timing. The better version was likely some combination of:
+
+directional accumulation,
+passive buying where possible,
+and spread-aware execution.
+2. Osmium: classic mean reversion, but with structure
+
+Ash-Coated Osmium behaved much more like a mean-reverting asset, closer to the kind of short-horizon reversion you see in real markets.
+
+The key was not just “buy low, sell high,” but understanding which deviations were worth fading:
+
+deviations in a denoised price,
+deviations driven by temporary order-book imbalance,
+and short-term dislocations caused by one-sided flow.
+
+In other words, the real edge likely came from combining:
+
+mean reversion,
+market making,
+selective market taking,
+and a light drift adjustment when needed.
+3. Order-flow and microprice dislocations were more valuable than I gave them credit for
+
+This was probably my biggest conceptual miss.
+
+Short-horizon price pressure often appeared to overshoot in the direction of recent order flow, creating small reversion opportunities. In practical terms:
+
+When order flow was strongly negative, that often coincided with a short-term push downward that could subsequently mean revert.
+When order flow was strongly positive, the opposite setup often appeared.
+
+These were not massive directional bets, but they looked like exactly the kind of repeatable micro-alpha that matters in a low-latency market-making setting.
+
+4. Single-sided and empty order books created unusual opportunities
+
+Another feature I underestimated was how informative thin books could be.
+
+If the book became single-sided, or nearly empty, price discovery effectively became much less competitive. In those moments:
+
+if you were the only meaningful buyer or seller,
+or one of the only participants quoting,
+
+you had a temporary opportunity to shape the available price.
+
+That does not mean you can quote anything you want forever, but in a sparse market it clearly matters who is willing to show liquidity first. These moments seemed especially valuable for:
+
+setting favorable passive quotes,
+harvesting spread,
+and anchoring price when competition temporarily disappeared.
+5. The main lesson: microstructure edge compounds
+
+None of these signals in isolation looked huge. But together, they likely formed a meaningful edge:
+
+trend capture in Pepper Root,
+mean reversion in Osmium,
+spread capture through passive liquidity,
+order-flow reversion,
+imbalance-based fades,
+and opportunistic quoting during empty-book states.
+
+That is also what made implementation quality so important. When your edge comes from many small improvements, even minor mistakes in quoting, sizing, or inventory logic can wipe out the benefit.
+
+Roadmap for Improvements
+
+If I were to rebuild this round from scratch, I would focus on four things:
+
+Robust handling of sparse data:
+Better logic for timestamps with missing bids, asks, or mid-prices.
+Denoised state estimation:
+A cleaner internal fair-value process using backfilled and volume-adjusted prices.
+Microstructure-aware signal layering:
+Combining trend, reversion, imbalance, and order-flow information in a more structured way.
+Safer quote construction:
+Stronger inventory controls and stricter safeguards to prevent invalid or self-defeating order placement.
+Diagram ideas: what to use for each concept
+
+If you want to showcase the alphas clearly, I would not try to cram everything into one figure. The cleanest approach is a small set of focused charts, each with one job.
+
+Recommended diagram set
+1. Pepper Root trend chart
+
+Purpose: Show the linear upward trend and why buy-and-hold was the baseline.
+
+Use:
+
+Line chart of mid_price over time
+Overlay rolling linear regression trend line
+Optionally mark “passive accumulation” zones
+
+Why it works:
+This makes the first-order signal immediately obvious.
+
+Good caption:
+“Pepper Root exhibited a persistent upward drift, making directional accumulation the natural baseline strategy.”
+
+2. Osmium raw vs denoised price chart
+
+Purpose: Show why denoising matters for mean reversion.
+
+Use:
+
+Two lines on the same chart:
+raw mid-price
+denoised / backfilled / volume-adjusted price
+Optional shaded bands for mean-reversion thresholds or Z-score bands
+
+Why it works:
+It visually explains that the tradable signal is cleaner than the raw tape.
+
+Good caption:
+“Denoising reduced microstructure noise and made short-horizon reversion signals easier to identify.”
+
+3. Spread capture / market-making schematic
+
+Purpose: Explain how passive quoting captures edge.
+
+Best format:
+A simple order book ladder diagram or a quote placement diagram, not a time series.
+
+Show:
+
+best bid
+best ask
+your passive quotes
+fill arrows
+realized spread
+
+Why it works:
+Spread capture is easier to understand as a book snapshot than as a noisy time-series plot.
+
+Good caption:
+“Passive liquidity provision monetizes the spread when quotes are placed ahead of adverse selection.”
+
+4. Order imbalance vs future return
+
+Purpose: Show mean reversion conditioned on imbalance.
+
+Best format:
+A bucketed bar chart or decile plot.
+
+X-axis: order imbalance buckets (very negative to very positive)
+Y-axis: average next-period return
+
+If the alpha is reversionary, you should see:
+
+strongly negative imbalance → positive next return
+strongly positive imbalance → negative next return
+
+Why it works:
+This is probably the cleanest way to present the relationship statistically.
+
+Good caption:
+“Extreme order-book imbalance tended to be followed by short-term reversal rather than continuation.”
+
+5. Order flow shock event study
+
+Purpose: Show order-flow reversion.
+
+Best format:
+An event study chart.
+
+X-axis: time relative to event (t-10 to t+20)
+Y-axis: cumulative return or average mid-price change
+
+Split into two panels or two lines:
+
+positive order-flow shocks
+negative order-flow shocks
+
+Why it works:
+It shows whether order-flow bursts tend to overshoot and reverse afterward.
+
+Good caption:
+“Short-term directional order-flow shocks often reverted over the following few observations.”
+
+6. Empty / single-sided book opportunity chart
+
+Purpose: Show the alpha from sparse books.
+
+You have two good options:
+
+Option A: Event-study style
+Detect moments where the order book is empty or single-sided
+Plot average return / spread / fill opportunity around those events
+Option B: Example snapshots
+Show 3–4 small order-book snapshots:
+normal book
+thin book
+single-sided book
+empty book
+Annotate what opportunity exists in each case
+
+Why it works:
+This concept is structural, so examples are often better than pure statistics.
+
+Good caption:
+“When the book became sparse or one-sided, the first participant willing to show liquidity gained disproportionate price-setting influence.”
