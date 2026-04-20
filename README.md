@@ -10,6 +10,11 @@ A special thanks goes to @Jasper. I owe him full credit for the asset list and t
 To respect a request from @Tomas regarding oversharing, I will be updating this guide retrospectively. Once a round concludes, I will add my specific research and observations. Each round will be organized into its own dedicated folder.
 
 
+## Phase 2.
+
+Phase 1 has now ended and everyone who managed to score above 200K has passed onto the second phase. We do not know too much about it at this point. But we can prepare for the next phase, like how we did for the first phase.
+By studying the previous years.
+
 ## Updates
 
 I have updated the following two folders on the rounds so far.
