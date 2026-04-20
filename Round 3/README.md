@@ -6,6 +6,19 @@ We do not yet know what the assets for Rounds 3, 4, and 5 will be, and at presen
 
 ## Commodities and external factors
 
+Products: Magnificent macarons
+
+Strategy: For Magnificent Macarons, we implemented a cross-market arbitrage strategy that considers trading with a foreign island through the conversion mechanism. The strategy analyzes the bid/ask spreads in both local and foreign markets, accounting for transportation fees, import/export tariffs, and other conversion costs to identify profitable arbitrage opportunities.
+
+Our approach dynamically adapts to market conditions based on the "sunlight index" observation:
+
+In normal sunlight regime: We execute two-way arbitrage, buying locally and selling abroad when local prices are lower than foreign prices (after accounting for fees), and vice versa.
+In low sunlight regime: We switch to an accumulation strategy, aggressively building up long positions while avoiding exports, capitalizing on the favorable conditions for holding inventory.
+The strategy also includes market making elements, placing competitive bids and asks to provide liquidity while skewing order sizes based on our current position to maintain balance.
+
+We couldn't get a working macarons strategy by the end of this round, and we decided to disable trading volcanic rock until we could get a proper strategy. Luckily enough for us, we remained 2nd in the world, while almost every other team in the top 30 dropped.
+
+
 Orchids were introduced in Round 2, along with a range of external variables: sunlight, humidity, import/export tariffs, and shipping costs. The premise was that orchids were grown on a separate island and had to be imported, making them subject to tariffs and transport costs. Their value also deteriorated under poor sunlight and humidity conditions. We were able to trade orchids both in our local market and through imports from the South Archipelago.
 
 From the start, we saw two possible approaches. The first was the obvious one: look for alpha in the available data by testing whether orchid prices could be predicted from sunlight, humidity, tariffs, and so on. The second was to understand the mechanics of orchid trading itself, since the documentation was not especially clear. We split up accordingly: Eric looked for predictive signals in the historical data, while Jerry focused on reverse-engineering the trading environment.
@@ -372,6 +385,14 @@ In terms of results, IV scalping contributed approximately 100,000 - 150,000 Sea
 Note: After the fourth round, where the mean reversion strategy resulted in a loss of approximately 50,000 SeaShells, we reassessed its validity. Although we no longer found strong empirical evidence to justify continuing with mean reversion purely on standalone expected value grounds, we knew that several top teams were actively only trading mean reversion strategies. So we figured, if they wouldn't find the IV scalping strategy, they might just accept the coinflip and go all in mean reversion because otherwise they would surely get overtaken by everyone. Facing a 200,000 SeaShell lead at that point, we made a calculated decision to maintain some mean reversion exposure — not because we believed it was necessarily positive EV anymore, but to hedge relatively against the teams still pursuing that angle. We estimated the 95% Value at Risk (VaR) of the mean reversion component to be around 50,000 SeaShells — only about 25% of our lead — leaving us with sufficient margin even if the strategy failed again. Under our assumptions, keeping this balanced exposure maximized our likelihood of securing first place by minimizing relative downside risk while preserving our core scalping profits. This turned out to be the right decision. Although, in the last round some random team very unnaturally jumped from 100+ rank to 1st place, we could keep a healthy distance to all teams that were previously close behind us.
 
 
+Products: Volcanic rock, volcanic rock vouchers
+
+Strategy: For Volcanic Rock and its vouchers, we implemented an options pricing strategy using the Black-Scholes model. We treated vouchers as call options on Volcanic Rock with various strike prices. The strategy calculates implied volatility from market prices, maintains a rolling volatility window, and prices vouchers based on this volatility estimate. We also look for arbitrage opportunities between vouchers with different strike prices, exploiting situations where the price spread between vouchers deviates from their strike price differences.
+
+For Volcanic Rock itself, we implemented a strategy that uses the average implied volatility from all vouchers to determine if the underlying rock is fairly priced. When the rock price significantly deviates from our model's prediction, we take directional positions.
+
+Due to an unexpected bug in our code, we ended up shorting volcanic rock at the max position limit for the entire duration of the trading day. Fortunately for us, this strategy ended up working, bringing our ranking to 2nd in the world!
+
 
 
 
@@ -450,8 +471,170 @@ One final optimization Chris made was that while waiting for Olivia's signal, we
 Round 5: Trader IDs
 In Round 5, no new products were introduced. The main change was that historical trader IDs were made public, allowing teams to directly identify which trades were executed by specific bots. For us, this did not fundamentally alter our strategies, as we had already identified Olivia’s behavior early in the competition. However, we took this opportunity to update our detection logic: instead of inferring Olivia’s trades indirectly by tracking running minimums and maximums, we now simply checked the trader ID directly. This adjustment helped eliminate false positives, reduced the risk of missing genuine Olivia trades, and saved a few hundred SeaShells over the course of the round. As with every previous round, we also re-optimized all relevant parameters based on the latest available data to ensure robustness going into the final evaluation. This was the last round, and we had a sizeable lead to place 2 (~190k), so we decided to play it save, incase ETF spreads don't converge, by half-hedging the baskets. We also limited our mean reversion strategy to minimze risk.
 
+New Change: Counterparties are revealed
 
+Strategy: When counterparties were revealed, we suspected there might be an insider trader with an information advantage in the marketplace. To systematically identify this trader, we implemented a data-driven approach. We calculated the percentage of "good trades" (buying at low prices and selling at high prices relative to future price movements) for each trader over rolling windows. By filtering traders who consistently executed advantageous trades at a rate significantly above chance, we were able to narrow down potential insiders. We then visualized these traders' buy and sell orders relative to the mid-price of each asset and observed that a trader named "Olivia" was suspiciously precise in her timing—buying just before price increases and selling just before price drops across multiple products. This confirmed our hypothesis that she was indeed an insider with advance knowledge of price movements.
+
+With counterparties revealed, we implemented a copy trading strategy specifically for Squid Ink and Croissants by tracking trades made by "Olivia". When Olivia bought one of these products, we interpreted this as a bullish signal and also bought; when she sold, we took this as a bearish signal and sold alongside her. This approach helped us establish market regimes (bullish or bearish) based on insider behavior.
+
+We did not actively trade Jams or Djembes in this round, focusing instead on the copy trading strategy for Croissants and Squid Ink, where we could leverage Olivia's insider information.
+
+For the Magnificent Macarons, we made a quick fix to our regime modeling strategy by ignoring the sunlight index completely. Instead, we focused solely on statistical arbitrage throughout the entire trading day, as we weren't confident whether our sunlight threshold was overfit to previous data or not.
+
+For other products, we maintained our existing strategies:
+
+Market making for Kelp and Rainforest Resin
+Statistical arbitrage for Picnic Baskets
+Black-Scholes model for Volcanic Rock Vouchers
+We also implemented a position management system that scales order sizes based on current inventory to avoid overexposure, and added features to close positions for inactive products to reduce risk.
+
+Unfortunately our luck ran dry, and we were not able to make up the ground from the previous two rounds, and ended up being surpassed by a few teams. We ended at 9th in the world and 2nd in the USA, behind CMU Physics. Overall, we're very thankful to have had the opportunity to compete in this competition, and we are pleased with the results for this being many of our first times competing in a trading competition.
 
 ## Pair trading
 
 Unfortunately, both me and Konstantin were travelling/very busy during the next couple of rounds, so it was a bit harder to try things in Rounds 2-4. For the Coconuts/Pina Coladas, Konstantin wrote up code to perform pair-trading (arbitraging pina colada - 15/8 * coconut); something else we tried was momentum-based trading, but this didn't give a PnL as high as pair-trading, so we mostly submitted the first code we came up with.
+
+
+
+Throughout the competition, we experimented with several approaches that ultimately didn't make it into our final strategy:
+
+Basket Mean-Reversion Modeling: We attempted to model the spread between picnic baskets and their synthetic prices (based on component values) for mean-reversion trading. While theoretically sound, this approach faced implementation challenges and didn't yield consistent results.
+
+Volatility Surface Fitting: For volcanic rock vouchers, we tried fitting a volatility surface (smile) to the implied volatility versus moneyness from the call options. This would have given us a more sophisticated options pricing model, but it proved too complex to implement reliably given the competition's time constraints.
+
+Delta Hedging: We attempted to implement delta hedging with volcanic rock positions to create market-neutral strategies, but struggled with proper calibration and execution within the position limits.
+
+Component-Basket Arbitrage: While we developed code for direct arbitrage between picnic baskets and their component products (Croissants, Jams, Djembes), we never successfully traded the components due to implementation bugs and position limit challenges.
+
+Price Pattern Analysis: We spent considerable time modeling the price movements of virtually every product (squid ink, croissants, jams, djembes, volcanic rock, macarons, etc.) to find correlations, seasonality, or other patterns in the data. Despite extensive analysis, many of these efforts didn't yield actionable strategies.
+
+Insider Signal Integration: After identifying Olivia as an insider trader, we attempted to use her directional hints as a regime indicator to adjust our bids/asks dynamically, rather than just copying her trades. This proved more complicated than direct copy trading and didn't provide sufficiently reliable signals to justify the added complexity.
+
+
+Round 1️⃣
+Round 1 introduced the first three products: Rainforest Resin, Kelp, and Squid Ink. Resin remained stable around a known historical price. Kelp moved up and down without a clear trend, while Squid Ink was highly volatile.
+
+🌳 Rainforest Resin
+We treated Resin as a static-value product centred at 10,000. The strategy combined tight market making with controlled position management. We placed passive bids and asks slightly inside inefficient book levels, while selectively taking favourable quotes when prices deviated from the fair value to capture mispricing. We used additional passive orders outside the spread to gently rebalance positions to minimise exposure.
+
+🪸 Kelp
+Kelp required a more adaptive strategy. We first plotted volume frequency distributions to identify the most reliable quoted sizes on each side of the book. These filtered quotes were then used to compute a more platform-aligned fair price. Around this price, we deployed a mix of passive market making and aggressive liquidity-taking if spreads widened. We also used conservative passive orders to manage position buildup.
+
+🦑 Squid Ink
+For Squid Ink, we implemented a directional signal based on top-of-book pressure. We computed a running pressure score by analysing changes in the best bid and ask levels and their volumes. Based on the signal (buy/sell/hold), we placed limit orders with self-adjusting price offsets that adapted based on recent fill volumes.
+
+Round 2️⃣
+This round introduced two composite products — Picnic Basket 1 and Picnic Basket 2 — which bundled together Croissants, Jams, and Djembes in fixed proportions. These components were also made individually tradable.
+
+🦑 Squid Ink
+We had to rework our strategy after a negative P&L in Round 1, focusing on better signal generation and execution logic. We transitioned from a heuristic pressure-based strategy to a logistic regression model trained during runtime. The model used a 7-feature vector — including Z-score, price momentum, order book imbalance, MACD, and pressure signals — to generate probabilistic buy/sell decisions. Orders were sized and priced based on signal confidence, and the model was retrained every 50 timestamps using recent price history.
+
+🍓 Jams
+Jams exhibited mean-reverting behaviour with frequent short-term overextensions. We implemented a simple statistical strategy using the Z-score of mid-prices over a rolling window, with trend confirmation based on recent averages. Long positions were entered when Z-scores dropped sharply in an uptrend, while short positions were taken in overbought conditions with negative momentum. Position sizing was adjusted based on current exposure to control risk.
+
+🥐 Croissants & 🪘 Djembes
+We chose not to trade Croissants or Djembes individually. Both products were highly volatile, making them unreliable and poor candidates for market making or directional execution.
+
+🧺 Picnic Basket 1
+We ran a directional index arbitrage strategy on Basket 1 by computing its synthetic value in real time using the mid-prices of its components: Synthetic Price = 6 × Croissants + 3 × Jams + 1 × Djembe
+
+We compared this synthetic price to the quoted market price of Basket 1. If the spread between them exceeded a pre-defined threshold, we placed directional trades on the basket — buying when undervalued and selling when overvalued. We deliberately avoided executing on the individual legs to reduce slippage and latency risks.
+
+🧺 Picnic Basket 2
+We initially applied the same arbitrage logic to Basket 2, using a synthetic price computed as: Synthetic Price = 4 × Croissants + 2 × Jams
+
+However, this model showed high drawdowns in backtests due to inconsistent pricing and unstable correlation between Basket 2 and its components. The smaller size of the basket and tighter spreads amplified noise, and execution risk was significantly higher. Given these challenges and limited time to tune the model further, we dropped trading Basket 2 in this round.
+
+Round 3️⃣
+In Round 3, a new product — Volcanic Rock — was introduced, along with five associated Volcanic Rock Vouchers, each acting as a European-style call option with an expiration of 7 in-game days.
+
+🦑 Squid Ink
+Squid Ink again gave a negative P&L, and we decided to come up with an altogether different strategy. This mean reverting strategy using z-score based signals. When the current price deviated significantly from the EMA, we entered trades in the direction of expected mean reversion, limiting our position to 6 for limited exposure to the market.
+
+🧺 Picnic Basket 1 & 2
+We made some minor changes in the last round strategy by using volume-weighted mids for better estimation of mid prices, and also tuned the thresholds for better performance.
+
+🪨 Volcanic Rock
+We ran a dynamic market-making strategy that adjusted quoting aggressiveness based on both position and recent execution pressure. Spread placement and size were adjusted using a position-sensitive logic, quoting tighter when flat and backing off when near limits.
+
+🎟️ Volcanic Rock Vouchers
+We selected two vouchers (10250 and 10000 strike) for active trading based on their moneyness and relative liquidity. For each, we computed a theoretical value using the Black-Scholes model, taking into account:
+
+Current Volcanic Rock mid-price (spot),
+Strike price,
+Time to expiry (adjusted daily),
+Estimated volatility (inferred from Rock’s price history).
+We then back-calculated the implied volatility from the voucher’s market price and compared it against a rolling average of historical implied vols. If the deviation exceeded a threshold, we traded directionally — buying underpriced volatility and selling overpriced premium.
+
+Round 4️⃣
+The luxury product Magnificent Macarons was introduced. Macarons could only be traded via conversion requests through Pristine Cuisine, subject to transport fees, tariffs, and a per-timestamp storage cost on long positions. The product's pricing was influenced by multiple external signals like sunlight, sugar price, and tariffs.
+
+🦑 Squid Ink
+Despite multiple rounds of tuning and complete rewrites of the logic, Squid Ink continued to underperform, once again closing the round with negative P&L. After significant sunk time across three rounds, we decided not to trade the product and allocate our engineering effort to other products.
+
+🧺 Picnic Basket 1
+We made targeted improvements to our Basket 1 strategy this round. After analysing noise in our spread signals, we made three key changes:
+
+Instead of using the raw synthetic price, we applied an EMA to smooth it and reduce short-term noise.
+We added an exit threshold to our Z-score logic, allowing us to gradually exit when the spread converged to the mean, rather than waiting for a full reversal.
+We improved order placement by splitting orders across multiple price levels. Analysis showed that baskets often got filled near the optimal level, so we placed layered orders with varying sizes based on confidence in fill probability.
+These changes led to more stable performance and improved fill consistency.
+
+🧺 Picnic Basket 2
+We extended the same improvements to Basket 2. EMA smoothing, Z-score thresholds (entry + exit), and layered fills were applied similarly. The thresholds were tuned using our own backtester and some other optimisations.
+
+(We plan to release cleaned-up versions of our Jupyter notebooks used in tuning once we have time to format and comment them.)
+
+🪨 Volcanic Rock & 🎟️ Vouchers
+After Round 3, we did a deeper analysis on Rock and the 9500 and 9750 vouchers, which we hadn’t actively traded before.
+
+We confirmed that Volcanic Rock exhibited mean-reverting behaviour, so we implemented a Z-score-based mean reversion strategy with conservative sizing and exit logic.
+For 9500 and 9750 vouchers, thanks to the hint released about the volatility smile, we realised that they were (and would remain) deeply ITM and strongly co-moved with Rock. We applied the same mean-reverting model used for Rock, with threshold tuning to adjust for the different option premiums.
+10000 voucher remained ATM, so we continued with the implied volatility Z-score arbitrage strategy from Round 3.
+10250 voucher had moved slightly OTM, but we anticipated it would hover around the ATM region. So we reused the 10000 strategy, betting on premium fluctuations and short-term mispricings.
+This combined approach allowed us to trade both volatility and direction depending on each voucher’s moneyness and market structure.
+
+🍬 Magnificent Macarons
+We explored several strategies for Macarons, including regression-based fair value estimation using external inputs (sunlight and sugar prices). However, due to:
+
+Complex and unstable input dependencies,
+Strict conversion limits (10 units),
+Continuous storage cost on long positions,
+We could not design a strategy we trusted under simulation.
+With end-semester exams approaching for all of us, we chose to skip trading Macarons and focus on improving proven models instead.
+
+Round 5️⃣
+No new products were introduced in the final round, but a key feature was unlocked: the exchange began exposing the counterparty identity for each executed trade. This enabled detailed adversarial analysis and reactive strategies based on flow from known participants.
+
+By this point, we were ranked 15 globally, so our goal was to preserve our standing by avoiding any negative P&L, especially from Squid Ink and Macarons, which we had previously skipped. With limited time and increasing risk, we shifted our focus toward signal-driven trading, prioritising safe and high-confidence setups.
+
+🎟️ Volcanic Rock Vouchers
+We refined our voucher selection based on updated volatility analysis:
+
+10250 voucher showed persistent signs of staying deeply OTM, so we fully removed it from our portfolio.
+10000 voucher appeared to be drifting towards OTM as well, but our analysis suggested a high-confidence profit window of 15–20k Seashells as it approached the ATM region. We kept it active using the same IV-based Z-score strategy from earlier rounds.
+For 9500 and 9750, we continued using the mean-reversion strategy synced with the Volcanic Rock movement.
+🍬 Magnificent Macarons
+We chose to include a very conservative arbitrage strategy in this round. We only executed a single-leg conversion strategy:
+
+When the local market bid exceeded Pristine Cuisine's adjusted ask (including transport + import fees), we sold Macarons locally and converted them from Pristine Cuisine.
+This trade had zero directional exposure and was triggered only when the arbitrage edge was obvious.
+We disabled the reverse leg (buy local, sell to Pristine) due to high export tariffs, which rarely made the flow profitable. This strategy acted as a safe, low-frequency alpha component that aligned with our risk-averse approach in this round.
+
+🧠 Signal-Based Trading (Using Bot Names)
+After implementing our core voucher and Macaron changes, we shifted focus to exploring the newly introduced bot identities. We performed an exhaustive analysis of all bots, plotting the trades each bot made across different products and analysing bot-pair interactions to identify patterns in flow and reaction.
+
+Shoutout to Aniruddhh and Shresth for leading this research, helping us uncover that Olivia’s trades showed strong, consistent short-term predictiveness, especially on:
+
+Squid Ink
+Croissants
+Kelp
+The signal was clear, and much like in Prosperity 2, we realised that many teams likely picked up on it. To gain an edge, we knew that execution quality had to be the differentiator.
+
+We initially spent time experimenting with dynamic level selection using fill probability modelling. While that approach didn’t improve profits much, it helped us discover that many assets consistently filled at multiple levels near the top of the book.
+
+So, when a signal was detected from Olivia’s trade:
+
+We went all-in on the predicted direction, placing layered limit orders across multiple levels instead of just hitting the best bid/ask.
+We distributed volume across levels proportional to confidence and historical fill behaviour.
+This aggressive and breadth-aware execution strategy significantly boosted our realised profits, turning a widely known signal into a differentiated alpha source through tactical precision.
