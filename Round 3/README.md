@@ -6,9 +6,8 @@ We do not yet know what the assets for Rounds 3, 4, and 5 will be, and at presen
 
 ## Commodities and external factors
 
-Products: Magnificent macarons
-
-Strategy: For Magnificent Macarons, we implemented a cross-market arbitrage strategy that considers trading with a foreign island through the conversion mechanism. The strategy analyzes the bid/ask spreads in both local and foreign markets, accounting for transportation fees, import/export tariffs, and other conversion costs to identify profitable arbitrage opportunities.
+From previous years, commodities were products Orchids or Diving gear.
+Where orchids apparently was influenced by "sunlight index" and diving gear was influenced by DOLPHIN_SIGHTINGS, another data set provided by IMC. The latter may serve as a feature for predicting the price of DIVING_GEAR.
 
 Our approach dynamically adapts to market conditions based on the "sunlight index" observation:
 
@@ -55,8 +54,13 @@ Initially, we considered market making due to the wide bid-ask spread of ORCHIDS
 
 Instead, ORCHIDS were also tradable on the exchange of the south archipelago. Therefore, we implemented arbitrage between the two exchanges. We placed orders that maximizes expected profit per trade (= (enter price on this island - exit price on the south archipelago - shipping cost - import tariff) * execution probability). We estimated the execution probability through our own experiment.
 
+
+
+
 ## ETF / basket arbitrage
-Gift baskets, chocolate, roses, and strawberries were introduced in Round 3. Each gift basket consisted of 4 chocolate bars, 6 strawberries, and 1 rose. Our main focus in this round was spread trading, where we defined the spread as:
+
+From previous years we had PICNIC_BASKET, UKULELE, DIP, and BAGUETTE. We have been informed that one PICNIC_BASKET consists of one UKULELE, two BAGUETTEs, and four DIPs.
+WE also had Gift baskets, chocolate, roses, and strawberries were introduced in Round 3. Each gift basket consisted of 4 chocolate bars, 6 strawberries, and 1 rose. Our main focus in this round was spread trading, where we defined the spread as:
 ```
 basket - synthetic
 ```
@@ -160,6 +164,13 @@ Anyone thinking carefully about the problem — starting from generation assumpt
 
 
 # Location arbitrage
+**Note**:
+From previous years assets like Magnificent Macarons were implemented on multiple exchanges across islands, such that we could trade on multiple exchanges to to optimise for best value.
+We do however know that no conversion will be needed this year, and can by that aspect assume it is less likely that Location Arbitrage will be used. Seeing as we are flying in space between planets, it is fair to guess it will be difficult to trade across planets.
+
+From previous years.
+
+Strategy: For Magnificent Macarons, we implemented a cross-market arbitrage strategy that considers trading with a foreign island through the conversion mechanism. The strategy analyzes the bid/ask spreads in both local and foreign markets, accounting for transportation fees, import/export tariffs, and other conversion costs to identify profitable arbitrage opportunities.
 
 This round introduced a new product called Magnificent Macrons. Magnificent Macrons could be bought or sold on the local island and then converted on the Pristine Island (think buying BTC from one crypto exchange and selling it on another — same exact concept). However, when converting your position, you paid several fees: a transport cost, an export tariff (if converting a long position — like exporting from the main island), or an import tariff (if importing to the main island). On top of that, you paid a storage fee of 0.1 seashells per timestamp per Macron held, heavily encouraging players not to hold long positions.
 
