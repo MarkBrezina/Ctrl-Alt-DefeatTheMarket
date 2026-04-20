@@ -10,23 +10,24 @@ A special thanks goes to @Jasper. I owe him full credit for the asset list and t
 To respect a request from @Tomas regarding oversharing, I will be updating this guide retrospectively. Once a round concludes, I will add my specific research and observations. Each round will be organized into its own dedicated folder.
 
 ## meet-up for UKers
-For anyone interested in meeting other participants for a chat, maybe for showing off how well they did, for sharing ideas or anything like that.
+For anyone interested in grabbing a drink and chatting with fellow participants—whether you want to celebrate your Phase 1 wins, swap strategies, or just network—you are more than welcome to join us.
 
-You are all very welcome to meet me and others at the railway tavern outside of IMC's UK offices, near Liverpool Street train station in London.
-
-I will be there on friday 24th of april from 5PM till 8PM unless we get some fun going.
+- Location: [The Railway Tavern](https://www.greeneking.co.uk/pubs/greater-london/railway) (right outside IMC’s London office, near Liverpool Street Station).
+- When: Friday, April 24th, from 5:00 PM to 8:00 PM (or later, if the vibes are good).
 
 
 ## Phase 2.
 
-Phase 1 has now ended and everyone who managed to score above 200K has passed onto the second phase. We do not know too much about it at this point. But we can prepare for the next phase, like how we did for the first phase.
-By studying the previous years.
+Phase 1 has officially wrapped. Huge congratulations to everyone who cleared the 200k threshold and moved on!
+
+Information on the next stage is still a bit sparse, but the best way to stay ahead is to prepare the same way we did for the first round: by analyzing historical data and studying challenges from previous years. Let’s get to work.
 
 ## Updates
 
-I have updated the following two folders on the rounds so far.
-- [Round 1](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Round%201), with notes on what I did and how I f-cked up my own submission
-- [Round 2](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Round%201), with notes on the current round and how I intend on improving my submission.
+I’ve updated the following folders with insights and code from the competition so far:
+
+- [Round 1](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Round%201): Includes notes on my strategy and a "post-mortem" on how I managed to sabotage my own submission.
+- [Round 2](https://github.com/MarkBrezina/Ctrl-Alt-DefeatTheMarket/tree/main/Round%201): Notes on the current round and my roadmap for optimization. (Note: Double-check your link here, as your original draft pointed to the Round 1 folder!)
 
 ## Quick steps if you're new or feeling lost
 
