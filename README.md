@@ -9,6 +9,13 @@ A special thanks goes to @Jasper. I owe him full credit for the asset list and t
 
 To respect a request from @Tomas regarding oversharing, I will be updating this guide retrospectively. Once a round concludes, I will add my specific research and observations. Each round will be organized into its own dedicated folder.
 
+## meet-up for UKers
+For anyone interested in meeting other participants for a chat, maybe for showing off how well they did, for sharing ideas or anything like that.
+
+You are all very welcome to meet me and others at the railway tavern outside of IMC's UK offices, near Liverpool Street train station in London.
+
+I will be there on friday 24th of april from 5PM till 8PM unless we get some fun going.
+
 
 ## Phase 2.
 
