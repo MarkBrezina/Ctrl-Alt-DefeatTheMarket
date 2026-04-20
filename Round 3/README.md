@@ -303,177 +303,61 @@ Although our own implementation did not fully reach the theoretical optimum, it 
 
 
 # Derivatives / underlying
-Coconuts / coconut coupon
+Options / volatility trading
 
-Coconuts and coconut coupons were introduced in Round 4. The coconut coupon was effectively a 10,000-strike call option on coconuts with 250 days to expiry. Since coconuts traded around 10,000, the option was close to at-the-money.
+This round introduced a classic options-style structure. In one version, we traded Coconuts and a Coconut Coupon, which was effectively a near-the-money 10,000-strike call option on coconuts with substantial time remaining until expiry. In another version, the market included Volcanic Rock and several Volcanic Rock vouchers with strikes ranging from 9500 to 10500, effectively creating a small option surface across multiple strikes. In both cases, the core problem was the same: identify whether the options were mispriced relative to the underlying, and decide how much risk to take in hedging that exposure.
 
-This round was conceptually straightforward. We used Black-Scholes to compute implied volatility from the observed option price, and once we plotted the resulting time series, it became clear that implied vol oscillated around roughly 16%. From there, we implemented a mean-reversion strategy similar to the one we had used in Round 3.
+Our starting point was standard options theory. We used the Black-Scholes model to translate observed option prices into implied volatilities, and then studied the behaviour of those implied volatilities through time. For the Coconut Coupon, the main observation was that implied volatility appeared to oscillate around a relatively stable level of roughly 16%. That immediately suggested a mean-reversion strategy in implied volatility: when the market priced the coupon at an unusually high implied vol, we would look to sell vol; when it priced the coupon at an unusually low implied vol, we would look to buy vol.
 
-To isolate volatility exposure, we also computed the option delta at each point in time and hedged with the underlying coconuts. However, there was an important limitation: delta was around 0.53, while the position limits were 300 for coconuts and 600 for coconut coupons. This meant that if we held the full 600-coupon position, we could not fully hedge the delta because the coconut position cap bound first.
+For the voucher setup, the analysis extended naturally from a single implied volatility to a volatility smile. Using the hint provided on the website, we plotted implied volatility against moneyness, defined as a strike-relative transformation of the underlying price and time to expiry. Fitting a quadratic curve to this relationship gave us a smoothed estimate of “fair” implied volatility for each strike at each point in time. This let us distinguish between ordinary cross-strike structure and true mispricing. Rather than reacting to raw voucher prices alone, we compared each observed voucher price to the price implied by Black-Scholes using the fitted smile. That turned the problem into one of relative value trading in implied volatility space.
 
-In practice, that left us with some unavoidable directional exposure. Since the option was still far from expiry—and therefore gamma mattered less—we accepted the residual delta risk in exchange for higher expected exposure to volatility. In other words, we knowingly ran more variance because it looked positive EV in backtests.
+The main strategy we implemented was therefore IV scalping / volatility mean reversion. Once we had a fair implied volatility estimate—either a stable scalar level in the Coconut Coupon case or a strike-dependent smile in the voucher case—we converted that back into a theoretical option price. We then compared theoretical and observed prices and traded when deviations became large enough to overcome execution costs. In practice, this often behaved like a short-horizon mean-reversion signal in option prices: overpriced options were sold, underpriced options were bought, and positions were unwound as prices reverted toward model value.
 
-That worked well in simulation, but in the actual round we experienced a meaningful amount of slippage and were hurt by the unhedged delta exposure. In retrospect, this was probably too aggressive. We were already in second place overall, so reducing variance and defending our position may have been the better strategic choice.
+A crucial part of the strategy was delta management. Since an option embeds directional exposure to the underlying, trading implied volatility cleanly requires controlling that delta. So after trading the options, we computed the option delta and hedged with the underlying. The goal was not to express a directional view on coconuts or volcanic rock, but to isolate mispricing in the option itself. In backtests, this produced the most stable PnL profile: a relatively smooth curve consistent with capturing repeated small pricing inefficiencies rather than relying on one large move in the underlying.
 
-Our algorithm made only 145k seashells in this round, which dropped us to a worrying 26th place. At the same time, Puerto Vallarta posted an enormous 1.2 million seashells in profit. That performance convinced us that if we could figure out what they had done, a top-10 finish was still very much within reach.
+That said, the hedge was not always perfect. For the Coconut Coupon, delta was around 0.53, while the position limits were 300 for coconuts and 600 for coupons. This meant that a full-sized coupon position could not be fully hedged: 600 coupons implied roughly 318 delta, but the underlying position cap was only 300. As a result, even after hedging as much as possible, we were left with some unavoidable directional exposure. Because the option still had a long time to expiry, gamma was relatively modest, so we accepted this residual delta risk in exchange for maintaining large exposure to what looked like a positive-EV volatility trade. In effect, we knowingly chose a higher-variance version of the strategy because the backtests were attractive.
 
-```
-# coconut / option code block here
-```
+For the voucher version, we dealt with this problem more conservatively. Since we could hold 400 units of the underlying but only 200 of any individual voucher, there was a temptation to take larger option positions across multiple strikes and then patch together a global hedge. Under time pressure, however, we chose to simplify. We capped voucher positions at a smaller size so that they could always be fully hedged cleanly with the underlying. This almost certainly sacrificed some upside, but it made the live implementation far less error-prone and preserved the core advantage of the strategy: keeping exposure focused on option mispricing rather than accidental delta bets.
 
+We also evaluated two related sources of edge.
 
-Algo
-This round introduced six new products: Volcanic Rocks and five different Volcanic Rock vouchers with strike prices of 9500, 9750, 10000, 10250, and 10500. These products closely resembled European option contracts and were set to expire in 7 in-game trading days.
+The first was gamma scalping. Because the options were not near expiry in the early rounds, time decay was real but not overwhelming, and there were periods where buying options and dynamically rehedging the delta appeared to have positive expected value. The intuition was that realized moves in the underlying could generate enough rehedging profit to offset theta. In backtests, this was generally a stable but modest contributor: profitable, but not spectacular.
 
-Chris handled the analysis for this round. Using a hint provided on the website, he modeled the volatility smile by plotting the moneyness 
-m
-t
- against the implied volatility 
-v
-t
-. Moneyness was calculated using the formula: 
-m
-t
-=
-l
-o
-g
-(
-K
-/
-S
-t
-)
-/
-(
-T
-T
-E
-)
- where 
-K
- is the voucher strike price, 
-S
-t
- is the price of the underlying at some time 
-t
-, and 
-T
-T
-E
- being the time to expiration in years.
+The second was mean reversion in the underlying itself. In the Volcanic Rock round especially, return dynamics showed signs of short-term negative autocorrelation, somewhat reminiscent of earlier mean-reverting assets. We therefore tested a lightweight mean-reversion model on the underlying, based on a fast EMA and fixed trading thresholds. Importantly, this was kept separate from the core options model. The options strategy was grounded in pricing theory and relative mispricing; the underlying mean-reversion overlay was more statistical and therefore more fragile.
+
+In the end, we deployed a hybrid strategy. The core of the book was still IV scalping: estimate fair implied volatility, identify overpriced and underpriced options, trade them aggressively, and hedge the resulting delta. Around that, we ran a smaller and more cautious underlying mean-reversion overlay. This was not intended as a pure alpha engine on its own, but rather as a complementary source of return and a hedge against scenarios in which the underlying exhibited stronger-than-expected short-term reversion. In other words, the hybrid was designed not just to maximize raw expected value, but to reduce regret across different possible market regimes.
+
+In backtests, this approach looked excellent. The PnL curve from the options component was particularly encouraging because it was smooth and nearly linear on many days, which is often a sign that the strategy is capturing many independent small edges rather than overfitting a small number of large historical trades. We estimated that the options component alone could generate on the order of 80k–150k seashells, depending on the specific product set and round, with additional contribution from other products and overlays.
+
+Live trading, however, was harsher. In the Coconut Coupon round, the residual unhedged delta hurt us materially. What had looked like a sensible trade-off in backtesting—accepting slightly more directional risk in exchange for more volatility exposure—turned out to be too aggressive in the realized path. The strategy still made money, about 145k seashells, but it underperformed our expectations and cost us a significant amount of ranking position. In hindsight, this was less a modeling failure than a risk-allocation failure. We were already near the top of the leaderboard, so preserving rank by lowering variance may have been the better decision.
+
+The broader lesson from this round was that options edge can come from several distinct sources, and they need to be separated carefully:
+
+implied volatility mean reversion, where the market over- or underprices vol relative to a stable level;
+cross-strike relative value, where one option is rich or cheap relative to the fitted smile;
+gamma scalping, where rehedging converts realized movement into profit;
+and underlying mean reversion, which is directional and conceptually different from options mispricing.
+
+Our strongest results came from keeping these components conceptually distinct and making the pricing-theoretic strategy the center of the book. The more we drifted into accepting unhedged directional exposure, the more fragile the results became.
+
+### Strategy summary
+
+For the options round, our implementation was built around the following logic:
+
+Treat the coupon or voucher as a call option on the underlying.
+Use Black-Scholes to back out implied volatility from observed market prices.
+For multi-strike products, fit a volatility smile as a function of moneyness to estimate fair IV across strikes.
+Reprice each option using the fitted or average IV estimate.
+Trade when the market price deviates sufficiently from theoretical value.
+Delta hedge with the underlying to isolate volatility exposure as cleanly as possible.
+Keep position sizing conservative when hedge constraints or position limits make full hedging difficult.
+Add only a small and controlled overlay of underlying mean reversion rather than letting the book become dominated by directional bets.
+
+That was the intellectual core of the strategy: not forecasting the underlying directly, but pricing volatility more accurately than the market and managing the hedge well enough to capture that edge.
 
 
 
-Fitting a quadtratic to this we found parameters 
-a
-,
-b
-,
-c
- for the equation 
-v
-t
-=
-a
-⋅
-m
-t
-2
-+
-b
-⋅
-m
-t
-+
-c
- allowed us to predict a "fair" implied volatility for any given 
-m
-t
-. After coding this up, we found the best way to exploit this was to build a market maker based on the fitted implied volatility. It was an extremely aggressive market maker and would often cross with existing market makers in the order book. We also added functionality to automatically hedge our positions after every timestamp, ensuring we were only exposed to the implied volatility of a contract.
-
-Our backtesting PNL curve was a straight line on most days, indicating we had found a reasonable direction-neutral strategy with true edge. We hypothesized that this was because we were modeling the true IV of the vouchers more accurately. From our backtests, we expected to make around ~80k from all voucher products and ~100k from other products.
-
-A few other things we considered for algo trading this round:
-
-We analyzed how much we were losing in long voucher positions due to theta decay. Chris found that the vouchers had a maximum annualized theta decay of 800 seashells, meaning that holding a voucher for a year — assuming no changes to the underlying or voucher structure — would result in an 800 seashell loss. He estimated that if we were fully long 200 vouchers, the daily loss due to theta would be approximately 430 seashells: 
-800
- 
-seashells per year
-365
- 
-days per year
-×
-1
- 
-day
-×
-200
- 
-vouchers
-≈
-430
- 
-seashells per day
- This loss was negligible compared to the 80k we were making in backtests.
-
-Since we could hold up to 400 Volcanic Rocks and 200 of any voucher, if we went long two different vouchers, we could at best fully hedge two of them assuming each had a delta of 1. To keep things manageable and avoid messy edge cases, we capped all voucher positions at 80. This guaranteed that we could always fully hedge, greatly simplifying our delta hedging logic and making the delta-neutral strategy easy to implement. There was probably a better way to optimize this, but given the time constraints of the challenge, we felt this was a favorable trade-off.
-
-
-Options
-In Round 3, the competition introduced a new class of assets: Volcanic Rock Vouchers — effectively call options on a new underlying product, Volcanic Rock (VR). There were five vouchers available, each with a distinct strike price — 9500, 9750, 10000, 10250, and 10500 — while the underlying Volcanic Rock itself traded around 10,000. Each voucher granted the right (but not the obligation) to buy Volcanic Rock at the specified strike at expiry. Importantly, options had limited time to live: starting with seven days until expiry in the first round, decreasing to just two days by the final round. Without basic familiarity with options theory, particularly concepts like implied volatility and option pricing models, it would have been difficult to design strong strategies for this product.
-
-IV Scalping
-Our first major insight came from following hints dropped in the competition wiki, suggesting the construction of a volatility smile: plotting implied volatility (IV) against moneyness. By fitting a parabola to the observed IVs across strikes and then detrending (subtracting the fitted curve from observed values), we could isolate IV deviations that were no longer dependent on moneyness.
-
-Figure 6a: Volatility Smile
-Volatility smile scatter plot
-This scatter plot visualizes implied volatility (vt) versus moneyness (mt) across different strikes. A fitted parabola is shown to filter out noise, producing v̂t — the "fair" implied volatility given mt. Outliers at the bottom left were disregarded, as they corresponded to historical points where extrinsic value was too low.
-Figure 6b: IV Deviations over Time
-IV deviations plot
-This plot shows the time series of implied volatility deviations (vt - v̂t) derived from Figure 6a, highlighting short-term patterns in relative option mispricing.
-To convert these into actionable trading signals, we input the volatility-smile-implied IV into a Black-Scholes model to calculate a theoretical fair price, then compared it to the actual market price to find price deviations. Plots of these price deviations — especially for the 10,000 strike call early on — revealed sharp short-term fluctuations, indicating scalping opportunities.
-
-Figure 6c: Price Deviations over Time
-Price deviations plot
-This plot shows the same implied volatility deviations from Figure 6b, but transformed into price space using the Black-Scholes model, providing a more intuitive view of relative mispricings over time.
-We initially focused on the 10,000 strike, but dynamically expanded to include other strikes as the underlying shifted and expiry approached, tracking profitability thresholds in real time to decide when to activate scalping on new options. Statistical analysis, specifically testing for 1-lag negative autocorrelation in returns, strongly supported the existence of exploitable short-term inefficiencies across several strikes, further validating this approach.
-
-Figure 7a: 10k Call Price Fluctuations
-10k call price fluctuations
-This plot shows short-term price fluctuations of the 10,000 strike call option. The orange indicator represents the theoretical call price, calculated using the implied volatility from the fitted parabola (v̂t) at the option’s current moneyness.
-Figure 7b: 10k Call Price Fluctuations (Normalized)
-Normalized 10k call price fluctuations
-This plot shows the same 10,000 strike call fluctuations as in Figure 7a, but with prices normalized by the theoretical value (orange indicator) to make deviations more stationary and visually clear.
-Gamma Scalping
-The expected value from gamma scalping was consistently positive, as the gains from underlying price movements outweighed the losses from time decay. This made buying options and rehedging the resulting deltas from gamma exposure a relatively low-risk way to generate profit. However, while the approach was stable and mostly safe, the absolute returns were limited. It was a reliable source of small gains, but ultimately, we had a higher risk appetite and wanted better returns.
-
-Mean Reversion Trading
-Simultaneously, analysis of the underlying Volcanic Rock asset suggested potential mean reversion behavior. Return distributions and price dynamics resembled Squid Ink, which was explicitly designed to mean revert in Round 1. Autocorrelation analysis of Volcanic Rock returns, compared against randomized normal samples, confirmed significant short-term negative autocorrelation at various horizons, although caution was needed given the presence of large jumps and non-normal return distributions. Given the limited historical data available (only three days), and uncertainty about future dynamics, fully committing to mean reversion was considered too risky. Instead, we implemented a lightweight mean reversion model: tracking a fast rolling Exponential Moving Average (EMA) and trading deviations from this EMA using fixed thresholds — without scaling by rolling volatility — to keep the model simple and robust.
-
-Figure 8: Autocorrelation Plot for Volcanic Rock
-Autocorrelation plot for Volcanic Rock
-Rolling autocorrelation of Volcanic Rock returns compared to autocorrelations from purely random sequences, suggesting statistically significant mean reversion behavior in the underlying.
-Final Strategy
-In the end, we deployed a hybrid strategy combining both alpha sources. Our core focus remained on IV scalping, dynamically expanding across strikes and adjusting thresholds based on evolving conditions, while simultaneously maintaining a moderate mean reversion position — both in the underlying Volcanic Rock and in the deepest in-the-money call (the highest delta option available). Importantly, this was not a delta hedge in the traditional sense: the delta exposure from scalping was relatively small, and explicit delta hedging would have been prohibitively expensive bid-ask spreads. It was rather a hedge against bad luck. Because this hybrid model was designed to minimize maximum regret across different possible market outcomes: it protected us if strong mean reversion materialized (even if other teams aggressively leveraged mean reversion delta exposure across multiple options and therefore outperforming us in a relative sense), while keeping our core reliance on the more stable, theory-supported scalping opportunities.
-
-Someone could have arrived at a similar strategy without deep prior options expertise by carefully observing the market dynamics. Even without constructing a full volatility smile, simply watching option prices — particularly the 10,000 strike — would reveal clear short-term mean-reversion patterns and negative autocorrelation in returns. On the underlying asset side, basic return autocorrelation analysis and exploratory plotting would hint at mean reversion tendencies. Thus, while a strong theoretical background was helpful, a combination of attentive observation, critical data analysis, and statistical common sense would have led to very similar conclusions.
-
-In terms of results, IV scalping contributed approximately 100,000 - 150,000 SeaShells per round, providing strong and stable profits across all rounds. Mean reversion trading was much more volatile, delivering around 100,000, -50,000, and -10,000 SeaShells across the rounds respectively. Despite the swings, our hybrid approach allowed us to achieve consistently positive net results while keeping downside risks manageable.
-
-Note: After the fourth round, where the mean reversion strategy resulted in a loss of approximately 50,000 SeaShells, we reassessed its validity. Although we no longer found strong empirical evidence to justify continuing with mean reversion purely on standalone expected value grounds, we knew that several top teams were actively only trading mean reversion strategies. So we figured, if they wouldn't find the IV scalping strategy, they might just accept the coinflip and go all in mean reversion because otherwise they would surely get overtaken by everyone. Facing a 200,000 SeaShell lead at that point, we made a calculated decision to maintain some mean reversion exposure — not because we believed it was necessarily positive EV anymore, but to hedge relatively against the teams still pursuing that angle. We estimated the 95% Value at Risk (VaR) of the mean reversion component to be around 50,000 SeaShells — only about 25% of our lead — leaving us with sufficient margin even if the strategy failed again. Under our assumptions, keeping this balanced exposure maximized our likelihood of securing first place by minimizing relative downside risk while preserving our core scalping profits. This turned out to be the right decision. Although, in the last round some random team very unnaturally jumped from 100+ rank to 1st place, we could keep a healthy distance to all teams that were previously close behind us.
-
-
-Products: Volcanic rock, volcanic rock vouchers
-
-Strategy: For Volcanic Rock and its vouchers, we implemented an options pricing strategy using the Black-Scholes model. We treated vouchers as call options on Volcanic Rock with various strike prices. The strategy calculates implied volatility from market prices, maintains a rolling volatility window, and prices vouchers based on this volatility estimate. We also look for arbitrage opportunities between vouchers with different strike prices, exploiting situations where the price spread between vouchers deviates from their strike price differences.
-
-For Volcanic Rock itself, we implemented a strategy that uses the average implied volatility from all vouchers to determine if the underlying rock is fairly priced. When the rock price significantly deviates from our model's prediction, we take directional positions.
-
-Due to an unexpected bug in our code, we ended up shorting volcanic rock at the max position limit for the entire duration of the trading day. Fortunately for us, this strategy ended up working, bringing our ranking to 2nd in the world!
-
-
-
+# Additional
 
 Cross-year signal discovery
 
