@@ -89,6 +89,7 @@ This is an optimisation problem between profit and cost. Once again I will not b
 
 # Notes on improvement and missed alpha.
 Once again, I will beat myself over the head with this one, as I have experienced this in reality many times, but never really dealt with it as a market maker.
+I am a MFT and portfolio management man, so I discarded these alphas as noise, the way I have been taught to do so.
 
 Here are the ideas,
 
