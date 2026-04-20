@@ -217,3 +217,9 @@ def momentum(series: pd.Series, window: int = 10) -> pd.Series:
 ## 14. Thalweg
     return series - series.shift(window)
 ```
+
+
+What is the Wall Mid and why did we use it?
+The Wall Mid is our best approximation of the true underlying price of a product during trading. During testing on the official Prosperity website, it was possible to infer the true underlying price indirectly: by buying or selling a single lot and observing the resulting PnL, which was calculated based on the true internal price rather than market quotes. Through careful analysis, we found that the most reliable way to estimate this true price was by identifying the bid wall and ask wall — price levels in the orderbook that consistently showed deep liquidity. These "walls" typically corresponded to quotes from designated market makers who appeared to know the true price and simply quoted rounded versions of it (e.g., ±2 ticks around the true value). By averaging the prices of the bid wall and ask wall, we obtained a Wall Mid value that was much more stable and accurate than using the raw mid price, which could be heavily distorted by overbidding or undercutting. Thus, the Wall Mid provided a robust and low-noise estimate of the fair underlying value, crucial for designing effective strategies.
+
+
