@@ -6,54 +6,46 @@ We do not yet know what the assets for Rounds 3, 4, and 5 will be, and at presen
 
 ## Commodities and external factors
 
-From previous years, commodities were products Orchids or Diving gear.
-Where orchids apparently was influenced by "sunlight index" and diving gear was influenced by DOLPHIN_SIGHTINGS, another data set provided by IMC. The latter may serve as a feature for predicting the price of DIVING_GEAR.
+From previous years, commodity-style products included Orchids and Diving Gear. Orchids appeared to be linked to a sunlight index, while Diving Gear was influenced by DOLPHIN_SIGHTINGS, another external dataset provided by IMC. In principle, these observations suggested that external variables might be useful predictive features.
 
-Our approach dynamically adapts to market conditions based on the "sunlight index" observation:
+For Orchids, our first line of inquiry was therefore a feature-driven directional strategy. We tested whether variables such as sunlight, humidity, tariffs, and shipping costs could be used to predict future Orchid prices. This included simple correlations, lagged and contemporaneous regressions, and various rounds of feature engineering. Although some early patterns looked promising, none of them proved robust enough to support a reliable predictive trading strategy. As a result, we decided against running directional bets based on these environmental observations.
 
-In normal sunlight regime: We execute two-way arbitrage, buying locally and selling abroad when local prices are lower than foreign prices (after accounting for fees), and vice versa.
-In low sunlight regime: We switch to an accumulation strategy, aggressively building up long positions while avoiding exports, capitalizing on the favorable conditions for holding inventory.
-The strategy also includes market making elements, placing competitive bids and asks to provide liquidity while skewing order sizes based on our current position to maintain balance.
+Instead, our implemented strategy focused on cross-exchange arbitrage. Orchids could be traded both on our local island and through the South Archipelago exchange, with the foreign market quote translating into an implied local fair value after adjusting for transport fees and import/export tariffs. In practice, this made Orchids less of a forecasting problem and more of an execution and market-structure problem.
 
-We couldn't get a working macarons strategy by the end of this round, and we decided to disable trading volcanic rock until we could get a proper strategy. Luckily enough for us, we remained 2nd in the world, while almost every other team in the top 30 dropped.
+The key discovery was that the local Orchid market contained a large persistent buyer of local sell orders. Through experimentation, we found that sell orders placed slightly above the best local bid were often filled immediately and in full size. This created a profitable arbitrage loop: we could sell locally at an advantageous price while simultaneously sourcing inventory through the South Archipelago at a lower implied cost. Once we identified this behaviour, our Orchid strategy became primarily an exercise in maximizing the value of that arbitrage.
 
+The strategy itself had three layers.
 
-Orchids were introduced in Round 2, along with a range of external variables: sunlight, humidity, import/export tariffs, and shipping costs. The premise was that orchids were grown on a separate island and had to be imported, making them subject to tariffs and transport costs. Their value also deteriorated under poor sunlight and humidity conditions. We were able to trade orchids both in our local market and through imports from the South Archipelago.
+First, we implemented pure arbitrage taking. At every step, we computed the implied foreign bid and ask after accounting for shipping costs and tariffs. If the local market offered prices sufficiently better than those implied foreign levels, we immediately traded against them. This allowed us to capture direct mispricings whenever they appeared.
 
-From the start, we saw two possible approaches. The first was the obvious one: look for alpha in the available data by testing whether orchid prices could be predicted from sunlight, humidity, tariffs, and so on. The second was to understand the mechanics of orchid trading itself, since the documentation was not especially clear. We split up accordingly: Eric looked for predictive signals in the historical data, while Jerry focused on reverse-engineering the trading environment.
+Second, we added an arbitrage market-making layer. Rather than only taking obvious opportunities, we also posted local quotes designed to earn spread while still remaining profitable after conversion. In practice, this meant placing bids and asks only when the quoted level still implied positive expected value relative to the South Archipelago. Since execution was uncertain, profitability depended not only on raw edge, but also on the probability of being filled. So the effective objective became maximizing:
 
-Finding tradable correlations in the historical data turned out to be much harder than expected. Among the things we tried were:
+expected profit per trade = edge × execution probability
 
-- simple correlations between orchid returns and changes in sunlight, humidity, tariffs, and costs;
-- linear regressions from these variables to orchid returns, both contemporaneously and with lags;
-- feature engineering on the raw inputs, followed by the same correlation and regression analyses.
+where the edge was defined net of local execution price, foreign unwind price, shipping, and tariffs.
 
-Some of the early results looked promising, but in the end none of them produced a convincing trading model. Our conclusion was that much of the data was likely a distraction.
+Third, we built an adaptive quoting mechanism. A fixed quote level worked well in backtests—particularly selling around foreign ask minus 2—but we were concerned that such a rule might stop filling when market conditions changed. To address this, we monitored realized fill volume over time and adjusted the quoted edge dynamically. If average fills dropped below a threshold, the algorithm would search for a more competitive level, sacrificing a small amount of edge in exchange for better execution. This made the strategy more robust than a single hard-coded quote.
 
-Meanwhile, Jerry was making much better progress. Through experimentation, we discovered that there was a large, persistent taker in the local orchid market. Sell orders—and specifically sell orders—placed slightly above the best bid would often be filled immediately and in full size. Combined with relatively cheap implied asks from the foreign market, this created a straightforward arbitrage: sell locally and simultaneously buy from the South Archipelago.
+We also considered whether environmental conditions such as sunlight could justify a regime-based inventory strategy, for example switching between two-way arbitrage in normal conditions and outright accumulation in low-sunlight regimes. Conceptually, this would have allowed us to combine arbitrage with selective inventory holding. However, because we never found sufficiently strong predictive power in the external factors, our final live approach remained centered on arbitrage and execution rather than on directional inventory bets.
 
-The first version of this strategy generated roughly 60k seashells over about one-fifth of a day. After a few quick optimizations, our website backtest PnL rose to just over 100k, implying roughly 500k over a full day.
+In summary, our Orchid trading was driven by market structure rather than prediction. We did not find reliable alpha in sunlight, humidity, or the other observable variables, so we avoided forecasting-based trades. Instead, we implemented a strategy built around:
 
-Unfortunately, this same strategy was later leaked in the Discord. From our perspective, that was quite damaging: once many teams could implement essentially the same arbitrage, rankings would come down to small implementation differences and noise. We knew we could easily lose places even if our logic was broadly correct.
+cross-exchange arbitrage between the local market and the South Archipelago,
+selective taking of clear mispricings,
+passive quoting when expected value remained positive after conversion costs,
+and adaptive edge adjustment based on realized execution.
 
-As a result, we spent a great deal of time searching for incremental improvements. We tested different local sell levels and found that using `foreign ask price - 2` performed best. Even so, we worried that a fixed quoting level might stop filling reliably if market conditions changed. To address this, we built an “adaptive edge” algorithm. It monitored the average executed volume per iteration—where full size was nominally 100 lots—and if fills dropped below a threshold, it would automatically adjust the sell level in search of a better edge.
+This was ultimately the core of our Round 2 implementation. The approach worked well, but once the same arbitrage became widely known, competition compressed the edge and rankings became highly sensitive to execution quality and small implementation differences.
 
-Even with those refinements, we were ultimately overtaken by the number of teams running the same arbitrage. We fell to 17th place, with 573,000 seashells in algo profit. That still left us within 20k of second place and about 100k behind the first-place team, Puerto Vallarta, who appeared to have found something this round that no one else had.
+### ORCHIDS Strategy
 
-```python
-# orchids code block here
-```
+ORCHIDS came with a rich set of observable external variables—sunlight, humidity, shipping costs, and tariffs—which initially suggested the possibility of a predictive strategy. We explored this route through correlations, regressions, and feature engineering, but failed to uncover a sufficiently robust signal. As a result, we did not trade ORCHIDS directionally.
 
-Description
-ORCHIDS are very delicate and their value is dependent on all sorts of observable factors like hours of sun light, humidity, shipping costs, in- & export tariffs and suitable storage space.
+Our implemented strategy instead focused on cross-exchange arbitrage. Because ORCHIDS could also be traded through the South Archipelago, we used foreign quotes plus tariffs and transport costs to compute implied fair values on our island. We then traded whenever local prices deviated enough from those implied values to create positive expected value.
 
-Strategy
-We couldn't find strong connections between ORCHIDS and the various factors. So we didn't do directional bets or price prediction.
+In practice, the strongest opportunity came from a persistent buyer in the local market: sell orders placed slightly above the best bid were often filled immediately. This allowed us to repeatedly sell locally and buy abroad, locking in arbitrage profits. We extended this with a market-making layer, posting quotes only when they remained profitable after conversion costs, and with an adaptive edge algorithm that adjusted quote aggressiveness based on realized fill rates.
 
-Initially, we considered market making due to the wide bid-ask spread of ORCHIDS, but found it impossible because bids lower than the fair price and asks higher than the fair price did not fill well.
-
-Instead, ORCHIDS were also tradable on the exchange of the south archipelago. Therefore, we implemented arbitrage between the two exchanges. We placed orders that maximizes expected profit per trade (= (enter price on this island - exit price on the south archipelago - shipping cost - import tariff) * execution probability). We estimated the execution probability through our own experiment.
-
+Overall, the Orchid strategy was not a predictive model on environmental variables, but rather a market-structure and execution-driven arbitrage system.
 
 
 
