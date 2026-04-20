@@ -87,5 +87,30 @@ This is an optimisation problem between profit and cost. Once again I will not b
 
 
 
+# Notes on improvement and missed alpha.
+Once again, I will beat myself over the head with this one, as I have experienced this in reality many times, but never really dealt with it as a market maker.
 
+Here are the ideas,
+
+1. Pepper root is linearly upwards trending, buy and hold. Hopefully everyone caught this idea.
+2. Osmium is mean reverting, mirroring more real world assets.
+
+Both show some of the same characteristics, some of the things appearing in reality as well. 
+I cannot myself utilise these alphas, due to transaction costs. But if we have no transaction costs they are easy cash grabs.
+
+1. microprice mispricings, these can be caught using orderflow.
+So if OF is negative, you expect:
+ negative return -> postive return.
+Which means you buy low, sell high.
+
+If OF is positive, you expect:
+Positive return -> negative return.
+Which means you sell high, buy low.
+
+2. Single-sided orderbooks.
+If you're the only person on a side of the orderbook. Essentially you are the only buyer or seller in the market.
+YOU GET TO DECIDE THE PRICE.
+
+3. Single person in a seemingly empty market.
+If you seem to be the only person around, simply propose your prices and if someone comes around to look, let them buy if desired.
 
