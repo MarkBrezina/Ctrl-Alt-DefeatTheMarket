@@ -200,72 +200,104 @@ The key point is that this was never a purely mechanical z-score strategy. It wa
 
 
 # Location arbitrage
-**Note**:
-From previous years assets like Magnificent Macarons were implemented on multiple exchanges across islands, such that we could trade on multiple exchanges to to optimise for best value.
-We do however know that no conversion will be needed this year, and can by that aspect assume it is less likely that Location Arbitrage will be used. Seeing as we are flying in space between planets, it is fair to guess it will be difficult to trade across planets.
+Note:
+In previous years, products such as Magnificent Macarons were tradable across multiple islands, creating opportunities for location arbitrage through a conversion mechanism. This allowed traders to buy on one exchange, convert inventory, and sell on another when price differences more than covered fees and tariffs.
 
-From previous years.
+This year, however, we have been told that no conversion mechanism will be available. That makes classic location arbitrage much less likely to matter. Thematically, this also makes sense: if trading now takes place across planets rather than nearby islands, direct cross-venue conversion is probably less plausible as a game mechanic.
 
-Strategy: For Magnificent Macarons, we implemented a cross-market arbitrage strategy that considers trading with a foreign island through the conversion mechanism. The strategy analyzes the bid/ask spreads in both local and foreign markets, accounting for transportation fees, import/export tariffs, and other conversion costs to identify profitable arbitrage opportunities.
+Still, location arbitrage has been an important strategy in prior competitions, so it is worth understanding how it worked and what kinds of opportunities it created.
 
-This round introduced a new product called Magnificent Macrons. Magnificent Macrons could be bought or sold on the local island and then converted on the Pristine Island (think buying BTC from one crypto exchange and selling it on another — same exact concept). However, when converting your position, you paid several fees: a transport cost, an export tariff (if converting a long position — like exporting from the main island), or an import tariff (if importing to the main island). On top of that, you paid a storage fee of 0.1 seashells per timestamp per Macron held, heavily encouraging players not to hold long positions.
+### Previous-year example: Magnificent Macarons
 
-While Macron prices were strongly correlated with sugarPrice and sunlightIndex, we decided to completely ignore these factors, since simply arbitraging across islands was far more profitable than trying to predict Macron price movements using a model.
+In Round 4 of the previous competition, Magnificent Macarons were introduced. Macarons could be traded on the local island exchange through the visible order book, but they could also be converted through a second market on Pristine Island. In effect, this created a two-venue trading problem: a trader could transact locally, convert inventory externally, and arbitrage differences between the two markets.
 
-Because import tariffs were negative, we were effectively paid to sell on the local island and convert on the Pristine Island. To calculate the break-even price for selling a Macron, we used the formula: 
-sell local break even price
-=
-conversion ask
-+
-import tariff
-+
-transport fee
+The product came with several frictions:
 
-We also noticed there was a bot aggressively taking orders on the local island near the mid-price of the Pristine Island. We used this to our advantage by placing sell orders near the mid-price (if it was above our break-even price) and immediately converting them after they filled. We would pocket the difference between our sell price and the break-even price, multiplied by 10 (since we could convert 10 Macrons at a time).
+transport fees for conversion,
+an export tariff when exporting from the main island,
+an import tariff when importing back,
+and a storage cost of 0.1 seashells per timestamp per Macron held.
 
-In backtests, Chris estimated a potential profit of up to 100k seashells from Macrons over the course of the day, depending on how negative the import tariffs were. We were happy with that, submitted, and went to bed.
+The storage fee strongly discouraged holding long inventory for extended periods, which meant the best implementations focused on rapid turnover and low inventory duration.
 
-Macarons
-In Round 4, Magnificent Macarons was introduced. Their fictional value was described as depending on external factors like hours of sunlight, sugar prices, shipping costs, tariffs, and storage capacity. Macarons could be traded on the local island exchange via a standard order book, or externally at fixed bid and ask prices, adjusted for im-/export and transportation fees. The position limit for Macarons was 75 units, with a conversion limit of 10 units per timestep. This setup opened up both straightforward arbitrage opportunities and, for those who studied the environment carefully, access to a much deeper hidden edge.
+At first glance, Macarons also appeared to invite a predictive strategy. Their fictional value was linked to variables such as sunlight, sugar prices, shipping conditions, and tariffs. We did investigate this path, but ultimately decided not to rely on it. While the external variables showed some statistical relationships, the much stronger edge came from market structure and cross-market execution, not from forecasting price moves.
 
-At first glance, the standard arbitrage logic applied: whenever the local bid exceeded the external ask (after fees), or the local ask was lower than the external bid, profitable conversions were possible. However, there was a critical hidden detail: a taker bot existed that aggressively filled orders offered at attractive prices relative to a hidden "fair value." Through experimentation, we discovered that offers priced at about int(externalBid + 0.5) would often get filled, even when no visible orderbook participants were present. This taker bot executed approximately 60% of eligible trades, meaning that — in expectation — you could sell locally for a price about 3 SeaShells higher than the naive local best bid. Over the course of 10,000 timesteps with a 10-unit conversion limit, this small price improvement could theoretically yield up to 300,000 SeaShells. Of course, those conditions were not always present and realistic optimal profits were around 160,000 and 130,000 SeaShells across the two rounds. Still, the magnitude of this hidden edge made Macarons a very lucrative product of the competition.
+### Base arbitrage logic
 
-Figure 9a: Macarons Microstructure
-Macarons microstructure plot
-This plot shows approximately 60% of fills occurring at prices better than the local best bid. The orange indicator represents the external ask after costs (i.e., the conversion price for negative inventory). It also illustrates that straightforward local best bid to external ask arbitrage was not profitable during this period.
-Figure 9b: Macarons Microstructure (Normalized)
-Normalized Macarons microstructure plot
-This plot shows the same data as Figure 9a, but normalized by the external ask after costs (orange indicator). It clearly demonstrates the achievable price improvement versus the local best bid: while the local best bid was about -1 SeaShell unprofitable in this snippet, fills often occurred at +2 SeaShell profitable levels.
-Machine Learning Approach
-Last year, there was a similar round involving a sunlight and humidity index. As far as we know, nobody was able to extract any useful information from these indices, and they were largely considered a false lead. This year, we expected the same outcome, but we still felt it was worth checking, just in case there was something hidden there (especially since an admin in the Discord channel had hinted at it). Our model was a logistic regression, with a target of a trade being profitable in x timestamps.
+The natural first step was to calculate the true conversion-adjusted break-even price. A local trade was only worthwhile if the local execution price was better than the external market price after adjusting for all conversion costs.
 
-Features:
-Feature	Coefficient	P-value	Explanation
-sunlight_diff	-2.0517	0.0000	Change in sunlight over the last 5 timestamps
-sunlight_critical	0.4737	0.0000	Binary, if sunlight is below a threshold, set to 45
-sunlight_critical_time	-0.0014	0.0096	Binary, if sunlight has been critical for more than 30 timestamps
-sunlight_diff_critical	-0.0020	0.0000	Change in sunlight if sunlight has been critical as defined in sunlight_critical_time
-sunlight_critical_time_2	0.0001	0.0020	sunlight_critical_time^1.3
-All variables produced highly significant p-values and plausible coefficients. These are only a subset of the tested features, and had we employed this strategy, the features would have faced greater scrutiny. We also tested having a lagged price as a feature, which introduced trading small spikes and mean reversion to our model, but decided against it as this was highly volatile.
+For local selling, the relevant break-even level was:
 
-We then do the following based on the ouput of the logisitc regession y:
+local sell break-even = external ask + import tariff + transport fee
 
-If ( y = 0 ): Sell
-If ( y = 1 ): Buy
-If ( y ) is between 0.49 and 0.51: Hold
-The thresholds of 0.49 and 0.51 were set through testing.
+This gave us the minimum local sale price required to make a profitable round-trip after conversion.
 
-Figure 10: Logistic Regression Trades
-Logistic Regression Trades
-This approach generated solid historic returns of ~25k per day. However, this approach had multiple issues:
+Symmetrically, for local buying, one could compare the local ask against the external bid adjusted for export costs.
 
-Although we employed train-test splits, we lacked confidence in the generalization of the model.
-Implementation challenges arose, particularly as longer lags required storing more past data, which significantly slowed down the trader. The serialization of trading data took considerable time, and correctly implementing the logistic regression model introduced numerous potential sources of error.
-Compatibility with export/import arbitrage posed a problem. Since positions can only be converted by reducing them, when the model indicates a long position and we wish to import, we first need to sell our entire inventory plus 10 units.
-Final Strategy
-Our final strategy focused on reliably exploiting this hidden arbitrage. Each timestep, we placed limit sell orders for Macarons at precisely int(externalBid + 0.5), the maximum price that could still trigger fills from the taker bot. We quoted only 10 units per timestep (the conversion limit), which meant we captured approximately 60% of the theoretical maximum profits, in line with the taker's acceptance probability. In hindsight, quoting larger sizes (e.g., 20–30 units) would have allowed us to profitably convert surplus inventory even on non-fills, squeezing out closer to full optimal performance. Nevertheless, even with conservative sizing, this strategy provided consistent, high-value returns with minimal risk.
+This is the basic location-arbitrage framework: compare the local order book to the external venue after fees, and trade only when the difference is positive.
 
-Teams who prepared carefully had a clear advantage this round. Similar hidden taker behavior had already appeared in Orchids during Prosperity 2, and public write-ups from top teams like Jasper and Linear Utility had discussed included it already. Additionally, even without past experience, attentive teams could have detected the pattern by analyzing historical data: best asks occasionally priced close to best bid consistently getting filled was a clear signal. Moreover, similar smart-taker behavior had appeared in assets like Rainforest Resin, providing further hints. Thus, strong preparation, deep intuition about the Prosperity simulation, and diligent empirical observation were all key factors in unlocking the full potential of Macarons. Although, we only made about 80,000 - 100,000 instead of theoretical optimum of 130,000 and 160,000 those who recognized and optimally exploited the hidden taker bot captured some of the highest single-product profits available in the entire competition.
+### The hidden edge: aggressive taker behaviour
+
+What made Macarons especially profitable was not merely the visible arbitrage. The more important discovery was a hidden taker bot in the local market.
+
+Through experimentation, we found that local sell orders placed near a price derived from the external market—roughly around int(externalBid + 0.5)—were frequently filled even when the visible local order book did not obviously justify it. In other words, there was a hidden participant willing to buy aggressively at prices that were attractive relative to some internal notion of fair value.
+
+This meant that the best local executable price was often better than the visible best bid. In practice, this created a much more profitable strategy than naïvely hitting the displayed market. Rather than simply selling into the visible best bid and converting, we could post higher-priced sell orders locally, wait for the taker bot to lift them, and then immediately convert the resulting inventory externally.
+
+This transformed the problem from simple arbitrage into a microstructure-aware arbitrage strategy:
+
+quote at the best price that still triggers hidden taker fills,
+get executed above the naïve local market,
+and immediately convert to lock in the spread.
+
+The key insight was that even a small improvement in price per unit became very valuable when repeated over thousands of timesteps.
+
+### Why we ignored the predictive features
+
+Although Macron prices were correlated with variables such as sunlight and sugar prices, we chose to deprioritize forecasting models. The reason was straightforward: the execution-based arbitrage edge was much larger, simpler, and more reliable.
+
+We did test a machine-learning approach based on logistic regression. Features included sunlight changes, threshold effects when sunlight became “critical,” and interaction terms capturing the duration of abnormal conditions. The model generated statistically significant coefficients and historically respectable profits, on the order of roughly 25k per day.
+
+However, this approach had several weaknesses:
+
+we were not fully confident in out-of-sample generalization;
+the implementation burden was high, especially with lagged features and state storage;
+serialization and trader-state overhead made the system slower and more fragile;
+and most importantly, the model conflicted awkwardly with the conversion logic, since conversions could only reduce inventory and therefore made directional positioning cumbersome.
+
+So while the predictive model was interesting as a research exercise, it was not the strongest production strategy.
+
+### Final strategy
+
+Our final strategy focused on reliably monetizing the hidden arbitrage.
+
+At each timestep, we placed limit sell orders in the local market at the highest price that still appeared to attract the taker bot—approximately int(externalBid + 0.5). Once filled, we would immediately use the conversion mechanism to unwind the position externally.
+
+This strategy had several advantages:
+
+it exploited a structural market inefficiency rather than a fragile forecast;
+it required only simple, robust calculations based on observable prices and fees;
+it minimized inventory risk because filled positions were converted quickly;
+and it scaled naturally with repeated opportunities across the day.
+
+We initially quoted only 10 units per timestep, matching the conversion limit. This was conservative and reduced operational complexity, but it also meant we captured only part of the full potential opportunity. In hindsight, quoting somewhat larger sizes could have improved results further by allowing excess inventory to be converted gradually, even if not all quotes filled immediately.
+
+Even with conservative sizing, the strategy produced substantial profits with relatively low risk. In practice, this was one of the strongest pure execution-based opportunities in the competition.
+
+### Broader lesson
+
+Macarons illustrated a recurring theme in Prosperity-style competitions: the best strategy is not always the most mathematically elaborate. External variables such as sunlight or sugar prices may look important, but often the dominant edge lies in understanding the trading mechanism itself.
+
+In this case, the winning ingredients were:
+
+correct conversion-adjusted pricing,
+recognition of hidden taker behaviour,
+disciplined quote placement,
+and fast conversion after execution.
+
+Teams that had studied earlier competitions carefully had a meaningful advantage, since similar hidden taker patterns had appeared before in products such as Orchids and other simulated microstructure settings. But even without prior knowledge, the signal was available to anyone who inspected the historical fills closely: repeated executions at prices better than the visible local best bid were a strong clue that something deeper was happening.
+
+Although our own implementation did not fully reach the theoretical optimum, it still captured a large share of the available edge. More importantly, it reinforced a core principle of these rounds: deep understanding of market structure often beats predictive modeling.
 
 
 
