@@ -481,7 +481,10 @@ at time t = 101, mid-price = 103.5
 That is not modelling. That is just hard-coded fantasy.
 
 
+### My own placings
 
+For round 1 IMC4 I was rank 1891 worldwide out of 22,000?(5800?)
+For round 2 IMC4 I was rank 988 worldwide out of 22,000?(6500?)
 
 
 
