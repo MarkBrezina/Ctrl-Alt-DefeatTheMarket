@@ -311,3 +311,14 @@ This concept is structural, so examples are often better than pure statistics.
 
 Good caption:
 “When the book became sparse or one-sided, the first participant willing to show liquidity gained disproportionate price-setting influence.”
+
+
+Intarian Pepper Root: Time-Phase Momentum
+My strategy here is strictly temporal. I treat the product differently based on the round's progress to maximize volume early and safety late:
+Early Game (<15% progress): I focus on Aggressive Accumulation. I’m sweeping the entire ask book and placing passive orders 1 tick above the best ask to dominate the queue and hit my inventory limits immediately.
+End Game (>99.9% progress): I trigger an Optimized Exit, where I sweep the top of the bid book to liquidate my entire position and lock in PnL before the timestamp hits the limit.
+Ash Coated Osmium: Dynamic Mean Reversion
+For this one, I’m running a Market Making strategy centered on price improvement and inventory-weighted pivots:
+Robust Fair Value: I use a rolling 10-period median mid-price to filter out outliers and establish a stable fair value.
+Inventory Skew: I calculate an internal_pivot that shifts based on my current position. If I’m long, the pivot moves down to make my sell orders more competitive, effectively "leaning" into the spread to manage risk.
+Liquidity Sniping: I’ve added a "safety valve" that snipes the entire boat if the market price deviates more than 12 ticks from my pivot, capturing massive mispricings while using passive market making (15-unit chunks) for standard flow.
