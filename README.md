@@ -13,7 +13,9 @@ To respect a request from @Tomas regarding oversharing, I will be updating this 
 For anyone interested in grabbing a drink and chatting with fellow participants—whether you want to celebrate your Phase 1 wins, swap strategies, or just network—you are more than welcome to join us.
 
 - Location: [The Railway Tavern](https://www.greeneking.co.uk/pubs/greater-london/railway) (right outside IMC’s London office, near Liverpool Street Station).
-- When: Friday, April 24th, from 5:00 PM to 8:00 PM (or later, if the vibes are good).
+- When: Friday, April 24th, from 5:00 PM* (X after 6:00PM) to 8:00 PM (or later, if the vibes are good).
+
+I have had to move forward the time for showing up as I have gained a job as a menswear sales assistant at Stanley Ley at Fleet Street, I will be selling suits, gowns and more for Barristers and judges for the foreseeable future.
 
 
 ## Phase 2.
