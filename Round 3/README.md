@@ -1,3 +1,72 @@
+# Round 3 **- “Gloves Off”**
+
+Welcome to Solvenar! A prosperous and highly developed planet known for technological innovation, a robust economy, and thriving cultural sectors.
+
+This awe-inspiring society will be the stage for the ***Great Orbital Ascension Trials*** (GOAT). In this Great Galactic Trade-Off, you will face other trading crews head-on as you compete for the coveted title of Trading Champion of the Galaxy. This trading round marks the start of GOAT, where ***all teams begin with zero PnL and the leaderboard is reset***.
+
+You will develop a new Python program and incorporate your strategy for trading ***Hydrogel Packs*** (`HYDROGEL_PACK`), ***Velvetfruit Extract*** (`VELVETFRUIT_EXTRACT`), and ***10 Velvetfruit Extract Vouchers*** (`VELVETFRUIT_EXTRACT_VOUCHER`). These vouchers give you the right to buy Velvetfruit Extract at a later point for a specific strike price.
+
+To kick off GOAT, the Celestial Gardeners’ Guild is making a rare appearance, offering you the opportunity to buy ***Ornamental Bio-Pods*** from them. You may submit two offers and trade with as many of the so-called “Guardeners” as aligns with your strategy for maximum profitability. Secure those Bio-Pods, and they will be automatically converted into profit before the next trading round begins.
+
+Be aware that ***trading rounds on Solvenar (Solvenarian days) last only 48 hours***. Be decisive, thorough, and fast, and make this first step toward the ultimate title count.
+
+# **Round Objective**
+
+Create a new Python program that algorithmically trades `HYDROGEL_PACK`, `VELVETFRUIT_EXTRACT`, and `VELVETFRUIT_EXTRACT_VOUCHER` on your behalf and generates your first profit in this final phase.
+
+In addition, manually submit two orders to trade Ornamental Bio-Pods with members of the Celestial Gardeners’ Guild, then automatically sell your acquired Bio-Pods to generate additional profit.
+
+# **Algorithmic trading challenge: “Options Require Decisions”**
+
+There are 2 ‘asset classes’ in the three products you trade. The `HYDROGEL_PACK` and `VELVETFRUIT_EXTRACT` are “delta 1” products, similar to the products in the tutorial and rounds 1 and 2. The 10 `VELVETFRUIT_EXTRACT_VOUCHER` products (each with a different strike price) are options, and thus follow different dynamics. All products are traded independently, even though the price of `VELVETFRUIT_EXTRACT_VOUCHER` might be related to that of `VELVETFRUIT_EXTRACT` due to the nature of options.
+
+The vouchers are labeled `VEV_4000`, `VEV_4500`, `VEV_5000`, `VEV_5100`, `VEV_5200`, `VEV_5300`, `VEV_5400`, `VEV_5500`, `VEV_6000`, `VEV_6500`, where VEV stands for **V**elvetfruit **E**xtract **V**oucher, and the number represents the strike price. They all have a 7-day expiration deadline starting from round 1, where each round represents 1 day. Thus, the ‘time till expiry’ (TTE) is 7 days at the start of round 1 (TTE=7d), 6 days at the start of round 2, 5 days at the start of round 3, and so on.
+
+The position limits ([see the Position Limits page for extra context and troubleshooting](https://imc-prosperity.notion.site/writing-an-algorithm-in-python#328e8453a09380cfb53edaa112e960a9)) are:
+
+- `HYDROGEL_PACK`: 200
+- `VELVETFRUIT_EXTRACT`: 200
+- `VELVETFRUIT_EXTRACT_VOUCHER`: 300 for each of the 10 vouchers.
+
+<aside>
+📃
+
+**Example**: `VEV_5000` is an option on the underlying VEV with a strike price of 5000 and a position limit of 300. At the start of the final simulation of Round 3, its time to expiry (TTE) is 5 days. In the historical data, the corresponding TTE values are:
+
+- TTE=8d at the start of historical day 0 (coinciding with the tutorial round),
+- TTE=7d at the start of historical day 1 (coinciding with Round 1),
+- TTE=6d at the start of historical day 2 (coinciding with Round 2).
+</aside>
+
+Vouchers cannot be exercised before their expiry, and inventory does not carry over into the next round. Like in previous rounds, any open positions are automatically liquidated against a hidden fair value at the end of the round.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 **Note:** Out of respect for the moderators’ request, I will not share specific code or substantial spoilers while rounds are active. Instead, I will provide high-level descriptions of the assets until each round has concluded.
 
 ## Round 3: Notes
