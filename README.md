@@ -9,14 +9,11 @@ A special thanks goes to @Jasper. I owe him full credit for the asset list and t
 
 To respect a request from @Tomas regarding oversharing, I will be updating this guide retrospectively. Once a round concludes, I will add my specific research and observations. Each round will be organized into its own dedicated folder.
 
-## GB - UK Participants Meet-up
-For anyone interested in grabbing a drink and chatting with fellow participants—whether you want to celebrate your Phase 1 wins, swap strategies, or just network—you are more than welcome to join us.
+## Note on updates.
 
-- Location: [The Railway Tavern](https://www.greeneking.co.uk/pubs/greater-london/railway) (right outside IMC’s London office, near Liverpool Street Station).
-- When: Friday, April 24th, from 5:00 PM* (X after 6:00PM) to 8:00 PM (or later, if the vibes are good).
-
-I have had to move forward the time for showing up as I have gained a job as a menswear sales assistant at Stanley Ley at Fleet Street, I will be selling suits, gowns and more for Barristers and judges for the foreseeable future.
-
+As I have also been participating this year and since I have also gained a full time job as a store clerk(suit salesman) I will be updating the repo and guide after the competition.
+I will not only share code, notes and ideas. But also considerations as to why my own performance was sub optimal. I will hope to grab some comments from high performing teams as well.
+But all of this will come out after the competition.
 
 ## Phase 2.
 
